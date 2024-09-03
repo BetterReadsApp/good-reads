@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">GoodReads</string>
+
+    <!-- Design system -->
+    <string name="feedback_screen_error_generic_title">Error</string>
+    <string name="feedback_screen_error_generic_description">An error has occurred while trying to process your action</string>
+    <string name="feedback_screen_success_generic_title">Success</string>
+    <string name="feedback_screen_success_generic_description">Your action was successfully completed!</string>
+    <string name="feedback_screen_warning_generic_title">Warning</string>
+    <string name="feedback_screen_warning_generic_description">We might be having issues with your action</string>
+
+
+    <!-- Home -->
+    <string name="home_bottom_nav_title">Home</string>
+    <string name="home_feed_section_title">Your feed</string>
+    <string name="home_for_you_section_title">Book Recommendations for you</string>
+
+    <!-- My books -->
+    <string name="my_books_bottom_nav_title">My books</string>
+
+    <!-- Discover -->
+    <string name="discover_bottom_nav_title">Discover</string>
+
+    <!-- Search -->
+    <string name="search_bottom_nav_title">Search</string>
+
+</resources>
