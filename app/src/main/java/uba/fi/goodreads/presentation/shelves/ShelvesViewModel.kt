@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import uba.fi.goodreads.domain.model.Shelf
+import uba.fi.goodreads.domain.usecase.CreateShelfUseCase
 import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
 import uba.fi.goodreads.presentation.shelves.ShelvesUiState
 import javax.inject.Inject
@@ -15,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ShelvesViewModel @Inject constructor(
     private val getShelves: GetShelvesUseCase,
+    private val createShelf: CreateShelfUseCase
 ): ViewModel() {
 
     private val _screenState: MutableStateFlow<ShelvesUiState> =
@@ -30,5 +33,8 @@ class ShelvesViewModel @Inject constructor(
                 )
             }
         }
+    }
+    fun onCreateShelfClick(): Unit {
+        return Unit
     }
 }
