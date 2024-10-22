@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import uba.fi.goodreads.core.navigation.AuthNavHost
 import uba.fi.goodreads.core.navigation.GoodReadsNavHost
 import uba.fi.goodreads.core.navigation.TopLevelDestination
 
@@ -38,7 +39,11 @@ fun GoodReadsApp(
         }
     ) { padding ->
         Column(Modifier.padding(padding)) {
-            GoodReadsNavHost(appState)
+            if (appState.isSignedIn) {
+                GoodReadsNavHost(appState)
+            } else {
+                AuthNavHost(appState)
+            }
         }
     }
 }

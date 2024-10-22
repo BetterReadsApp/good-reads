@@ -22,14 +22,17 @@ import uba.fi.goodreads.presentation.home.navigateToHome
 
 @Composable
 fun rememberGoodReadsAppState(
+    isSignedIn: Boolean,
     navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ): GoodReadsAppState {
     return remember(
         navController,
         coroutineScope,
+        isSignedIn,
     ) {
         GoodReadsAppState(
+            isSignedIn = isSignedIn,
             navController = navController,
             coroutineScope = coroutineScope,
         )
@@ -38,6 +41,7 @@ fun rememberGoodReadsAppState(
 
 @Stable
 class GoodReadsAppState(
+    val isSignedIn: Boolean,
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
 ) {

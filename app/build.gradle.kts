@@ -3,9 +3,14 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
+    buildFeatures {
+        buildConfig = true
+    }
+
     namespace = "uba.fi.goodreads"
     compileSdk = 34
 
@@ -20,15 +25,24 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "BASE_URL", "\"https://better-reads-backend.onrender.com/\"")
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
+
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
+            applicationIdSuffix = ".release"
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            // To publish on the Play store a private signing key is required, but to allow anyone
+            // who clones the code to sign and run the release variant, use the debug signing key.
+            signingConfig = signingConfigs.named("debug").get()
+            // Ensure Baseline Profile is fresh for release builds.
+            // baselineProfile.automaticGenerationDuringBuild = true
         }
     }
     compileOptions {
@@ -64,9 +78,15 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.coil.kt.compose)
-    compileOnly(libs.ksp.gradlePlugin)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.kotlin.serialization)
+    implementation(libs.okhttp.logging)
+
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.dataStore.core)
 
     ksp(libs.hilt.compiler)
+
     kspTest(libs.hilt.compiler)
 
     androidTestImplementation(libs.androidx.junit)
@@ -79,5 +99,7 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.hilt.android.testing)
+
+    compileOnly(libs.ksp.gradlePlugin)
 
 }
