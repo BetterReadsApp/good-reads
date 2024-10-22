@@ -14,7 +14,7 @@ private const val DEEP_LINK_URI_PATTERN =
 
 fun NavController.navigateToShelves(navOptions: NavOptions) = navigate(SHELVES_ROUTE, navOptions)
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.shelvesScreen() {
     composable(
         route = SHELVES_ROUTE,
         deepLinks = listOf(

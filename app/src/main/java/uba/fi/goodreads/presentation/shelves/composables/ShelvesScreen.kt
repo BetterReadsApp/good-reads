@@ -78,23 +78,55 @@ private fun SuccessContent(screenState: ShelvesUiState.Success) {
         Text(
             text = stringResource(id = R.string.my_books_bottom_nav_title)
         )
+        Spacer(Modifier.height(32.dp))
+        Text(
+            text = "Shelves"
+        )
+        Spacer(Modifier.height(16.dp))
         screenState.shelves.forEach { shelf ->
-            Shelf(
-                title = shelf.title,
-                numberOfBooks = shelf.numberOfBooks,
-                books = shelf.books,
-                dateAdded = shelf.dateAdded
-            )
+            ShelfPreview(shelf)
             Spacer(Modifier.height(16.dp))
         }
+
 
     }
 }
 
+@Composable
+private fun ShelfPreview(shelf: Shelf) {
+    Card (modifier = Modifier.fillMaxWidth()){
+        Row {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
+                    .crossfade(true)
+                    .build(),
+                // placeholder = painterResource(R.drawable.placeholder),
+                contentDescription = "teehee",
+                contentScale = ContentScale.Crop,
+            )
+            Column{
+                Text(
+                    text = shelf.title
+                )
+                Text (
+                    text = shelf.numberOfBooks.toString() + " books"
+                )
+                Text(
+                    text = "created at: " + shelf.dateAdded.toString()
+                )
+            }
+
+
+        }
+    }
+
+
+}
 
 @Composable
 @Preview(showBackground = true)
-fun HomeScreenPreview(
+fun ShelvesScreenPreview(
     @PreviewParameter(ShelvesScreenPreviewParameterProvider::class) state: ShelvesUiState
 ) {
     GoodReadsTheme {
