@@ -20,7 +20,7 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _screenState: MutableStateFlow<HomeUiState> =
-        MutableStateFlow(HomeUiState.Loading)
+        MutableStateFlow(HomeUiState())
     val screenState: StateFlow<HomeUiState> = _screenState.asStateFlow()
 
     init {
@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
             val feed = getFeed()
             val forYou = getForYou()
             _screenState.update {
-                HomeUiState.Success(
+                HomeUiState(
                     feed = feed,
                     forYou = forYou
                 )

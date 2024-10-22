@@ -58,15 +58,6 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(screenState: HomeUiState) {
-    when (screenState) {
-        HomeUiState.Error -> FeedbackScreen(type = FeedbackType.ERROR)
-        HomeUiState.Loading -> Loading()
-        is HomeUiState.Success -> SuccessContent(screenState)
-    }
-}
-
-@Composable
-private fun SuccessContent(screenState: HomeUiState.Success) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier

@@ -30,9 +30,6 @@ class ResponseHandler(
             } catch (throwable: Throwable) {
                 when (throwable) {
                     is IOException -> {
-                        if (throwable is LogoutException)
-                            NetworkResult.LogOut
-                        else
                             NetworkResult.NetworkError
                     }
 
@@ -42,7 +39,7 @@ class ResponseHandler(
                         when (code) {
                             UNAUTHORIZED -> {
                                 _unauthorizedFlow.emit(true)
-                                NetworkResult.LogOut
+                                NetworkResult.NetworkError
                             }
                             NOT_FOUND -> NetworkResult.NotFound(
                                 title = errorBody?.title,

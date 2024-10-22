@@ -33,5 +33,4 @@ sealed class NetworkResult<out T> {
 
     data object NetworkError : NetworkResult<Nothing>()
     data object LocalError : NetworkResult<Nothing>()
-    data object LogOut : NetworkResult<Nothing>()
 }

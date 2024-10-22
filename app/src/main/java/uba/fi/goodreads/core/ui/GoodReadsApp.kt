@@ -30,12 +30,14 @@ fun GoodReadsApp(
         contentColor = MaterialTheme.colorScheme.onBackground,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
-            GoodReadsBottomBar(
-                destinations = appState.topLevelDestinations,
-                onNavigateToDestination = appState::navigateToTopLevelDestination,
-                currentDestination = appState.currentDestination,
-                modifier = Modifier.testTag("NiaBottomBar"),
-            )
+            if (appState.shouldShowBottomBar) {
+                GoodReadsBottomBar(
+                    destinations = appState.topLevelDestinations,
+                    onNavigateToDestination = appState::navigateToTopLevelDestination,
+                    currentDestination = appState.currentDestination,
+                    modifier = Modifier.testTag("NiaBottomBar"),
+                )
+            }
         }
     ) { padding ->
         Column(Modifier.padding(padding)) {

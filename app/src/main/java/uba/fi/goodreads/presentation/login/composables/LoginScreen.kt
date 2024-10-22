@@ -1,175 +1,126 @@
 package uba.fi.goodreads.presentation.login.composables
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import uba.fi.goodreads.R
-import uba.fi.goodreads.core.design_system.component.feedback.FeedbackScreen
-import uba.fi.goodreads.core.design_system.component.feedback.FeedbackType
-import uba.fi.goodreads.core.design_system.component.loading.Loading
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
-import uba.fi.goodreads.domain.model.Book
-import uba.fi.goodreads.presentation.home.HomeScreenPreviewParameterProvider
-import uba.fi.goodreads.presentation.home.HomeUiState
-import uba.fi.goodreads.presentation.home.HomeViewModel
+import uba.fi.goodreads.presentation.login.LoginScreenPreviewParameterProvider
+import uba.fi.goodreads.presentation.login.LoginUiState
+import uba.fi.goodreads.presentation.login.LoginViewModel
 
 @Composable
-fun HomeRoute(
-    viewModel: HomeViewModel = hiltViewModel(),
+fun LoginRoute(
+    viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
-    HomeScreen(
-        screenState = screenState
+    LoginScreen(
+        screenState = screenState,
+        onEmailChange = viewModel::onEmailChange,
+        onPasswordChange = viewModel::onPasswordChange,
+        onContinueClick = viewModel::onContinueClick
     )
 }
 
 @Composable
-fun HomeScreen(screenState: HomeUiState) {
-    when (screenState) {
-        HomeUiState.Error -> FeedbackScreen(type = FeedbackType.ERROR)
-        HomeUiState.Loading -> Loading()
-        is HomeUiState.Success -> SuccessContent(screenState)
-    }
-}
-
-@Composable
-private fun SuccessContent(screenState: HomeUiState.Success) {
-    val scrollState = rememberScrollState()
+fun LoginScreen(
+    screenState: LoginUiState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onContinueClick: () -> Unit,
+) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(scrollState)
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(32.dp))
         Text(
-            text = stringResource(id = R.string.home_feed_section_title)
-        )
-        screenState.feed.forEach { post ->
-            Post(
-                title = post.userName,
-                content = post.content
-            )
-            Spacer(Modifier.height(16.dp))
-        }
-
-        Text(
-            text = stringResource(id = R.string.home_for_you_section_title)
+            modifier = Modifier.padding(
+                vertical = 48.dp
+            ),
+            text = "Login",
+            fontSize = 32.sp
         )
 
-        screenState.forYou.forEach { book ->
-            BookRecommendation(book)
-            Spacer(Modifier.height(16.dp))
-        }
-    }
-}
-
-@Composable
-private fun Post(
-    title: String,
-    content: String,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier.fillMaxSize(),
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Box(
-                Modifier
-                    .size(32.dp)
-                    .background(color = Color.Gray, shape = CircleShape)
-            )
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(text = title)
-
-                Text(text = content)
-            }
-        }
-    }
-}
-
-@Composable
-private fun BookRecommendation(
-    book: Book,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Column(
+        TextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(
+                    start = 16.dp,
+                    bottom = 16.dp,
+                    end = 16.dp,
+                ),
+            value = screenState.email,
+            onValueChange = onEmailChange,
+            label = {
+                Text(text = "Email")
+            }
+        )
+
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 16.dp,
+                    bottom = 16.dp,
+                    end = 16.dp,
+                ),
+            value = screenState.password,
+            onValueChange = onPasswordChange,
+            label = {
+                Text(text = "Password")
+            },
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        )
+
+        Spacer(Modifier.weight(1f))
+
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    vertical = 24.dp,
+                    horizontal = 16.dp
+                ),
+            shape = RoundedCornerShape(8.dp),
+            onClick = onContinueClick
         ) {
-            Text(
-                text = book.title,
-                textAlign = TextAlign.Center
-            )
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
-                    .crossfade(true)
-                    .build(),
-                // placeholder = painterResource(R.drawable.placeholder),
-                contentDescription = book.description,
-                contentScale = ContentScale.Crop,
-            )
-
-            Text(
-                text = book.author,
-                textAlign = TextAlign.Center,
-
-            )
+            Text(text = "Continue")
         }
-
     }
 }
+
 
 @Composable
 @Preview(showBackground = true)
-fun HomeScreenPreview(
-    @PreviewParameter(HomeScreenPreviewParameterProvider::class) state: HomeUiState
+fun LoginScreenPreview(
+    @PreviewParameter(LoginScreenPreviewParameterProvider::class) state: LoginUiState
 ) {
     GoodReadsTheme {
-        HomeScreen(state)
+        LoginScreen (
+            screenState = state,
+            onPasswordChange = {},
+            onEmailChange = {},
+            onContinueClick = {}
+        )
     }
 }

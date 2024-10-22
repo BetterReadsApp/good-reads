@@ -8,11 +8,9 @@ class HomeScreenPreviewParameterProvider: PreviewParameterProvider<HomeUiState> 
 
     override val values: Sequence<HomeUiState> = sequenceOf(
         getSuccessState(),
-        HomeUiState.Loading,
-        HomeUiState.Error,
     )
 
-    private fun getSuccessState() = HomeUiState.Success(
+    private fun getSuccessState() = HomeUiState(
         feed = DomainPostMocks.getPosts(),
         forYou = DomainBookMocks.getBooks()
     )

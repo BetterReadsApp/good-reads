@@ -21,7 +21,7 @@ class TokenInterceptor @Inject constructor(
     }
 
     companion object {
-        private const val HEADER_AUTHORIZATION = "Authorization"
+        private const val HEADER_AUTHORIZATION = "Auth"
     }
 
 }
