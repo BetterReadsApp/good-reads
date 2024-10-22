@@ -4,8 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import uba.fi.goodreads.core.ui.GoodReadsAppState
-import uba.fi.goodreads.presentation.login.LOGIN_ROUTE
-import uba.fi.goodreads.presentation.login.loginScreen
+import uba.fi.goodreads.presentation.login.navigation.LOGIN_ROUTE
+import uba.fi.goodreads.presentation.login.navigation.loginScreen
+import uba.fi.goodreads.presentation.login.navigation.navigateToLogin
+import uba.fi.goodreads.presentation.register.navigation.navigateToRegister
+import uba.fi.goodreads.presentation.register.navigation.registerScreen
 
 @Composable
 fun AuthNavHost(
@@ -19,6 +22,12 @@ fun AuthNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        loginScreen()
+        loginScreen(
+            navigateToRegister = navController::navigateToRegister
+        )
+
+        registerScreen(
+            navigateToLogin = navController::navigateToLogin
+        )
     }
 }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetFeedUseCase
 import uba.fi.goodreads.domain.usecase.GetForYouUseCase
 import uba.fi.goodreads.domain.usecase.LoginUseCase
+import uba.fi.goodreads.presentation.login.navigation.LoginDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,7 +22,6 @@ class LoginViewModel @Inject constructor(
     private val _screenState: MutableStateFlow<LoginUiState> =
         MutableStateFlow(LoginUiState())
     val screenState: StateFlow<LoginUiState> = _screenState.asStateFlow()
-
 
     fun onEmailChange(value: String) {
         _screenState.update { state ->
@@ -56,5 +56,13 @@ class LoginViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun onCreateAccountClick() {
+        _screenState.update { it.copy(destination = LoginDestination.Register) }
+    }
+
+    fun onClearDestination() {
+        _screenState.update { it.copy(destination = null) }
     }
 }
