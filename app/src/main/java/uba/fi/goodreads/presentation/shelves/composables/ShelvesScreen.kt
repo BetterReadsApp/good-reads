@@ -40,29 +40,64 @@ import uba.fi.goodreads.core.design_system.component.feedback.FeedbackScreen
 import uba.fi.goodreads.core.design_system.component.feedback.FeedbackType
 import uba.fi.goodreads.core.design_system.component.loading.Loading
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
-import uba.fi.goodreads.domain.model.Book
-import uba.fi.goodreads.presentation.home.HomeScreenPreviewParameterProvider
-import uba.fi.goodreads.presentation.home.HomeUiState
-import uba.fi.goodreads.presentation.home.HomeViewModel
-import uba.fi.goodreads.presentation.home.composables.SuccessContent
+import uba.fi.goodreads.domain.model.Shelf
+import uba.fi.goodreads.presentation.shelves.ShelvesScreenPreviewParameterProvider
+import uba.fi.goodreads.presentation.shelves.ShelvesUiState
+import uba.fi.goodreads.presentation.shelves.ShelvesViewModel
 
 @Composable
 fun ShelvesRoute(
-    viewModel: ShelveViewModel = hiltViewModel(),
+    viewModel: ShelvesViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
-    ShelveScreen(
+    ShelvesScreen(
         screenState = screenState
     )
 }
 
 @Composable
-fun ShelveScreen(screenState: ShelveUiState) {
+fun ShelvesScreen(screenState: ShelvesUiState) {
     when (screenState) {
-        ShelveUiState.Error -> FeedbackScreen(type = FeedbackType.ERROR)
-        ShelveUiState.Loading -> Loading()
-        is ShelveUiState.Success -> SuccessContent(screenState)
+        ShelvesUiState.Error -> FeedbackScreen(type = FeedbackType.ERROR)
+        ShelvesUiState.Loading -> Loading()
+        is ShelvesUiState.Success -> SuccessContent(screenState)
     }
 }
 
+@Composable
+private fun SuccessContent(screenState: ShelvesUiState.Success) {
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(scrollState)
+    ) {
+        Spacer(Modifier.height(32.dp))
+        Text(
+            text = stringResource(id = R.string.my_books_bottom_nav_title)
+        )
+        screenState.shelves.forEach { shelf ->
+            Shelf(
+                title = shelf.title,
+                numberOfBooks = shelf.numberOfBooks,
+                books = shelf.books,
+                dateAdded = shelf.dateAdded
+            )
+            Spacer(Modifier.height(16.dp))
+        }
+
+    }
+}
+
+
+@Composable
+@Preview(showBackground = true)
+fun HomeScreenPreview(
+    @PreviewParameter(ShelvesScreenPreviewParameterProvider::class) state: ShelvesUiState
+) {
+    GoodReadsTheme {
+        ShelvesScreen(state)
+    }
+}
