@@ -8,27 +8,25 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import uba.fi.goodreads.domain.usecase.GetFeedUseCase
-import uba.fi.goodreads.presentation.home.HomeUiState
+import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
+import uba.fi.goodreads.presentation.shelves.ShelvesUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class ShelvesViewModel @Inject constructor(
-    private val getShelves: GetFeedUseCase,
+    private val getShelves: GetShelvesUseCase,
 ): ViewModel() {
 
-    private val _screenState: MutableStateFlow<HomeUiState> =
-        MutableStateFlow(HomeUiState.Loading)
-    val screenState: StateFlow<HomeUiState> = _screenState.asStateFlow()
+    private val _screenState: MutableStateFlow<ShelvesUiState> =
+        MutableStateFlow(ShelvesUiState.Loading)
+    val screenState: StateFlow<ShelvesUiState> = _screenState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val feed = getFeed()
-            val forYou = getForYou()
+            val shelves = GetShelvesUseCase()
             _screenState.update {
-                HomeUiState.Success(
-                    feed = feed,
-                    forYou = forYou
+                ShelvesUiState.Success(
+                    shelves = getShelves()
                 )
             }
         }
