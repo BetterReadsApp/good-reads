@@ -14,10 +14,10 @@ enum class TopLevelDestination(
         unselectedIcon = GoodReadsIcon.Home,
         titleTextId = R.string.home_bottom_nav_title,
     ),
-    MY_BOOKS(
+    SHELVES(
         selectedIcon = GoodReadsIcon.Home,
         unselectedIcon = GoodReadsIcon.Home,
-        titleTextId = R.string.my_books_bottom_nav_title,
+        titleTextId = R.string.shelves_bottom_nav_title,
     ),
     DISCOVER(
         selectedIcon = GoodReadsIcon.Home,

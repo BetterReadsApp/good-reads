@@ -9,5 +9,7 @@ sealed  class ShelvesUiState {
 
     data class Success(
         val shelves: List<Shelf>,
+        val showCreateShelfDialog: Boolean = false,
+        val newShelfName: String = ""
     ) : ShelvesUiState()
 }

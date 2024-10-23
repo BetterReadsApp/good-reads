@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import uba.fi.goodreads.core.ui.GoodReadsAppState
 import uba.fi.goodreads.presentation.home.HOME_ROUTE
 import uba.fi.goodreads.presentation.home.homeScreen
+import uba.fi.goodreads.presentation.shelves.shelvesScreen
 
 @Composable
 fun GoodReadsNavHost(
@@ -21,5 +22,7 @@ fun GoodReadsNavHost(
         modifier = modifier,
     ) {
         homeScreen()
+
+        shelvesScreen()
     }
 }

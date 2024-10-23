@@ -26,7 +26,6 @@ class ShelvesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val shelves = GetShelvesUseCase()
             _screenState.update {
                 ShelvesUiState.Success(
                     shelves = getShelves()
@@ -34,7 +33,45 @@ class ShelvesViewModel @Inject constructor(
             }
         }
     }
-    fun onCreateShelfClick(): Unit {
-        return Unit
+
+    fun onCreateShelfClick() {
+        _screenState.update { state ->
+            (state as? ShelvesUiState.Success)?.copy(
+                showCreateShelfDialog = true
+            ) ?: state
+        }
+    }
+
+    fun onDismissDialog() {
+        _screenState.update { state ->
+            (state as? ShelvesUiState.Success)?.copy(
+                showCreateShelfDialog = false
+            ) ?: state
+        }
+    }
+
+    fun onShelfNameChange(value: String) {
+        _screenState.update { state ->
+            (state as? ShelvesUiState.Success)?.copy(
+                newShelfName = value
+            ) ?: state
+        }
+    }
+
+    fun onConfirmShelfCreation() {
+        viewModelScope.launch {
+            createShelf(name = (screenState.value as? ShelvesUiState.Success)?.newShelfName ?: "").also { result ->
+                when(result) {
+                    is CreateShelfUseCase.Result.Error,
+                    is CreateShelfUseCase.Result.UnexpectedError -> Unit // TODO
+                    is CreateShelfUseCase.Result.Success -> Unit
+                }
+                _screenState.update { state ->
+                    (state as? ShelvesUiState.Success)?.copy(
+                        showCreateShelfDialog = false
+                    ) ?: state
+                }
+            }
+        }
     }
 }

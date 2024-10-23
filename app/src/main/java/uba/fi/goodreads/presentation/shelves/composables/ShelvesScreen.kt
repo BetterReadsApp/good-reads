@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -45,57 +47,79 @@ fun ShelvesRoute(
 
     ShelvesScreen(
         screenState = screenState,
-        onCreateShelfClick = viewModel::onCreateShelfClick
+        onCreateShelfClick = viewModel::onCreateShelfClick,
+        onConfirmCreateShelf = viewModel::onConfirmShelfCreation,
+        onDismissDialog = viewModel::onDismissDialog,
+        onShelfNameChange = viewModel::onShelfNameChange
     )
 }
 
 @Composable
 fun ShelvesScreen(
     screenState: ShelvesUiState,
-    onCreateShelfClick: () -> Unit
+    onCreateShelfClick: () -> Unit,
+    onShelfNameChange: (String) -> Unit,
+    onDismissDialog: () -> Unit,
+    onConfirmCreateShelf: () -> Unit,
 ) {
     when (screenState) {
         ShelvesUiState.Error -> FeedbackScreen(type = FeedbackType.ERROR)
         ShelvesUiState.Loading -> Loading()
-        is ShelvesUiState.Success -> SuccessContent(screenState,onCreateShelfClick)
+        is ShelvesUiState.Success -> SuccessContent(
+            screenState,
+            onCreateShelfClick,
+            onShelfNameChange = onShelfNameChange,
+            onDismissDialog = onDismissDialog,
+            onConfirmCreateShelf = onConfirmCreateShelf
+        )
     }
 }
 
 @Composable
-private fun SuccessContent(screenState: ShelvesUiState.Success,
-onCreateShelfClick: () -> Unit) {
+private fun SuccessContent(
+    screenState: ShelvesUiState.Success,
+    onCreateShelfClick: () -> Unit,
+    onShelfNameChange: (String) -> Unit,
+    onDismissDialog: () -> Unit,
+    onConfirmCreateShelf: () -> Unit,
+) {
+    if (screenState.showCreateShelfDialog) {
+        CreateShelfDialog(
+            newShelfName = screenState.newShelfName,
+            onShelfNameChange = onShelfNameChange,
+            onDismiss = onDismissDialog,
+            onConfirm = onConfirmCreateShelf
+        )
+    }
+
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(scrollState)
+            .verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(32.dp))
         Text(
-            text = stringResource(id = R.string.my_books_bottom_nav_title)
+            modifier = Modifier.padding(vertical = 32.dp),
+            text = stringResource(id = R.string.shelves_bottom_nav_title),
+            fontSize = 32.sp
         )
-        Spacer(Modifier.height(32.dp))
-        Text(
-            text = "Shelves"
-        )
-        Spacer(Modifier.height(16.dp))
         screenState.shelves.forEach { shelf ->
             ShelfPreview(shelf)
             Spacer(Modifier.height(16.dp))
         }
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.weight(1f))
         Button(
-            modifier = Modifier.
-            fillMaxWidth().
-            padding(
-                vertical = 24.dp,
-                horizontal = 18.dp
-            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    vertical = 8.dp,
+                ),
             shape = RoundedCornerShape(8.dp),
             onClick = onCreateShelfClick
         ) {
-            Text(text = "create shelf")
+            Text(text = "Create shelf")
         }
 
     }
@@ -103,7 +127,7 @@ onCreateShelfClick: () -> Unit) {
 
 @Composable
 private fun ShelfPreview(shelf: Shelf) {
-    Card (modifier = Modifier.fillMaxWidth()){
+    Card(modifier = Modifier.fillMaxWidth()) {
         Row {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -114,11 +138,11 @@ private fun ShelfPreview(shelf: Shelf) {
                 contentDescription = "Cover of one of the books present inside the shelf",
                 contentScale = ContentScale.Crop,
             )
-            Column{
+            Column {
                 Text(
-                    text = shelf.title
+                    text = shelf.name
                 )
-                Text (
+                Text(
                     text = shelf.numberOfBooks.toString() + " books"
                 )
                 Text(
@@ -129,8 +153,39 @@ private fun ShelfPreview(shelf: Shelf) {
 
         }
     }
+}
 
-
+@Composable
+fun CreateShelfDialog(
+    newShelfName: String,
+    onShelfNameChange: (String) -> Unit,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(text = "Create New Shelf") },
+        text = {
+            Column {
+                Text("Enter the name of the new shelf:")
+                androidx.compose.material3.TextField(
+                    value = newShelfName,
+                    onValueChange = onShelfNameChange,
+                    placeholder = { Text("Shelf name") }
+                )
+            }
+        },
+        confirmButton = {
+            Button(onClick = onConfirm) {
+                Text("Create")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
 }
 
 @Composable
@@ -140,6 +195,10 @@ fun ShelvesScreenPreview(
 ) {
     GoodReadsTheme {
         ShelvesScreen(screenState = state,
-        onCreateShelfClick = {})
+            onCreateShelfClick = {},
+            onDismissDialog = {},
+            onShelfNameChange = {},
+            onConfirmCreateShelf = {}
+        )
     }
 }
