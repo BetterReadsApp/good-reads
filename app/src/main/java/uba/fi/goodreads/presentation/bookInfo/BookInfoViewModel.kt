@@ -1,6 +1,6 @@
 package uba.fi.goodreads.presentation.bookInfo
 
-import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,21 +14,28 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookInfoViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val getBookInfoUseCase: GetBookInfoUseCase
 ): ViewModel() {
     private val _screenstate: MutableStateFlow<BookInfoUIState> =
         MutableStateFlow(BookInfoUIState())
     val screenState: StateFlow<BookInfoUIState> = _screenstate.asStateFlow()
 
+    private val bookId: String = savedStateHandle["bookId"] ?: ""
+
     init {
         viewModelScope.launch {
-            val book = getBookInfoUseCase()
-            _screenstate.update {
-                BookInfoUIState(
-                    book = book
-                )
+            getBookInfoUseCase(bookId).also { result ->
+                when(result) {
+                    is GetBookInfoUseCase.Result.Error,
+                    is GetBookInfoUseCase.Result.UnexpectedError -> Unit
+                    is GetBookInfoUseCase.Result.Success -> _screenstate.update {
+                        BookInfoUIState(
+                            book = result.book
+                        )
+                    }
+                }
             }
         }
     }
-
 }

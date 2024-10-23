@@ -8,18 +8,21 @@ import androidx.navigation.navDeepLink
 import uba.fi.goodreads.presentation.bookInfo.composables.BookInfoRoute
 
 
-const val BOOKINFO_ROUTE = "bookinfo"
+const val BOOKINFO_ROUTE = "bookinfo/{bookId}"
 private const val DEEP_LINK_URI_PATTERN =
     "goodReads://bookinfo"
 
-fun NavController.navigateToBookInfo(navOptions: NavOptions) = navigate(BOOKINFO_ROUTE, navOptions)
+fun NavController.navigateToBookInfo(bookId: String, navOptions: NavOptions? = null) = navigate(
+    "bookinfo/$bookId", navOptions
+)
 
 fun NavGraphBuilder.bookInfoScreen() {
     composable(
         route = BOOKINFO_ROUTE,
         deepLinks = listOf(
             navDeepLink { uriPattern = DEEP_LINK_URI_PATTERN })
-    ) {
+    ) { navBackResult ->
+        val bookId = navBackResult.arguments?.getString("bookId") ?: ""
         BookInfoRoute()
     }
 }

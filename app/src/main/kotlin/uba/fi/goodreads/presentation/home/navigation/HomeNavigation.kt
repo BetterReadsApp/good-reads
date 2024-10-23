@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.home
+package uba.fi.goodreads.presentation.home.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,13 +13,31 @@ private const val DEEP_LINK_URI_PATTERN =
 
 fun NavController.navigateToHome(navOptions: NavOptions) = navigate(HOME_ROUTE, navOptions)
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.homeScreen(
+    navigateToBook: (String) -> Unit
+) {
     composable(
         route = HOME_ROUTE,
         deepLinks = listOf(
             navDeepLink { uriPattern = DEEP_LINK_URI_PATTERN },
         )
     ) {
-        HomeRoute()
+        HomeRoute(
+            navigate = { destination ->
+                navigate(
+                    destination = destination,
+                    navigateToBook = navigateToBook
+                )
+            }
+        )
+    }
+}
+
+internal fun navigate(
+    destination: HomeDestination,
+    navigateToBook: (String) -> Unit,
+) {
+    when (destination) {
+        is HomeDestination.BookInfo -> navigateToBook(destination.id.toString())
     }
 }

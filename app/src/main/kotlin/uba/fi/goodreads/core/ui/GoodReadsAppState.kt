@@ -17,8 +17,8 @@ import uba.fi.goodreads.core.navigation.TopLevelDestination.DISCOVER
 import uba.fi.goodreads.core.navigation.TopLevelDestination.HOME
 import uba.fi.goodreads.core.navigation.TopLevelDestination.SEARCH
 import uba.fi.goodreads.core.navigation.TopLevelDestination.MY_BOOKS
-import uba.fi.goodreads.presentation.home.HOME_ROUTE
-import uba.fi.goodreads.presentation.home.navigateToHome
+import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
+import uba.fi.goodreads.presentation.home.navigation.navigateToHome
 import uba.fi.goodreads.presentation.shelves.navigateToShelves
 
 @Composable

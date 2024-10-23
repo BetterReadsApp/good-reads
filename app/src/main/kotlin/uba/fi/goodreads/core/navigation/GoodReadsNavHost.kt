@@ -3,10 +3,11 @@ package uba.fi.goodreads.core.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import uba.fi.goodreads.core.ui.GoodReadsAppState
-import uba.fi.goodreads.presentation.home.HOME_ROUTE
-import uba.fi.goodreads.presentation.home.homeScreen
+import uba.fi.goodreads.presentation.bookInfo.bookInfoScreen
+import uba.fi.goodreads.presentation.bookInfo.navigateToBookInfo
+import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
+import uba.fi.goodreads.presentation.home.navigation.homeScreen
 import uba.fi.goodreads.presentation.shelves.shelvesScreen
 
 @Composable
@@ -21,8 +22,14 @@ fun GoodReadsNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeScreen()
+        homeScreen(
+            navigateToBook = navController::navigateToBookInfo
+        )
 
         shelvesScreen()
+
+        bookInfoScreen(
+
+        )
     }
 }

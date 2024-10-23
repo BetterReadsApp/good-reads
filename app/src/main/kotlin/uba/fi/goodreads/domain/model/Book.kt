@@ -5,4 +5,5 @@ data class Book(
     val description: String,
     val author: String,
     val genres: List<String>,
+    val publicationDate: String
 )
