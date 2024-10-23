@@ -25,7 +25,24 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField("String", "BASE_URL", "\"https://better-reads-backend.onrender.com/\"")
+    }
+
+    flavorDimensions.add("environment")
+
+    productFlavors {
+        create("tst") {
+            dimension = "environment"
+            applicationIdSuffix = ".tst"
+            versionNameSuffix = "-tst"
+            buildConfigField("String", "BASE_URL", "http://10.0.2.2:8000")
+        }
+
+        create("prod") {
+            dimension = "environment"
+            applicationIdSuffix = ".prod"
+            versionNameSuffix = "-prod"
+            buildConfigField("String", "BASE_URL", "\"https://better-reads-backend.onrender.com/\"")
+        }
     }
 
     buildTypes {
