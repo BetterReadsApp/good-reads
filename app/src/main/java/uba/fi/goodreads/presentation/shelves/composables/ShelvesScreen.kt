@@ -102,7 +102,7 @@ private fun SuccessContent(
     ) {
         Text(
             modifier = Modifier.padding(vertical = 32.dp),
-            text = stringResource(id = R.string.shelves_bottom_nav_title),
+            text = stringResource(id = R.string.my_books_bottom_nav_title),
             fontSize = 32.sp
         )
         screenState.shelves.forEach { shelf ->
