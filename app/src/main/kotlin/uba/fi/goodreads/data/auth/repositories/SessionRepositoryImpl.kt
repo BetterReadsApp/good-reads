@@ -63,7 +63,7 @@ internal class SessionRepositoryImpl @Inject constructor(
                         email = email,
                         password = password
                     )
-                ).userId
+                ).userId.toString()
             )
         }
     }
@@ -73,8 +73,9 @@ internal class SessionRepositoryImpl @Inject constructor(
         password: String,
         firstName: String,
         lastName: String
-    ): NetworkResult<String> {
+    ): NetworkResult<Unit> {
         return responseHandler {
+            saveAccessToken(
             client.register(
                 RegisterBody(
                     email = email,
@@ -82,7 +83,8 @@ internal class SessionRepositoryImpl @Inject constructor(
                     firstName = firstName,
                     lastName = lastName
                 )
-            ).userId
+            ).userId.toString()
+            )
         }
     }
 }

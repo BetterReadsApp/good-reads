@@ -38,6 +38,7 @@ object NetworkModule {
     fun okHttpCallFactory(tokenInterceptor: TokenInterceptor): Call.Factory =
         OkHttpClient.Builder()
             .addInterceptor(tokenInterceptor)
+            .addInterceptor(HeaderInterceptor(HeadersBuilder()))
             .addInterceptor(
                 HttpLoggingInterceptor()
                     .apply {
@@ -46,8 +47,6 @@ object NetworkModule {
                         }
                     },
             )
-            // .addInterceptor(securityTokensInterceptor)
-            // TODO Datadog .eventListenerFactory(DatadogEventListener.Factory())
             .build()
 
     @Provides
