@@ -15,8 +15,8 @@
     <string name="home_feed_section_title">Your feed</string>
     <string name="home_for_you_section_title">Book Recommendations for you</string>
 
-    <!-- My books -->
-    <string name="my_books_bottom_nav_title">My books</string>
+    <!-- Shelves -->
+    <string name="shelves_bottom_nav_title">Shelves</string>
 
     <!-- Discover -->
     <string name="discover_bottom_nav_title">Discover</string>
