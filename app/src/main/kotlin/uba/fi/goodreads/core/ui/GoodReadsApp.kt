@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
@@ -69,7 +70,7 @@ private fun GoodReadsBottomBar(
                 onClick = { onNavigateToDestination(destination) },
                 icon = {
                     Icon(
-                        imageVector = if (selected) destination.selectedIcon else destination.unselectedIcon,
+                        painter = painterResource(if (selected) destination.selectedIcon else destination.unselectedIcon),
                         contentDescription = null,
                     )
                 },

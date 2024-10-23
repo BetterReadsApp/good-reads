@@ -16,7 +16,7 @@ import uba.fi.goodreads.core.navigation.TopLevelDestination
 import uba.fi.goodreads.core.navigation.TopLevelDestination.DISCOVER
 import uba.fi.goodreads.core.navigation.TopLevelDestination.HOME
 import uba.fi.goodreads.core.navigation.TopLevelDestination.SEARCH
-import uba.fi.goodreads.core.navigation.TopLevelDestination.SHELVES
+import uba.fi.goodreads.core.navigation.TopLevelDestination.MY_BOOKS
 import uba.fi.goodreads.presentation.home.HOME_ROUTE
 import uba.fi.goodreads.presentation.home.navigateToHome
 import uba.fi.goodreads.presentation.shelves.navigateToShelves
@@ -92,7 +92,7 @@ class GoodReadsAppState(
 
             when (topLevelDestination) {
                 HOME -> navController.navigateToHome(topLevelNavOptions)
-                SHELVES -> navController.navigateToShelves(topLevelNavOptions)
+                MY_BOOKS -> navController.navigateToShelves(topLevelNavOptions)
                 DISCOVER -> navController.navigateToHome(topLevelNavOptions) //TODO
                 SEARCH -> navController.navigateToHome(topLevelNavOptions) //TODO
             }
