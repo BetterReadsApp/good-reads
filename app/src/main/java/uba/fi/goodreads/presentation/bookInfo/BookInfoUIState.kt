@@ -12,4 +12,3 @@ data class BookInfoUIState(
     ),
     val reviews: List<String> = emptyList()
 )
-
