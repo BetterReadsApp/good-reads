@@ -4,6 +4,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 import uba.fi.goodreads.data.shelf.request.CreateShelfBody
 import uba.fi.goodreads.data.auth.request.LoginBody
 import uba.fi.goodreads.data.auth.request.RegisterBody
@@ -25,11 +26,15 @@ internal interface BetterReadsClient {
     suspend fun createShelf(@Body body: CreateShelfBody): ShelfNetworkDto
 
     @GET("/shelves")
-    suspend fun getShelves(): List<ShelfNetworkDto>
+    suspend fun getShelves(@Query("user_id") userId: String): List<ShelfNetworkDto>
 
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
 
     @GET("/users/{userId}")
     suspend fun getUser(@Path("userId") userId: String): UserNetworkDto
+
+    @POST("/users/{userId}/followers")
+    suspend fun followUser(@Path("userId") userId: String)
+
 }

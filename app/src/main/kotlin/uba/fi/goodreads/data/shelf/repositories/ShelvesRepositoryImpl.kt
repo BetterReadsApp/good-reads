@@ -18,9 +18,9 @@ internal class ShelvesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getShelves(): NetworkResult<List<Shelf>> {
+    override suspend fun getShelves(userId: String): NetworkResult<List<Shelf>> {
         return responseHandler {
-            client.getShelves().map { it.toDomain() }
+            client.getShelves(userId).map { it.toDomain() }
         }
     }
 

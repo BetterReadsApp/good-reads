@@ -10,10 +10,10 @@ internal class BooksRepositoriesImpl @Inject constructor(
     private val client: BetterReadsClient,
     private val responseHandler: ResponseHandler
 ): BooksRepository {
+
         override suspend fun getBook(bookId: String): NetworkResult<Book> {
-        return responseHandler{
+        return responseHandler {
             client.getBook(bookId).toDomain()
         }
     }
-
 }
