@@ -24,6 +24,9 @@ internal interface BetterReadsClient {
     @POST("/shelves")
     suspend fun createShelf(@Body body: CreateShelfBody): ShelfNetworkDto
 
+    @GET("/shelves")
+    suspend fun getShelves(): List<ShelfNetworkDto>
+
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
 

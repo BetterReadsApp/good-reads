@@ -17,4 +17,11 @@ internal class ShelvesRepositoryImpl @Inject constructor(
             client.createShelf(CreateShelfBody(name = name)).toDomain()
         }
     }
+
+    override suspend fun getShelves(): NetworkResult<List<Shelf>> {
+        return responseHandler {
+            client.getShelves().map { it.toDomain() }
+        }
+    }
+
 }

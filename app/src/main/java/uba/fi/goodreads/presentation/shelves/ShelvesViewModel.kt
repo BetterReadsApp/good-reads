@@ -27,9 +27,13 @@ class ShelvesViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _screenState.update {
-                ShelvesUiState.Success(
-                    shelves = getShelves()
-                )
+                when (val result = getShelves()) {
+                    is GetShelvesUseCase.Result.Error,
+                    is GetShelvesUseCase.Result.UnexpectedError -> ShelvesUiState.Error
+                    is GetShelvesUseCase.Result.Success -> ShelvesUiState.Success(
+                        shelves = result.shelves
+                    )
+                }
             }
         }
     }
