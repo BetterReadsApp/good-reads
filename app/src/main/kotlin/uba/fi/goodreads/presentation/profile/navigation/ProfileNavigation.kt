@@ -14,7 +14,6 @@ private const val DEEP_LINK_URI_PATTERN =
 fun NavController.navigateToProfile(navOptions: NavOptions? = null) = navigate(PROFILE_ROUTE, navOptions)
 
 fun NavGraphBuilder.profileScreen(
-    navigateToRegister: () -> Unit,
     onBack: () -> Unit
 ) {
     composable(
@@ -27,7 +26,6 @@ fun NavGraphBuilder.profileScreen(
             navigate = { destination ->
                 navigate(
                     destination = destination,
-                    navigateToRegister = navigateToRegister,
                     onBack = onBack
                 )
             }
@@ -37,7 +35,6 @@ fun NavGraphBuilder.profileScreen(
 
 internal fun navigate(
     destination: ProfileDestination,
-    navigateToRegister: () -> Unit,
     onBack: () -> Unit
 ) {
     when (destination) {

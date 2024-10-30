@@ -44,7 +44,6 @@ fun ShelvesRoute(
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
-
     ShelvesScreen(
         screenState = screenState,
         onCreateShelfClick = viewModel::onCreateShelfClick,
