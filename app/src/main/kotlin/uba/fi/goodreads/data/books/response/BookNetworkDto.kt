@@ -12,6 +12,7 @@ data class BookNetworkDto(
     @SerialName("summary") val summary: String,
     @SerialName("author") val author: String,
     @SerialName("publication_date") val publicationDate: String,
+    @SerialName("average_rating") val avgRating: Double,
 ) {
     fun toDomain() = Book(
         title = title,
@@ -19,5 +20,6 @@ data class BookNetworkDto(
         description = summary,
         genres = listOf("Fiction"),
         publicationDate = publicationDate,
+        avgRating = avgRating
     )
 }

@@ -9,7 +9,7 @@ data class BookInfoUIState(
         genres = emptyList(),
         publicationDate = "",
         title = "",
+        avgRating = null,
     ),
-    var rating: Int = 0,
     val reviews: List<String> = emptyList()
 )

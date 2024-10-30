@@ -102,11 +102,10 @@ fun BookInfoScreen(screenState: BookInfoUIState) {
         verticalArrangement = Arrangement.Top
     ) {
         BookCoverImage()
-
         TitleAndAuthor(screenState.book)
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
-        OurRatingBar(4.5f)
+        AvgRatingStars(screenState.book.avgRating ?: 3.5)
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
@@ -115,6 +114,7 @@ fun BookInfoScreen(screenState: BookInfoUIState) {
         WriteReviewButton(onClick = {})
     }
 }
+
 @Composable
 fun WriteReviewButton(onClick: () -> Unit) {
     Box(
@@ -163,19 +163,7 @@ private fun TitleAndAuthor(book: Book) {
     }
 }
 
-@Composable
-private fun OurRatingBar(rating: Float) {
-    Column (
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        //esto despues tiene que ser una rating bar decente
-        Row {
-            Text(text = "⭐⭐⭐⭐⭐")
-            Text(text = rating.toString())
-        }
-        Text(text = "70.677 calificaciones - 4.597 reseñas")
-    }
-}
+
 
 
 @Composable

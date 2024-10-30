@@ -25,4 +25,7 @@ internal interface BetterReadsClient {
 
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
+
+    @POST("/{book_id}/ratings")
+    suspend fun rate_book(@Path("bookId") bookId: String, value: Int)
 }

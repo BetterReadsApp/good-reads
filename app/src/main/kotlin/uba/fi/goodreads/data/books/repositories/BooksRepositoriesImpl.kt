@@ -11,9 +11,9 @@ internal class BooksRepositoriesImpl @Inject constructor(
     private val responseHandler: ResponseHandler
 ): BooksRepository {
         override suspend fun getBook(bookId: String): NetworkResult<Book> {
-        return responseHandler{
-            client.getBook(bookId).toDomain()
+            return responseHandler {
+                client.getBook(bookId).toDomain()
+            }
         }
-    }
 
 }
