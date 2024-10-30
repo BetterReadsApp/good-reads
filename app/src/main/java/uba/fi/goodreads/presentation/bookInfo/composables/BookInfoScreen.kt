@@ -40,7 +40,6 @@ import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.presentation.bookInfo.BookInfoScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
 import uba.fi.goodreads.presentation.bookInfo.BookInfoViewModel
-import uba.fi.goodreads.ui.components.ratingStars.RatingScreen
 
 
 @Composable
@@ -111,7 +110,7 @@ fun BookInfoScreen(screenState: BookInfoUIState) {
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
-        RatingScreen()
+        RatingScreen(screenState)
         Spacer(modifier = Modifier.height(16.dp))
         WriteReviewButton(onClick = {})
     }
