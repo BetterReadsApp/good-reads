@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -170,9 +172,11 @@ private fun FollowersTextColumn(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text (
+            style = MaterialTheme.typography.labelLarge,
             text = title
         )
         Text(
+            style = MaterialTheme.typography.bodyMedium,
             text = amount
         )
     }
@@ -182,12 +186,16 @@ private fun FollowersTextColumn(
 private fun ColumnScope.Shelves(
     shelves: List<Shelf>
 ) {
+
     Text(
+        style = MaterialTheme.typography.titleSmall,
+        modifier = Modifier.padding(vertical = 8.dp),
         text = "Shelves"
     )
 
     LazyRow(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(shelves) { shelf ->
             Shelf(shelf)
@@ -197,22 +205,30 @@ private fun ColumnScope.Shelves(
 
 @Composable
 private fun Shelf(shelf: Shelf) {
-    Column {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
+            style = MaterialTheme.typography.bodySmall,
             text = shelf.name
         )
 
         AsyncImage(
+            modifier = Modifier
+                .width(80.dp)
+                .height(120.dp)
+                .padding(vertical = 8.dp),
             model = ImageRequest.Builder(LocalContext.current)
                 .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
                 .crossfade(true)
                 .build(),
-            // placeholder = painterResource(R.drawable.placeholder),
+            placeholder = painterResource(R.drawable.ficciones),
             contentDescription = "Cover of one of the books present inside the shelf",
             contentScale = ContentScale.Crop,
         )
 
         Text(
+            style = MaterialTheme.typography.bodySmall,
             text = shelf.numberOfBooks.toString()
         )
     }
@@ -223,6 +239,8 @@ private fun ColumnScope.RatedBooks(
     ratedBooks: List<Book>
 ) {
     Text(
+        style = MaterialTheme.typography.titleSmall,
+        modifier = Modifier.padding(vertical = 8.dp),
         text = "Rated books"
     )
     LazyRow(
@@ -238,10 +256,15 @@ private fun ColumnScope.RatedBooks(
 private fun Book(book: Book) {
     Column {
         Text(
+            style = MaterialTheme.typography.bodySmall,
             text = book.title
         )
 
         AsyncImage(
+            modifier = Modifier
+                .width(80.dp)
+                .height(120.dp)
+                .padding(vertical = 8.dp),
             model = ImageRequest.Builder(LocalContext.current)
                 .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
                 .crossfade(true)
@@ -252,6 +275,7 @@ private fun Book(book: Book) {
         )
 
         Text(
+            style = MaterialTheme.typography.bodySmall,
             text = book.author
         )
     }

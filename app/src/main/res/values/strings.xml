@@ -21,7 +21,7 @@
     <!-- Discover -->
     <string name="discover_bottom_nav_title">Discover</string>
 
-    <!-- Search -->
-    <string name="search_bottom_nav_title">Search</string>
+    <!-- Profile -->
+    <string name="profile_bottom_nav_title">Profile</string>
 
 </resources>

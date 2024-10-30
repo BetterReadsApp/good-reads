@@ -15,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import uba.fi.goodreads.core.navigation.TopLevelDestination
 import uba.fi.goodreads.core.navigation.TopLevelDestination.DISCOVER
 import uba.fi.goodreads.core.navigation.TopLevelDestination.HOME
-import uba.fi.goodreads.core.navigation.TopLevelDestination.SEARCH
+import uba.fi.goodreads.core.navigation.TopLevelDestination.PROFILE
 import uba.fi.goodreads.core.navigation.TopLevelDestination.MY_BOOKS
 import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
 import uba.fi.goodreads.presentation.home.navigation.navigateToHome
@@ -95,7 +95,7 @@ class GoodReadsAppState(
                 HOME -> navController.navigateToHome(topLevelNavOptions)
                 MY_BOOKS -> navController.navigateToShelves(topLevelNavOptions)
                 DISCOVER -> navController.navigateToHome(topLevelNavOptions) //TODO
-                SEARCH -> navController.navigateToProfile(topLevelNavOptions) //TODO
+                PROFILE -> navController.navigateToProfile(topLevelNavOptions) //TODO
             }
         }
     }
