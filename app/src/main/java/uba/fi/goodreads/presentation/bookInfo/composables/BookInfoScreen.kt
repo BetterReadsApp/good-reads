@@ -2,6 +2,7 @@ package uba.fi.goodreads.presentation.bookInfo.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,6 +40,7 @@ import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.presentation.bookInfo.BookInfoScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
 import uba.fi.goodreads.presentation.bookInfo.BookInfoViewModel
+import uba.fi.goodreads.ui.components.ratingStars.RatingScreen
 
 
 @Composable
@@ -104,13 +107,32 @@ fun BookInfoScreen(screenState: BookInfoUIState) {
         TitleAndAuthor(screenState.book)
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
-
         OurRatingBar(4.5f)
-
         Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        RatingScreen()
+        Spacer(modifier = Modifier.height(16.dp))
+        WriteReviewButton(onClick = {})
     }
 }
-
+@Composable
+fun WriteReviewButton(onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .width(200.dp)
+            .height(50.dp)
+            .background(Color.LightGray)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Write a review",
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Black
+        )
+    }
+}
 
 @Composable
 private fun TitleAndAuthor(book: Book) {
@@ -145,8 +167,6 @@ private fun TitleAndAuthor(book: Book) {
 @Composable
 private fun OurRatingBar(rating: Float) {
     Column (
-        modifier = Modifier
-            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         //esto despues tiene que ser una rating bar decente
