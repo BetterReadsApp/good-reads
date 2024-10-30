@@ -1,10 +1,7 @@
 package uba.fi.goodreads.core.navigation
 
 import androidx.annotation.DrawableRes
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import uba.fi.goodreads.R
-import uba.fi.goodreads.core.design_system.icon.GoodReadsIcon
 
 enum class TopLevelDestination(
     @DrawableRes val selectedIcon: Int,
@@ -26,9 +23,9 @@ enum class TopLevelDestination(
         unselectedIcon = R.drawable.ic_notebook_2_line,
         titleTextId = R.string.discover_bottom_nav_title,
     ),
-    SEARCH(
-        selectedIcon = R.drawable.ic_notebook_2_line,
-        unselectedIcon = R.drawable.ic_notebook_2_line,
-        titleTextId = R.string.search_bottom_nav_title,
+    PROFILE(
+        selectedIcon = R.drawable.ic_avatar_fill,
+        unselectedIcon = R.drawable.ic_avatar_fill,
+        titleTextId = R.string.profile_bottom_nav_title,
     ),
 }

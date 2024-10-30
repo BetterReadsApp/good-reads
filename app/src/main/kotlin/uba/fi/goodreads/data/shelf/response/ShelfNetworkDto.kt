@@ -7,7 +7,6 @@ import java.time.LocalDate
 
 @Serializable
 data class ShelfNetworkDto(
-    @SerialName("id") val id: Int,
     @SerialName("name") val name: String
 ) {
     fun toDomain() = Shelf(

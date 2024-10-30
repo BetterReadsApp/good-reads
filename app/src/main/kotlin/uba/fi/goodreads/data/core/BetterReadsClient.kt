@@ -11,6 +11,7 @@ import uba.fi.goodreads.data.auth.response.LoginResponse
 import uba.fi.goodreads.data.auth.response.RegisterResponse
 import uba.fi.goodreads.data.books.response.BookNetworkDto
 import uba.fi.goodreads.data.shelf.response.ShelfNetworkDto
+import uba.fi.goodreads.data.users.response.UserNetworkDto
 
 internal interface BetterReadsClient {
 
@@ -28,4 +29,8 @@ internal interface BetterReadsClient {
 
     @POST("/{book_id}/ratings")
     suspend fun rate_book(@Path("bookId") bookId: String, value: Int)
+    
+    @GET("/users/{userId}")
+    suspend fun getUser(@Path("userId") userId: String): UserNetworkDto
+
 }

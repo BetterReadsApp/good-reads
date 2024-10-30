@@ -10,6 +10,8 @@ import uba.fi.goodreads.data.books.repositories.BooksRepositoriesImpl
 import uba.fi.goodreads.data.books.repositories.BooksRepository
 import uba.fi.goodreads.data.shelf.repositories.ShelvesRepository
 import uba.fi.goodreads.data.shelf.repositories.ShelvesRepositoryImpl
+import uba.fi.goodreads.data.users.repositories.UsersRepository
+import uba.fi.goodreads.data.users.repositories.UsersRepositoryImpl
 import javax.inject.Singleton
 
 @Module
@@ -31,7 +33,13 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun bindBooksRepository(
-        shelvesRepository: BooksRepositoriesImpl,
+        booksRepository: BooksRepositoriesImpl,
     ): BooksRepository
+
+    @Binds
+    @Singleton
+    internal abstract fun bindUsersRepository(
+        usersRepository: UsersRepositoryImpl,
+    ): UsersRepository
 
 }

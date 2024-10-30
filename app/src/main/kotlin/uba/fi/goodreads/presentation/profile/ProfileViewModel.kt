@@ -8,51 +8,40 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import uba.fi.goodreads.domain.usecase.GetProfileUseCase
 import uba.fi.goodreads.domain.usecase.LoginUseCase
 import uba.fi.goodreads.presentation.profile.navigation.ProfileDestination
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val login: LoginUseCase,
+    private val getUserProfile: GetProfileUseCase
 ): ViewModel() {
 
     private val _screenState: MutableStateFlow<ProfileUiState> =
         MutableStateFlow(ProfileUiState())
     val screenState: StateFlow<ProfileUiState> = _screenState.asStateFlow()
 
-    fun onEmailChange(value: String) {
-        _screenState.update { state ->
-            state.copy(
-                email = value,
-                isError = false,
-                buttonEnabled = value.isNotEmpty() && state.password.isNotEmpty()
-            )
-        }
-    }
-
-    fun onPasswordChange(value: String) {
-        _screenState.update { state ->
-            state.copy(
-                password = value,
-                isError = false,
-                buttonEnabled = value.isNotEmpty() && state.email.isNotEmpty()
-            )
-        }
-    }
-
-    fun onContinueClick() {
+    init {
         viewModelScope.launch {
-            login(
-                email = screenState.value.email,
-                password = screenState.value.password
-            ).also { result ->
-                when(result) {
-                    is LoginUseCase.Result.Error,
-                    LoginUseCase.Result.UnexpectedError -> _screenState.update { it.copy(isError = true) }
-                    LoginUseCase.Result.Success -> Unit
+            getUserProfile().also { result ->
+                when (result) {
+                    is GetProfileUseCase.Result.Error,
+                    is GetProfileUseCase.Result.UnexpectedError -> Unit
+
+                    is GetProfileUseCase.Result.Success -> _screenState.update { state ->
+                        state.copy(
+                            firstName = result.user.name,
+                            lastName = result.user.lastName,
+                            followingAmount = result.user.following,
+                            followersAmount = result.user.followers,
+                            shelves = result.user.shelves,
+                            ratedBooks = result.user.ratedBooks
+                        )
+                    }
                 }
             }
+
         }
     }
 
