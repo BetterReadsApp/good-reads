@@ -26,13 +26,19 @@ internal interface BetterReadsClient {
     @POST("/shelves")
     suspend fun createShelf(@Body body: CreateShelfBody): ShelfNetworkDto
 
+    @GET("/shelves")
+    suspend fun getShelves(@Query("user_id") userId: String): List<ShelfNetworkDto>
+
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
 
     @POST("books/{book_id}/ratings")
     suspend fun rateBook(@Path("book_id") bookId: String, @Query("value") value: Int): RatingResponse
-    
+
     @GET("/users/{userId}")
     suspend fun getUser(@Path("userId") userId: String): UserNetworkDto
+
+    @POST("/users/{userId}/followers")
+    suspend fun followUser(@Path("userId") userId: String)
 
 }

@@ -7,7 +7,7 @@ class ProfileScreenPreviewParameterProvider: PreviewParameterProvider<ProfileUiS
 
     override val values: Sequence<ProfileUiState> = sequenceOf(
         getState(
-            firstName = "Juan",
+            firstName = "Pedro",
             lastName = "Duzac",
             followingAmount = 10,
             followersAmount = 5,
@@ -17,6 +17,12 @@ class ProfileScreenPreviewParameterProvider: PreviewParameterProvider<ProfileUiS
             lastName = "Duzac",
             followingAmount = 100,
             followersAmount = 200,
+        ),
+        getState(
+            firstName = "Marco",
+            lastName = "",
+            followingAmount = 1000,
+            followersAmount = 1000,
         ),
     )
 

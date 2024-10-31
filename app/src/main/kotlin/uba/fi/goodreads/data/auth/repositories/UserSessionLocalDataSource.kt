@@ -61,7 +61,6 @@ class UserSessionLocalDataSource @Inject constructor(
     // Get the access token
     suspend fun getAccessToken(): String {
         if (cachedAccessToken.isNotBlank()) {
-            println("From cache")
             return cachedAccessToken
         }
 
