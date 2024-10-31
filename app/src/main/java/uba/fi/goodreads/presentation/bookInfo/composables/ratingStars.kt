@@ -25,8 +25,9 @@ import uba.fi.goodreads.presentation.bookInfo.BookInfoScreenPreviewParameterProv
 import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
 
 @Composable
-fun RatingScreen(
-    screenState: BookInfoUIState
+fun RatingBox(
+    userRating: Int,
+    onUserRatingChange: (Int) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -34,8 +35,8 @@ fun RatingScreen(
     ) {
         Text(text = "My rate", style = MaterialTheme.typography.labelMedium)
         RatingStars(
-            rating = 0,
-            onRatingChange = { }//newRating -> screenState.rating = newRating}
+            rating = userRating,
+            onRatingChange = onUserRatingChange
         )
     }
 }
@@ -128,10 +129,12 @@ fun RatingStarsPreview() {
     )
 }
 
+
 @Preview(showBackground = true)
 @Composable
-fun RatingScreenPreview(
-    @PreviewParameter(BookInfoScreenPreviewParameterProvider::class) state: BookInfoUIState
-) {
-    RatingScreen(screenState = state)
+fun RatingStarsPreview2() {
+    RatingBox(
+        userRating = 3,
+        onUserRatingChange = {}
+    )
 }

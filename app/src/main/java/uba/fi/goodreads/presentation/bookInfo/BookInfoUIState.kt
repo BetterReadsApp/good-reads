@@ -11,5 +11,6 @@ data class BookInfoUIState(
         title = "",
         avgRating = null,
     ),
-    val reviews: List<String> = emptyList()
+    val reviews: List<String> = emptyList(),
+    val userRating: Int = 0
 )

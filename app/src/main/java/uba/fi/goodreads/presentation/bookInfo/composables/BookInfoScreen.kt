@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +18,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -49,11 +47,40 @@ fun BookInfoRoute(
     val screenState by viewModel.screenState.collectAsState()
 
     BookInfoScreen(
-        screenState = screenState
+        screenState = screenState,
+        onUserRatingChange = viewModel::onUserRatingChange
     )
 }
 
-
+@Composable
+fun BookInfoScreen(
+    screenState: BookInfoUIState,
+    onUserRatingChange: (Int) -> Unit,
+) {
+    //val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        BookCoverImage()
+        TitleAndAuthor(screenState.book)
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        AvgRatingStars(screenState.book.avgRating ?: 3.5)
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        RatingBox(
+           userRating = screenState.userRating,
+            onUserRatingChange = onUserRatingChange
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        WriteReviewButton(onClick = {})
+    }
+}
 
 
 @Composable
@@ -88,30 +115,6 @@ private fun BookCoverImage() {
             )
         }
 
-    }
-}
-
-@Composable
-fun BookInfoScreen(screenState: BookInfoUIState) {
-    //val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
-        BookCoverImage()
-        TitleAndAuthor(screenState.book)
-        HorizontalDivider()
-        Spacer(modifier = Modifier.height(16.dp))
-        AvgRatingStars(screenState.book.avgRating ?: 3.5)
-        Spacer(modifier = Modifier.height(16.dp))
-        HorizontalDivider()
-        Spacer(modifier = Modifier.height(16.dp))
-        RatingScreen(screenState)
-        Spacer(modifier = Modifier.height(16.dp))
-        WriteReviewButton(onClick = {})
     }
 }
 
@@ -164,14 +167,15 @@ private fun TitleAndAuthor(book: Book) {
 }
 
 
-
-
 @Composable
 @Preview(showBackground = true)
 fun BookInfoScreenPreview(
     @PreviewParameter(BookInfoScreenPreviewParameterProvider::class) state: BookInfoUIState
 ) {
     GoodReadsTheme {
-        BookInfoScreen(state)
+        BookInfoScreen(
+            state,
+            onUserRatingChange = {}
+        )
     }
 }
