@@ -9,11 +9,17 @@ import javax.inject.Inject
 internal class BooksRepositoriesImpl @Inject constructor(
     private val client: BetterReadsClient,
     private val responseHandler: ResponseHandler
-): BooksRepository {
+) : BooksRepository {
 
-        override suspend fun getBook(bookId: String): NetworkResult<Book> {
+    override suspend fun getBook(bookId: String): NetworkResult<Book> {
         return responseHandler {
             client.getBook(bookId).toDomain()
+        }
+    }
+
+    override suspend fun rateBook(bookId: String, rate: Int): NetworkResult<Double> {
+        return responseHandler {
+            client.rateBook(bookId, rate).avgRating
         }
     }
 }

@@ -2,10 +2,10 @@ package uba.fi.goodreads.presentation.bookInfo.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,11 +13,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -47,11 +47,40 @@ fun BookInfoRoute(
     val screenState by viewModel.screenState.collectAsState()
 
     BookInfoScreen(
-        screenState = screenState
+        screenState = screenState,
+        onUserRatingChange = viewModel::onUserRatingChange
     )
 }
 
-
+@Composable
+fun BookInfoScreen(
+    screenState: BookInfoUIState,
+    onUserRatingChange: (Int) -> Unit,
+) {
+    //val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        BookCoverImage()
+        TitleAndAuthor(screenState.book)
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        AvgRatingStars(screenState.book.avgRating ?: 3.5)
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        RatingBox(
+           userRating = screenState.userRating,
+            onUserRatingChange = onUserRatingChange
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        WriteReviewButton(onClick = {})
+    }
+}
 
 
 @Composable
@@ -90,27 +119,22 @@ private fun BookCoverImage() {
 }
 
 @Composable
-fun BookInfoScreen(screenState: BookInfoUIState) {
-    //val scrollState = rememberScrollState()
-    Column(
+fun WriteReviewButton(onClick: () -> Unit) {
+    Box(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+            .width(200.dp)
+            .height(50.dp)
+            .background(Color.LightGray)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
     ) {
-        BookCoverImage()
-
-        TitleAndAuthor(screenState.book)
-        HorizontalDivider()
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OurRatingBar(4.5f)
-
-        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Write a review",
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Black
+        )
     }
 }
-
 
 @Composable
 private fun TitleAndAuthor(book: Book) {
@@ -142,22 +166,6 @@ private fun TitleAndAuthor(book: Book) {
     }
 }
 
-@Composable
-private fun OurRatingBar(rating: Float) {
-    Column (
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        //esto despues tiene que ser una rating bar decente
-        Row {
-            Text(text = "⭐⭐⭐⭐⭐")
-            Text(text = rating.toString())
-        }
-        Text(text = "70.677 calificaciones - 4.597 reseñas")
-    }
-}
-
 
 @Composable
 @Preview(showBackground = true)
@@ -165,6 +173,9 @@ fun BookInfoScreenPreview(
     @PreviewParameter(BookInfoScreenPreviewParameterProvider::class) state: BookInfoUIState
 ) {
     GoodReadsTheme {
-        BookInfoScreen(state)
+        BookInfoScreen(
+            state,
+            onUserRatingChange = {}
+        )
     }
 }
