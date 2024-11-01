@@ -8,6 +8,6 @@ sealed  class ShelfBooksUiState {
     data object Error : ShelfBooksUiState()
 
     data class Success(
-        val shelves: List<Book>,
+        val books: List<Book>,
     ) : ShelfBooksUiState()
 }

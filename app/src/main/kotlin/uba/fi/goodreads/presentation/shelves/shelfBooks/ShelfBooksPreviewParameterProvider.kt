@@ -12,6 +12,6 @@ class ShelfBooksPreviewParameterProvider: PreviewParameterProvider<ShelfBooksUiS
     )
 
     private fun getSuccessState() = ShelfBooksUiState.Success(
-        shelves = DomainBookMocks.getBooks(),
+        books = DomainBookMocks.getBooks(),
     )
 }
