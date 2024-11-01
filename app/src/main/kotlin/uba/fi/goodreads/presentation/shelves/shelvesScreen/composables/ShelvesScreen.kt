@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.shelves.composables
+package uba.fi.goodreads.presentation.shelves.shelvesScreen.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,9 +34,9 @@ import uba.fi.goodreads.core.design_system.component.feedback.FeedbackType
 import uba.fi.goodreads.core.design_system.component.loading.Loading
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Shelf
-import uba.fi.goodreads.presentation.shelves.ShelvesScreenPreviewParameterProvider
-import uba.fi.goodreads.presentation.shelves.ShelvesUiState
-import uba.fi.goodreads.presentation.shelves.ShelvesViewModel
+import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesScreenPreviewParameterProvider
+import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesUiState
+import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesViewModel
 
 @Composable
 fun ShelvesRoute(

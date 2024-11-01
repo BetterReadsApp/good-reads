@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.shelves
+package uba.fi.goodreads.presentation.shelves.shelvesScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,10 +8,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import uba.fi.goodreads.domain.model.Shelf
 import uba.fi.goodreads.domain.usecase.CreateShelfUseCase
 import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
-import uba.fi.goodreads.presentation.shelves.ShelvesUiState
 import javax.inject.Inject
 
 @HiltViewModel

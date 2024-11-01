@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.shelves
+package uba.fi.goodreads.presentation.shelves.shelvesScreen
 
 import uba.fi.goodreads.domain.model.Shelf
 

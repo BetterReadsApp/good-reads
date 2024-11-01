@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.shelves
+package uba.fi.goodreads.presentation.shelves.shelvesScreen
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import uba.fi.goodreads.domain.mocks.DomainShelfMocks
