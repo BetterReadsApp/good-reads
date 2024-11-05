@@ -9,4 +9,5 @@ interface BooksRepository {
 
     suspend fun rateBook(bookId: String, rate: Int): NetworkResult<Double>
 
+    suspend fun reviewBook(bookId: String, review: String): NetworkResult<String>
 }

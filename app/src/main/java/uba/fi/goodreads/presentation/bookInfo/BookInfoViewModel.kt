@@ -10,14 +10,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
-import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
+import uba.fi.goodreads.domain.usecase.RateBookUseCase
+import uba.fi.goodreads.presentation.home.navigation.HomeDestination
 import javax.inject.Inject
 
 @HiltViewModel
 class BookInfoViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getBookInfoUseCase: GetBookInfoUseCase,
-    private val reviewBookUseCase: ReviewBookUseCase
+    private val reviewBookUseCase: RateBookUseCase
 ) : ViewModel() {
 
     private val _screenState: MutableStateFlow<BookInfoUIState> =
@@ -47,10 +48,10 @@ class BookInfoViewModel @Inject constructor(
         viewModelScope.launch {
             reviewBookUseCase(bookId, rating).also { result ->
                 when (result) {
-                    is ReviewBookUseCase.Result.Error,
-                    is ReviewBookUseCase.Result.UnexpectedError -> Unit
+                    is RateBookUseCase.Result.Error,
+                    is RateBookUseCase.Result.UnexpectedError -> Unit
 
-                    is ReviewBookUseCase.Result.Success -> _screenState.update { state ->
+                    is RateBookUseCase.Result.Success -> _screenState.update { state ->
                         state.copy(
                             userRating = rating,
                             book = state.book.copy(avgRating = result.avgRating)
@@ -59,5 +60,9 @@ class BookInfoViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun onReviewClick(id: Int) {
+        _screenState.update { it.copy(destination = HomeDestination.BookInfo(id)) }
     }
 }

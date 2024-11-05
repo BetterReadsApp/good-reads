@@ -35,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import uba.fi.goodreads.R
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
+import uba.fi.goodreads.presentation.ReviewScreen.composables.ReviewsScreen
 import uba.fi.goodreads.presentation.bookInfo.BookInfoScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
 import uba.fi.goodreads.presentation.bookInfo.BookInfoViewModel
@@ -125,7 +126,7 @@ fun WriteReviewButton(onClick: () -> Unit) {
             .width(200.dp)
             .height(50.dp)
             .background(Color.LightGray)
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick ),
         contentAlignment = Alignment.Center
     ) {
         Text(

@@ -33,7 +33,10 @@ internal interface BetterReadsClient {
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
 
     @POST("books/{book_id}/ratings")
-    suspend fun rateBook(@Path("book_id") bookId: String, @Query("value") value: Int): RatingResponse
+    suspend fun rateBook(@Path("book_id") bookId: String, @Query("value") value: Int): RatingResponse //aca no falta el user id?
+
+    @POST("/books/{book_id}/reviews")
+    suspend fun reviewBook(@Path("book_id") bookId: String, @Query("review") review: String): String //aca no falta el user id?
 
     @GET("/users/{userId}")
     suspend fun getUser(@Path("userId") userId: String): UserNetworkDto

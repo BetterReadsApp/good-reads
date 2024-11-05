@@ -22,4 +22,10 @@ internal class BooksRepositoriesImpl @Inject constructor(
             client.rateBook(bookId, rate).avgRating
         }
     }
+
+    override suspend fun reviewBook(bookId: String, review: String): NetworkResult<String> {
+        return responseHandler {
+            client.reviewBook(bookId, review)
+        }
+    }
 }
