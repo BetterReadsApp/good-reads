@@ -1,11 +1,11 @@
-package uba.fi.goodreads.presentation.shelves.shelfBooks.navigation
+package uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import uba.fi.goodreads.presentation.shelves.shelfBooks.composables.ShelfBooksRoute
+import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.composables.ShelfBooksRoute
 
 
 const val SHELVES_ROUTE = "my_books"

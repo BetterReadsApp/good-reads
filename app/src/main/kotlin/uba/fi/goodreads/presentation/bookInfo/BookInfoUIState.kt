@@ -6,8 +6,10 @@ data class BookInfoUIState(
     val book: Book = Book(
         author = "",
         description = "",
+        pages = 0,
         genres = emptyList(),
         publicationDate = "",
+        id = 0,
         title = "",
         avgRating = null,
     ),

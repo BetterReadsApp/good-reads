@@ -1,8 +1,9 @@
-package uba.fi.goodreads.presentation.shelves.shelfBooks.composables
+package uba.fi.goodreads.presentation.shelves.shelfBooksScreen.composables
 
+import androidx.compose.foundation.clickable
 import uba.fi.goodreads.domain.model.Book
-import uba.fi.goodreads.presentation.shelves.shelfBooks.ShelfBooksUiState
-import uba.fi.goodreads.presentation.shelves.shelfBooks.ShelfBooksViewModel
+import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.ShelfBooksUiState
+import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.ShelfBooksViewModel
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,9 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,24 +22,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import uba.fi.goodreads.R
-import uba.fi.goodreads.core.design_system.component.feedback.FeedbackScreen
-import uba.fi.goodreads.core.design_system.component.feedback.FeedbackType
-import uba.fi.goodreads.core.design_system.component.loading.Loading
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
-import uba.fi.goodreads.presentation.profile.navigation.ProfileDestination
-import uba.fi.goodreads.presentation.shelves.shelfBooks.ShelfBooksPreviewParameterProvider
-import uba.fi.goodreads.presentation.shelves.shelfBooks.navigation.ShelfBooksDestination
-import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesScreenPreviewParameterProvider
-import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesUiState
+import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.ShelfBooksPreviewParameterProvider
+import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.ShelfBooksDestination
 
 @Composable
 fun ShelfBooksRoute(
@@ -50,13 +42,15 @@ fun ShelfBooksRoute(
     val screenState by viewModel.screenState.collectAsState()
 
     ShelfBooksScreen(
-        screenState = screenState
+        screenState = screenState,
+        onBookClick = viewModel::onBookClick
     )
 }
 
 @Composable
 private fun ShelfBooksScreen(
-    screenState: ShelfBooksUiState
+    screenState: ShelfBooksUiState,
+    onBookClick: (Int) -> Unit
 ) {
 
     val scrollState = rememberScrollState()
@@ -73,7 +67,7 @@ private fun ShelfBooksScreen(
             fontSize = 32.sp
         )
         screenState.books.forEach { book ->
-            BookSummary(book)
+            BookSummary(book, onBookClick = onBookClick)
             Spacer(Modifier.height(16.dp))
         }
         Spacer(Modifier.weight(1f))
@@ -82,8 +76,12 @@ private fun ShelfBooksScreen(
 }
 
 @Composable
-private fun BookSummary(book: Book) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+fun BookSummary(book: Book, onBookClick: (Int) -> Unit ) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onBookClick(book.id) }
+    ) {
         Row {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -121,7 +119,9 @@ fun ShelvesScreenPreview(
     @PreviewParameter(ShelfBooksPreviewParameterProvider::class) state: ShelfBooksUiState
 ) {
     GoodReadsTheme {
-        ShelfBooksScreen(screenState = state
+        ShelfBooksScreen(
+            screenState = state,
+            onBookClick = { }
         )
     }
 }

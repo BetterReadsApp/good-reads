@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.shelves.shelfBooks
+package uba.fi.goodreads.presentation.shelves.shelfBooksScreen
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -45,6 +45,9 @@ class ShelfBooksViewModel @Inject constructor(
         }
     }
 
+    fun onBookClick (bookId: Int){
+        Unit
+    } //TODO
 
 
 }

@@ -18,8 +18,10 @@ data class BookNetworkDto(
         title = title,
         author = author,
         description = summary,
+        pages = pages,
         genres = listOf("Fiction"),
         publicationDate = publicationDate,
+        id = id,
         avgRating = avgRating
     )
 }

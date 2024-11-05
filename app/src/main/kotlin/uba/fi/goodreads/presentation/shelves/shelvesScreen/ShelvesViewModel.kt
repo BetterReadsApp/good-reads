@@ -80,7 +80,7 @@ class ShelvesViewModel @Inject constructor(
         }
     }
 
-    fun onShelfClick(id: Int) {
-            _screenState.update { it.copy(destination = ShelvesDestination.ShelfBooks(id))}
-    }
+    //fun onShelfClick(id: Int) {
+    //        _screenState.update { it.copy(destination = ShelvesDestination.ShelfBooks(id))}
+    //}
 }

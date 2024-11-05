@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,7 +49,8 @@ fun BookInfoRoute(
 
     BookInfoScreen(
         screenState = screenState,
-        onUserRatingChange = viewModel::onUserRatingChange
+        onUserRatingChange = viewModel::onUserRatingChange,
+        onAddShelfClick = viewModel::onAddShelfClick
     )
 }
 
@@ -56,6 +58,7 @@ fun BookInfoRoute(
 fun BookInfoScreen(
     screenState: BookInfoUIState,
     onUserRatingChange: (Int) -> Unit,
+    onAddShelfClick: () -> Unit
 ) {
     //val scrollState = rememberScrollState()
     Column(
@@ -72,6 +75,8 @@ fun BookInfoScreen(
         AvgRatingStars(screenState.book.avgRating ?: 3.5)
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        AddToShelfButton(onAddShelfClick)
         Spacer(modifier = Modifier.height(16.dp))
         RatingBox(
            userRating = screenState.userRating,
@@ -166,6 +171,23 @@ private fun TitleAndAuthor(book: Book) {
     }
 }
 
+@Composable
+fun AddToShelfButton(onClick: () -> Unit) {
+    Box (
+        modifier = Modifier
+            .width(200.dp)
+            .height(50.dp)
+            .background(Color.LightGray)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Add to my Shelves",
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Black
+        )
+    }
+}
 
 @Composable
 @Preview(showBackground = true)
@@ -175,7 +197,8 @@ fun BookInfoScreenPreview(
     GoodReadsTheme {
         BookInfoScreen(
             state,
-            onUserRatingChange = {}
+            onUserRatingChange = {},
+            onAddShelfClick = {}
         )
     }
 }

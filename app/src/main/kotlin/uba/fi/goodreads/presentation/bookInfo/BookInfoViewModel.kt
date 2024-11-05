@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
+import uba.fi.goodreads.presentation.home.navigation.HomeDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,4 +61,8 @@ class BookInfoViewModel @Inject constructor(
             }
         }
     }
+
+    fun onAddShelfClick(){
+       Unit
+    } //TODO
 }
