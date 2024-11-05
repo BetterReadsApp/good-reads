@@ -36,12 +36,15 @@ import uba.fi.goodreads.core.design_system.component.feedback.FeedbackScreen
 import uba.fi.goodreads.core.design_system.component.feedback.FeedbackType
 import uba.fi.goodreads.core.design_system.component.loading.Loading
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
+import uba.fi.goodreads.presentation.profile.navigation.ProfileDestination
 import uba.fi.goodreads.presentation.shelves.shelfBooks.ShelfBooksPreviewParameterProvider
+import uba.fi.goodreads.presentation.shelves.shelfBooks.navigation.ShelfBooksDestination
 import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesUiState
 
 @Composable
 fun ShelfBooksRoute(
+    navigate: (ShelfBooksDestination) -> Unit,
     viewModel: ShelfBooksViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsState()
@@ -66,7 +69,7 @@ private fun ShelfBooksScreen(
     ) {
         Text(
             modifier = Modifier.padding(vertical = 32.dp),
-            text = stringResource(id = R.string.my_books_bottom_nav_title),
+            text = screenState.name,
             fontSize = 32.sp
         )
         screenState.books.forEach { book ->

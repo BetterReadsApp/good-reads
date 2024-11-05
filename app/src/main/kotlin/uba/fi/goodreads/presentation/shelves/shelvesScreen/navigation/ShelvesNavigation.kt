@@ -21,6 +21,6 @@ fun NavGraphBuilder.shelvesScreen() {
             navDeepLink { uriPattern = DEEP_LINK_URI_PATTERN },
         )
     ) {
-        ShelvesRoute()
+        shelvesScreen()
     }
 }

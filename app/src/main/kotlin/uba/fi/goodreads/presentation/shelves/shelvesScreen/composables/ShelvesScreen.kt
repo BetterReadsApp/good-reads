@@ -37,9 +37,11 @@ import uba.fi.goodreads.domain.model.Shelf
 import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesUiState
 import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesViewModel
+import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.ShelvesDestination
 
 @Composable
 fun ShelvesRoute(
+    navigate: (ShelvesDestination) -> Unit,
     viewModel: ShelvesViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsState()
