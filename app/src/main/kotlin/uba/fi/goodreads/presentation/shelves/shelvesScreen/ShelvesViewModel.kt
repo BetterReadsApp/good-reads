@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.CreateShelfUseCase
 import uba.fi.goodreads.domain.usecase.GetShelfUseCase
 import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
-import uba.fi.goodreads.presentation.home.navigation.HomeDestination
+import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.ShelvesDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -80,7 +80,7 @@ class ShelvesViewModel @Inject constructor(
         }
     }
 
-    ///fun onShelfClick(id: Int) {
-    //        _screenState.update { it.copy(destination = shelvesDestination.ShelfBooks(id)) }
-    //    }
+    fun onShelfClick(id: Int) {
+            _screenState.update { it.copy(destination = ShelvesDestination.ShelfBooks(id))}
+    }
 }
