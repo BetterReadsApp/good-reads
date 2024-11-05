@@ -1,5 +1,6 @@
 package uba.fi.goodreads.presentation.shelves.shelfBooks
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,29 +11,35 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.GetShelfBooksUseCase
-import uba.fi.goodreads.presentation.home.navigation.HomeDestination
-import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class ShelfBooksViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val getBookInfoUseCase: GetBookInfoUseCase,
     private val getShelfBooksUseCase: GetShelfBooksUseCase
 ): ViewModel() {
 
     private val _screenState: MutableStateFlow<ShelfBooksUiState> =
-        MutableStateFlow(ShelfBooksUiState.Loading)
+        MutableStateFlow(ShelfBooksUiState())
     val screenState: StateFlow<ShelfBooksUiState> = _screenState.asStateFlow()
+
+    private val shelfId: Int = savedStateHandle["shelfId"] ?: 0
 
     init {
         viewModelScope.launch {
-            _screenState.update {
-                when (val result = getShelfBooksUseCase()) {
+            getShelfBooksUseCase(shelfId).also { result ->
+                when (result) {
                     is GetShelfBooksUseCase.Result.Error,
-                    is GetShelfBooksUseCase.Result.UnexpectedError -> ShelfBooksUiState.Error
-                    is GetShelfBooksUseCase.Result.Success -> ShelfBooksUiState.Success(
-                        result.books
-                    )
+                    is GetShelfBooksUseCase.Result.UnexpectedError -> Unit
+
+                    is GetShelfBooksUseCase.Result.Success -> _screenState.update {
+                        ShelfBooksUiState(
+                            name = result.shelf.name,
+                            id = result.shelf.id,
+                            books = result.shelf.books
+                        )
+                    }
                 }
             }
         }

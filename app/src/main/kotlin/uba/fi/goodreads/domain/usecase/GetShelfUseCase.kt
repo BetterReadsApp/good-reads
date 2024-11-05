@@ -5,9 +5,9 @@ import uba.fi.goodreads.data.shelf.repositories.ShelvesRepository
 import uba.fi.goodreads.domain.model.Shelf
 import javax.inject.Inject
 
-class GetShelfBooksUseCase @Inject constructor (
+class GetShelfUseCase @Inject constructor(
     private val shelvesRepository: ShelvesRepository
-){
+) {
 
     sealed class Result {
         data class Success(val shelf: Shelf) : Result()
@@ -16,12 +16,13 @@ class GetShelfBooksUseCase @Inject constructor (
     }
 
     suspend operator fun invoke(shelfId: Int): Result {
-        return when (val resultWrapper = shelvesRepository.getShelf(shelfId)){
+        return when (val resultWrapper = shelvesRepository.getShelf(
+            shelfId
+        )) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,
             is NetworkResult.NetworkError -> Result.UnexpectedError
             is NetworkResult.Success -> Result.Success(resultWrapper.value)
-
         }
     }
 }

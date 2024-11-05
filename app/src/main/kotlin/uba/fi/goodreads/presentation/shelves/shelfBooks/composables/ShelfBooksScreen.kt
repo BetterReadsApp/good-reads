@@ -52,21 +52,8 @@ fun ShelfBooksRoute(
 }
 
 @Composable
-fun ShelfBooksScreen(
+private fun ShelfBooksScreen(
     screenState: ShelfBooksUiState
-) {
-    when (screenState) {
-        ShelfBooksUiState.Error -> FeedbackScreen(type = FeedbackType.ERROR)
-        ShelfBooksUiState.Loading -> Loading()
-        is ShelfBooksUiState.Success -> SuccessContent(
-            screenState
-        )
-    }
-}
-
-@Composable
-private fun SuccessContent(
-    screenState: ShelfBooksUiState.Success
 ) {
 
     val scrollState = rememberScrollState()

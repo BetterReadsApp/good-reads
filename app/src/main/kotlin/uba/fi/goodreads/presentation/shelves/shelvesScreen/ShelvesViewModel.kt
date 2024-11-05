@@ -9,13 +9,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.CreateShelfUseCase
+import uba.fi.goodreads.domain.usecase.GetShelfUseCase
 import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
+import uba.fi.goodreads.presentation.home.navigation.HomeDestination
 import javax.inject.Inject
 
 @HiltViewModel
 class ShelvesViewModel @Inject constructor(
     private val getShelves: GetShelvesUseCase,
-    private val createShelf: CreateShelfUseCase
+    private val createShelf: CreateShelfUseCase,
+    private val getShelf: GetShelfUseCase
 ): ViewModel() {
 
     private val _screenState: MutableStateFlow<ShelvesUiState> =
@@ -76,4 +79,8 @@ class ShelvesViewModel @Inject constructor(
             }
         }
     }
+
+    ///fun onShelfClick(id: Int) {
+    //        _screenState.update { it.copy(destination = shelvesDestination.ShelfBooks(id)) }
+    //    }
 }

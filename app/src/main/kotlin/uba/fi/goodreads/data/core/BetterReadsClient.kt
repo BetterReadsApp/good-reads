@@ -29,6 +29,9 @@ internal interface BetterReadsClient {
     @GET("/shelves")
     suspend fun getShelves(@Query("user_id") userId: String): List<ShelfNetworkDto>
 
+    @GET("/shelves/{shelfId}")
+    suspend fun getShelf(@Path("shelfId") shelfId: Int): ShelfNetworkDto
+
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
 

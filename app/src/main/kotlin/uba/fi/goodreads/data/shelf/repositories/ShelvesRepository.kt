@@ -8,4 +8,6 @@ interface ShelvesRepository {
     suspend fun createShelf(name: String): NetworkResult<Shelf>
 
     suspend fun getShelves(userId: String): NetworkResult<List<Shelf>>
+
+    suspend fun getShelf(shelfId: Int): NetworkResult<Shelf>
 }

@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.shelves.shelvesScreen
+package uba.fi.goodreads.presentation.shelves.shelfBooks.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -10,11 +10,11 @@ import uba.fi.goodreads.presentation.shelves.shelvesScreen.composables.ShelvesRo
 
 const val SHELVES_ROUTE = "my_books"
 private const val DEEP_LINK_URI_PATTERN =
-    "goodReads://my_books"
+    "goodReads://shelves"
 
 fun NavController.navigateToShelves(navOptions: NavOptions) = navigate(SHELVES_ROUTE, navOptions)
 
-fun NavGraphBuilder.shelvesScreen() {
+fun NavGraphBuilder.shelfBooksScreen() {
     composable(
         route = SHELVES_ROUTE,
         deepLinks = listOf(
