@@ -1,43 +1,30 @@
 package uba.fi.goodreads.presentation.search.composables
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import uba.fi.goodreads.R
+import uba.fi.goodreads.core.design_system.component.book_row.BookRow
+import uba.fi.goodreads.core.design_system.component.user_card.UserCard
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
-import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.presentation.search.SearchScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.search.SearchUiState
 import uba.fi.goodreads.presentation.search.SearchViewModel
@@ -60,7 +47,8 @@ fun SearchRoute(
     SearchScreen(
         screenState = screenState,
         onSearchChange = viewModel::onSearchChange,
-        onBookClicked = viewModel::onBookClick
+        onBookClick = viewModel::onBookClick,
+        onUserClick = viewModel::onUserClick,
     )
 }
 
@@ -68,7 +56,8 @@ fun SearchRoute(
 fun SearchScreen(
     screenState: SearchUiState,
     onSearchChange: (String) -> Unit,
-    onBookClicked: (Int) -> Unit
+    onBookClick: (Int) -> Unit,
+    onUserClick: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -79,10 +68,56 @@ fun SearchScreen(
         TextField(
             value = screenState.search,
             onValueChange = onSearchChange,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             placeholder = { Text("Search") }
         )
 
+        Text(
+            text = "Users",
+            modifier = Modifier.padding(
+                start = 16.dp,
+                bottom = 16.dp,
+            ),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp)
+        ) {
+            items(screenState.users) { user ->
+                UserCard(
+                    pictureUrl = "", // TODO
+                    firstName = user.name,
+                    lastName = user.lastName,
+                    onCardClick = { onUserClick(user.id) }
+                )
+            }
+        }
+
+        Text(
+            text = "Books",
+            modifier = Modifier.padding(
+                top = 16.dp,
+                start = 16.dp,
+                ),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(screenState.books) { book ->
+                BookRow(
+                    book = book,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                HorizontalDivider()
+            }
+        }
     }
 }
 
@@ -94,8 +129,9 @@ fun SearchScreenPreview(
     GoodReadsTheme {
         SearchScreen(
             state,
-            onBookClicked = {},
-            onSearchChange = {}
+            onBookClick = {},
+            onSearchChange = {},
+            onUserClick = {}
         )
     }
 }

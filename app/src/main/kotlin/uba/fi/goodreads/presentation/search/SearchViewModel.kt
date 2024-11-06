@@ -30,6 +30,10 @@ class SearchViewModel @Inject constructor(
         _screenState.update { it.copy(destination = SearchDestination.BookInfo(id)) }
     }
 
+    fun onUserClick(id: Int) {
+        _screenState.update { it.copy(destination = SearchDestination.Profile(id)) }
+    }
+
     fun onSearchChange(text: String) {
         _screenState.update { it.copy(search = text) }
     }

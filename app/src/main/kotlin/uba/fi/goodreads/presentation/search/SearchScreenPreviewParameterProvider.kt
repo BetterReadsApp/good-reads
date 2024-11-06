@@ -3,6 +3,7 @@ package uba.fi.goodreads.presentation.search
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import uba.fi.goodreads.domain.mocks.DomainBookMocks
 import uba.fi.goodreads.domain.mocks.DomainPostMocks
+import uba.fi.goodreads.domain.mocks.DomainUsersMock
 
 class SearchScreenPreviewParameterProvider: PreviewParameterProvider<SearchUiState> {
 
@@ -11,6 +12,8 @@ class SearchScreenPreviewParameterProvider: PreviewParameterProvider<SearchUiSta
     )
 
     private fun getSuccessState() = SearchUiState(
-
+        search = "Busca",
+        books = DomainBookMocks.getBooks(),
+        users = DomainUsersMock.getUsers()
     )
 }
