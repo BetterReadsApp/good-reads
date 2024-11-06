@@ -60,7 +60,7 @@ fun BookInfoRoute(
         screenState = screenState,
         onUserRatingChange = viewModel::onUserRatingChange,
         onAddShelfClick = viewModel::onAddShelfClick,
-        onReviewClick = viewModel::onReviewClick
+        onReviewClick = viewModel::onReviewClick,
     )
 }
 
@@ -69,7 +69,7 @@ fun BookInfoScreen(
     screenState: BookInfoUIState,
     onUserRatingChange: (Int) -> Unit,
     onReviewClick: () -> Unit,
-    onAddShelfClick: () -> Unit
+    onAddShelfClick: () -> Unit,
 ) {
     //val scrollState = rememberScrollState()
     Column(
@@ -83,16 +83,16 @@ fun BookInfoScreen(
         TitleAndAuthor(screenState.book)
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
-        //AvgRatingStars(screenState.book.avgRating ?: 3.5)
+        AvgRatingStars(screenState.book.avgRating ?: 3.5)
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
         AddToShelfButton(onAddShelfClick)
         Spacer(modifier = Modifier.height(16.dp))
-        /*RatingBox(
+        RatingBox(
            userRating = screenState.userRating,
             onUserRatingChange = onUserRatingChange
-        )*/
+        )
         Spacer(modifier = Modifier.height(16.dp))
         WriteReviewButton(onClick = onReviewClick)
     }

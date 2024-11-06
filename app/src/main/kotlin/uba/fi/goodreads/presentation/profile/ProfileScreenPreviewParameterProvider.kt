@@ -11,18 +11,21 @@ class ProfileScreenPreviewParameterProvider: PreviewParameterProvider<ProfileUiS
             lastName = "Duzac",
             followingAmount = 10,
             followersAmount = 5,
+            isOwnProfile = true
         ),
         getState(
             firstName = "Emilia",
             lastName = "Duzac",
             followingAmount = 100,
             followersAmount = 200,
+            followedByMe = true
         ),
         getState(
             firstName = "Marco",
             lastName = "",
             followingAmount = 1000,
             followersAmount = 1000,
+            followedByMe = false
         ),
     )
 
@@ -31,11 +34,15 @@ class ProfileScreenPreviewParameterProvider: PreviewParameterProvider<ProfileUiS
         lastName : String = "",
         followingAmount: Int = 0,
         followersAmount: Int = 0,
+        followedByMe: Boolean = false,
+        isOwnProfile: Boolean = false
     ) = ProfileUiState(
         firstName = firstName,
         lastName = lastName,
         followingAmount = followingAmount,
         followersAmount = followersAmount,
         shelves = DomainShelfMocks.getShelves(),
+        followedByMe = followedByMe,
+        ownProfile = isOwnProfile
     )
 }

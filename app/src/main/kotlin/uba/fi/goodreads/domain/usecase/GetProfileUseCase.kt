@@ -18,9 +18,10 @@ class GetProfileUseCase @Inject constructor(
     }
 
     suspend operator fun invoke(userId: String?): Result {
-        val id = if (userId == null || userId == "null") sessionRepository.getUserId() else userId
+        val ownId = sessionRepository.getUserId()
+        val id = if (userId == null || userId == "null") ownId else userId
         return when (
-            val resultWrapper = usersRepository.getUser(id )
+            val resultWrapper = usersRepository.getUser(id, ownId)
         ) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,

@@ -30,13 +30,15 @@ data class BookNetworkDto(
 
 @Serializable
 data class RatedBookDto(
-    @SerialName("book_id") val id: Int,
+    @SerialName("id") val id: Int,
     @SerialName("value") val rating: Int,
+    @SerialName("title") val title: String,
+    @SerialName("author") val author: String,
 ) {
     fun toDomain() = Book(
         id = id.toString(),
-        title = "Hardcoded",
-        author = "Author hardcoded",
+        title = title,
+        author = author,
         userRated = rating,
         pages = 0
     )

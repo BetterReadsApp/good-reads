@@ -16,6 +16,8 @@ import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.shelfBo
 import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.shelvesScreen
 import uba.fi.goodreads.presentation.search.navigation.searchScreen
 import uba.fi.goodreads.presentation.review.navigation.reviewScreen
+import uba.fi.goodreads.presentation.shelves.add_book.navigation.addBookToShelvesScreen
+import uba.fi.goodreads.presentation.shelves.add_book.navigation.navigateToAddBookToShelves
 
 @Composable
 fun GoodReadsNavHost(
@@ -43,7 +45,8 @@ fun GoodReadsNavHost(
         )
 
         bookInfoScreen(
-            navigateToReview = navController::navigateToReviewScreen
+            navigateToReview = navController::navigateToReviewScreen,
+            navigateToAddBookToShelf = navController::navigateToAddBookToShelves
         )
 
         profileScreen(
@@ -56,6 +59,10 @@ fun GoodReadsNavHost(
         )
 
         reviewScreen(
+            onBack = navController::popBackStack
+        )
+
+        addBookToShelvesScreen(
             onBack = navController::popBackStack
         )
     }

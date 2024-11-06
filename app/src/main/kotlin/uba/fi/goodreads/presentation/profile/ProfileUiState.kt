@@ -12,4 +12,6 @@ data class ProfileUiState(
     val followersAmount: Int = 0,
     val shelves: List<Shelf> = emptyList(),
     val ratedBooks: List<Book> = emptyList(),
+    val followedByMe: Boolean = false,
+    val ownProfile: Boolean = true,
 )

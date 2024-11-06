@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import uba.fi.goodreads.data.shelf.repositories.ShelvesRepository
+import uba.fi.goodreads.data.users.repositories.UsersRepository
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.RateBookUseCase
 import uba.fi.goodreads.presentation.book_info.navigation.BookInfoDestination
@@ -18,7 +20,7 @@ import javax.inject.Inject
 class BookInfoViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getBookInfoUseCase: GetBookInfoUseCase,
-    private val reviewBookUseCase: RateBookUseCase
+    private val reviewBookUseCase: RateBookUseCase,
 ) : ViewModel() {
 
     private val _screenState: MutableStateFlow<BookInfoUIState> =
@@ -71,6 +73,6 @@ class BookInfoViewModel @Inject constructor(
     }
 
     fun onAddShelfClick(){
-       Unit
-    } //TODO
+        _screenState.update { it.copy(destination = BookInfoDestination.AddBookToShelf(bookId)) }
+    }
 }

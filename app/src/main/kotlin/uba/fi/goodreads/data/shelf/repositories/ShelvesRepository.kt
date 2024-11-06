@@ -10,4 +10,6 @@ interface ShelvesRepository {
     suspend fun getShelves(userId: String): NetworkResult<List<Shelf>>
 
     suspend fun getShelf(shelfId: String): NetworkResult<Shelf>
+
+    suspend fun addBook(shelfId: String, bookId: String): NetworkResult<Unit>
 }

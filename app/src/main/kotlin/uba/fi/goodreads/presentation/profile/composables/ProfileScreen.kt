@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -62,6 +63,7 @@ fun ProfileRoute(
 
     ProfileScreen(
         screenState = screenState,
+        onFollowClick = viewModel::onFollowClick,
         onBack = viewModel::onBack
     )
 }
@@ -70,6 +72,7 @@ fun ProfileRoute(
 @Composable
 fun ProfileScreen(
     screenState: ProfileUiState,
+    onFollowClick: () -> Unit,
     onBack: () -> Unit
 ) {
     Column(
@@ -102,12 +105,13 @@ fun ProfileScreen(
         ) {
 
             Header(
-                ownProfile = true,
-                following = false,
+                ownProfile = screenState.ownProfile,
+                following = screenState.followedByMe,
                 pictureUrl = null,
                 name = screenState.firstName + " " + screenState.lastName,
                 followersAmount = screenState.followersAmount.toString(),
                 followingAmount = screenState.followingAmount.toString(),
+                onFollowClick = onFollowClick
             )
 
             Shelves(screenState.shelves)
@@ -126,7 +130,8 @@ private fun ColumnScope.Header(
     pictureUrl: String?,
     name: String,
     followersAmount: String,
-    followingAmount: String
+    followingAmount: String,
+    onFollowClick: () -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
@@ -135,6 +140,19 @@ private fun ColumnScope.Header(
             size = AvatarSize.LARGE,
             url = pictureUrl
         )
+
+        Spacer(Modifier.weight(1f))
+
+        if (!ownProfile) {
+
+            Button(
+                onClick = onFollowClick
+            ) {
+                Text(
+                    text = if (following) "Unfollow" else "Follow"
+                )
+            }
+        }
     }
 
     Spacer(Modifier.height(4.dp))
@@ -149,8 +167,8 @@ private fun ColumnScope.Header(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-            FollowersTextColumn("Followers", followersAmount)
-            FollowersTextColumn("Following", followingAmount)
+        FollowersTextColumn("Followers", followersAmount)
+        FollowersTextColumn("Following", followingAmount)
     }
 
     Spacer(Modifier.height(8.dp))
@@ -170,7 +188,7 @@ private fun FollowersTextColumn(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text (
+        Text(
             style = MaterialTheme.typography.labelLarge,
             text = title
         )
@@ -288,6 +306,7 @@ fun ProfileScreenPreview(
     GoodReadsTheme {
         ProfileScreen(
             screenState = state,
+            onFollowClick = {},
             onBack = {}
         )
     }

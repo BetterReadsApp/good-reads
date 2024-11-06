@@ -1,6 +1,7 @@
 package uba.fi.goodreads.data.core
 
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -12,6 +13,7 @@ import uba.fi.goodreads.data.auth.response.LoginResponse
 import uba.fi.goodreads.data.auth.response.RegisterResponse
 import uba.fi.goodreads.data.books.response.BookNetworkDto
 import uba.fi.goodreads.data.books.response.RatingResponse
+import uba.fi.goodreads.data.shelf.request.AddBookToShelfBody
 import uba.fi.goodreads.data.shelf.response.ShelfNetworkDto
 import uba.fi.goodreads.data.users.response.UserNetworkDto
 
@@ -52,5 +54,12 @@ internal interface BetterReadsClient {
 
     @POST("/users/{userId}/followers")
     suspend fun followUser(@Path("userId") userId: String)
+
+    @DELETE("/users/{userId}/followers")
+    suspend fun unfollowUser(@Path("userId") userId: String)
+
+    @POST("/shelves/{shelfId}/books")
+    suspend fun addBookToShelf(@Path("shelfId") shelfId: String, @Body body: AddBookToShelfBody)
+
 
 }

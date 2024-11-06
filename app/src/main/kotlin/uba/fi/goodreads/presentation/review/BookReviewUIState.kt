@@ -12,6 +12,8 @@ data class BookReviewUIState(
         publicationDate = "",
         title = "",
         avgRating = null,
+        id = "1",
+        pages = 1
     ),
     val reviews: List<String> = emptyList(),
     val userRating: Int = 0,
