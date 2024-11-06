@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.bookInfo.composables
+package uba.fi.goodreads.presentation.book_info.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,9 +35,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import uba.fi.goodreads.R
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
-import uba.fi.goodreads.presentation.bookInfo.BookInfoScreenPreviewParameterProvider
-import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
-import uba.fi.goodreads.presentation.bookInfo.BookInfoViewModel
+import uba.fi.goodreads.presentation.book_info.BookInfoScreenPreviewParameterProvider
+import uba.fi.goodreads.presentation.book_info.BookInfoUIState
+import uba.fi.goodreads.presentation.book_info.BookInfoViewModel
 
 
 @Composable

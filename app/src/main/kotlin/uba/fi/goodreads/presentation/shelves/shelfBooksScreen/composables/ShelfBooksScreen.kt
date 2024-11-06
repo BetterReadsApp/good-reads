@@ -50,7 +50,7 @@ fun ShelfBooksRoute(
 @Composable
 private fun ShelfBooksScreen(
     screenState: ShelfBooksUiState,
-    onBookClick: (Int) -> Unit
+    onBookClick: (String) -> Unit
 ) {
 
     val scrollState = rememberScrollState()
@@ -76,7 +76,7 @@ private fun ShelfBooksScreen(
 }
 
 @Composable
-fun BookSummary(book: Book, onBookClick: (Int) -> Unit ) {
+fun BookSummary(book: Book, onBookClick: (String) -> Unit ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

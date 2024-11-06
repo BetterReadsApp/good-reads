@@ -12,7 +12,6 @@ object DomainBookMocks {
             description = "No matter your goals, Atomic Habits offers a proven framework for improving - every day.",
             genres = listOf("Self help", "Non-fiction"),
             publicationDate = "21/01/2005",
-            id = 1,
             pages = 420
 
         ),
@@ -23,7 +22,6 @@ object DomainBookMocks {
             description = "By applying universal rules of software architecture, you can dramatically improve developer productivity throughout the life of any software system.",
             genres = listOf("Technology", "Non-fiction"),
             publicationDate = "21/01/2005",
-            id = 2,
             pages = 320
         )
     )

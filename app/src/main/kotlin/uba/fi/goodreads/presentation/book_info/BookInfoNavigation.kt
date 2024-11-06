@@ -1,11 +1,11 @@
-package uba.fi.goodreads.presentation.bookInfo
+package uba.fi.goodreads.presentation.book_info
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import uba.fi.goodreads.presentation.bookInfo.composables.BookInfoRoute
+import uba.fi.goodreads.presentation.book_info.composables.BookInfoRoute
 
 
 const val BOOKINFO_ROUTE = "bookinfo/{bookId}"

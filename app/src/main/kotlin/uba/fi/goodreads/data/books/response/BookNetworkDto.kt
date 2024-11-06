@@ -19,7 +19,7 @@ data class BookNetworkDto(
         id = id.toString(),
         title = title,
         author = author,
-        pages = pages,
+        pages = pages ?: 0,
         description = summary ?: "",
         genres = genre?.let { listOf(it) } ?: emptyList(),
         publicationDate = publicationDate ?: "",
@@ -37,6 +37,7 @@ data class RatedBookDto(
         id = id.toString(),
         title = "Hardcoded",
         author = "Author hardcoded",
-        userRated = rating
+        userRated = rating,
+        pages = 0
     )
 }

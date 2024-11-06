@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.bookInfo.composables
+package uba.fi.goodreads.presentation.book_info.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,10 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import uba.fi.goodreads.presentation.bookInfo.BookInfoScreenPreviewParameterProvider
-import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
 
 @Composable
 fun RatingBox(

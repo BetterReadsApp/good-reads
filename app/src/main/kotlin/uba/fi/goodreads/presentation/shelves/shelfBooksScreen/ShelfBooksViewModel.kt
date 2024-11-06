@@ -45,7 +45,7 @@ class ShelfBooksViewModel @Inject constructor(
         }
     }
 
-    fun onBookClick (bookId: Int){
+    fun onBookClick (bookId: String){
         Unit
     } //TODO
 

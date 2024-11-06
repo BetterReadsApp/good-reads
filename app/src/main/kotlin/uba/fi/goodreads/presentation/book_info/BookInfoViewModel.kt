@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.bookInfo
+package uba.fi.goodreads.presentation.book_info
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
-import uba.fi.goodreads.presentation.home.navigation.HomeDestination
 import javax.inject.Inject
 
 @HiltViewModel
