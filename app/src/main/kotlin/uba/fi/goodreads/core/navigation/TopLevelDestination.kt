@@ -19,8 +19,8 @@ enum class TopLevelDestination(
         titleTextId = R.string.my_books_bottom_nav_title,
     ),
     DISCOVER(
-        selectedIcon = R.drawable.ic_notebook_2_line,
-        unselectedIcon = R.drawable.ic_notebook_2_line,
+        selectedIcon = R.drawable.search_fill,
+        unselectedIcon = R.drawable.search_line,
         titleTextId = R.string.search_section_title,
     ),
     PROFILE(

@@ -16,7 +16,6 @@ data class BookInfoUIState(
         avgRating = null,
         userRated = null
     ),
-    val reviews: List<UserReview> = emptyList(),
     val userRating: Int = 0,
     val destination: BookInfoDestination? = null,
 )

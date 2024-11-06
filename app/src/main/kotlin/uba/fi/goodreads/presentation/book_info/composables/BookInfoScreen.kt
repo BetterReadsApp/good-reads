@@ -109,7 +109,7 @@ fun BookInfoScreen(
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
-        UsersReviewList(screenState.reviews)
+        UsersReviewList(screenState.book.reviews)
     }
 }
 
