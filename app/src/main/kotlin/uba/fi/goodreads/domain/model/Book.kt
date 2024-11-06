@@ -8,5 +8,6 @@ data class Book(
     val publicationDate: String,
     val avgRating: Double? = null,
     val your_rating: Int? = null,
-    val your_review: String? = null
+    val your_review: String? = null,
+    val reviews: List<UserReview> = emptyList(),
 )

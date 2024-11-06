@@ -14,7 +14,8 @@ data class BookNetworkDto(
     @SerialName("publication_date") val publicationDate: String,
     @SerialName("average_rating") val avgRating: Double,
     @SerialName("your_rating") val yourRating: Int? = null,
-    @SerialName("your_review") val yourReview: String? = null
+    @SerialName("your_review") val yourReview: String? = null,
+    @SerialName("reviews") val reviews: List<ReviewNetworkDto> = emptyList(),
 ) {
     fun toDomain() = Book(
         title = title,
@@ -24,6 +25,7 @@ data class BookNetworkDto(
         publicationDate = publicationDate,
         avgRating = avgRating,
         your_rating = yourRating,
-        your_review = yourReview
+        your_review = yourReview,
+        reviews = reviews.map { it.toDomain() }
     )
 }

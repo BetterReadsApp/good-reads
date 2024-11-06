@@ -2,7 +2,6 @@ package uba.fi.goodreads.presentation.bookInfo.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -96,6 +93,10 @@ fun BookInfoScreen(
         } else {
             WriteReviewButton(onClick = onReviewClick)
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        UsersReviewList(screenState.reviews)
     }
 }
 
@@ -132,53 +133,6 @@ private fun BookCoverImage() {
             )
         }
 
-    }
-}
-
-@Composable
-fun WriteReviewButton(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .width(200.dp)
-            .height(50.dp)
-            .background(Color.LightGray)
-            .clickable(onClick = onClick ),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Write a review",
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Black
-        )
-    }
-}
-
-@Composable
-fun PreviousReview(prevReview: String, onClick: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable {
-            onClick()
-        }
-
-    ) {
-        Text(
-            text = "Your review:",
-            style = MaterialTheme.typography.titleMedium,
-            color = Color.Black
-        )
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .background(Color.Gray)
-                .padding(16.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = prevReview,
-                color = Color.White
-            )
-        }
     }
 }
 
