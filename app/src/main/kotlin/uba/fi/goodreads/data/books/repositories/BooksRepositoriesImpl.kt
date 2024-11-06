@@ -17,6 +17,12 @@ internal class BooksRepositoriesImpl @Inject constructor(
         }
     }
 
+    override suspend fun getBooks(text: String): NetworkResult<List<Book>> {
+        return responseHandler {
+            client.getBooks(text).map { it.toDomain() }
+        }
+    }
+
     override suspend fun rateBook(bookId: String, rate: Int): NetworkResult<Double> {
         return responseHandler {
             client.rateBook(bookId, rate).avgRating

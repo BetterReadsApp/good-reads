@@ -41,7 +41,7 @@ internal fun navigate(
     navigateToProfile: (String) -> Unit,
 ) {
     when (destination) {
-        is SearchDestination.BookInfo -> navigateToBook(destination.id.toString())
+        is SearchDestination.BookInfo -> navigateToBook(destination.id)
         is SearchDestination.Profile -> navigateToProfile(destination.id.toString())
     }
 }

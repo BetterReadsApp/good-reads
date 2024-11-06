@@ -16,4 +16,10 @@ internal class UsersRepositoryImpl @Inject constructor(
             client.getUser(userId = id).toDomain()
         }
     }
+
+    override suspend fun searchUsers(text: String): NetworkResult<List<User>> {
+        return responseHandler {
+            client.searchUsers(text = text).map { it.toDomain() }
+        }
+    }
 }

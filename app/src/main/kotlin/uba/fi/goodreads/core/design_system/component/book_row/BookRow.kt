@@ -1,5 +1,6 @@
 package uba.fi.goodreads.core.design_system.component.book_row
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,10 +29,13 @@ import uba.fi.goodreads.domain.model.Book
 @Composable
 fun BookRow(
     book: Book,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     Row(
-        modifier = modifier.padding(16.dp)
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(16.dp)
     ) {
         AsyncImage(
             modifier = Modifier
@@ -73,6 +77,7 @@ private fun BookRowPreview() {
     GoodReadsTheme {
         BookRow(
             modifier = Modifier.fillMaxWidth(),
+            onClick = {},
             book = DomainBookMocks.getBooks().first()
         )
     }

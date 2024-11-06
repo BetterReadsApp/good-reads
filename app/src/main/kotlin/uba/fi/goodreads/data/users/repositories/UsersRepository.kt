@@ -5,4 +5,6 @@ import uba.fi.goodreads.domain.model.User
 
 interface UsersRepository {
     suspend fun getUser(id: String): NetworkResult<User>
+
+    suspend fun searchUsers(text: String): NetworkResult<List<User>>
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -56,7 +57,7 @@ fun SearchRoute(
 fun SearchScreen(
     screenState: SearchUiState,
     onSearchChange: (String) -> Unit,
-    onBookClick: (Int) -> Unit,
+    onBookClick: (String) -> Unit,
     onUserClick: (Int) -> Unit,
 ) {
     Column(
@@ -95,6 +96,7 @@ fun SearchScreen(
                     lastName = user.lastName,
                     onCardClick = { onUserClick(user.id) }
                 )
+                Spacer(Modifier.width(16.dp))
             }
         }
 
@@ -113,7 +115,8 @@ fun SearchScreen(
             items(screenState.books) { book ->
                 BookRow(
                     book = book,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { onBookClick(book.id) }
                 )
                 HorizontalDivider()
             }

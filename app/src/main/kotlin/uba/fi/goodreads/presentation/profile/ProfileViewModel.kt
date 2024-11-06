@@ -20,7 +20,7 @@ class ProfileViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private val userId: String = savedStateHandle["userId"] ?: ""
+    private val userId: String? = savedStateHandle["userId"]
 
     private val _screenState: MutableStateFlow<ProfileUiState> =
         MutableStateFlow(ProfileUiState())
