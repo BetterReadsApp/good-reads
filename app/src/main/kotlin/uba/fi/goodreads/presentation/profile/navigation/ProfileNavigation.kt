@@ -7,11 +7,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import uba.fi.goodreads.presentation.profile.composables.ProfileRoute
 
-const val PROFILE_ROUTE = "profile"
+const val PROFILE_ROUTE = "profile/{userId}"
 private const val DEEP_LINK_URI_PATTERN =
     "goodReads://profile"
 
-fun NavController.navigateToProfile(navOptions: NavOptions? = null) = navigate(PROFILE_ROUTE, navOptions)
+fun NavController.navigateToProfile(userId: String? = null, navOptions: NavOptions? = null) = navigate(
+    "profile/$userId", navOptions
+)
 
 fun NavGraphBuilder.profileScreen(
     onBack: () -> Unit
@@ -21,7 +23,8 @@ fun NavGraphBuilder.profileScreen(
         deepLinks = listOf(
             navDeepLink { uriPattern = DEEP_LINK_URI_PATTERN },
         )
-    ) {
+    ) { navBackResult ->
+        val userId = navBackResult.arguments?.getString("userId") ?: ""
         ProfileRoute(
             navigate = { destination ->
                 navigate(

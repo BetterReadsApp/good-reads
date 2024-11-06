@@ -3,7 +3,7 @@ package uba.fi.goodreads.domain.model
 data class User (
     val name: String,
     val lastName: String,
-    val email: String,
+    val email: String? = null,
     val id: Int,
     val shelves: List<Shelf>,
     val ratedBooks: List<Book>,

@@ -20,7 +20,8 @@ import uba.fi.goodreads.core.navigation.TopLevelDestination.MY_BOOKS
 import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
 import uba.fi.goodreads.presentation.home.navigation.navigateToHome
 import uba.fi.goodreads.presentation.profile.navigation.navigateToProfile
-import uba.fi.goodreads.presentation.shelves.navigateToShelves
+import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.navigateToShelves
+import uba.fi.goodreads.presentation.search.navigation.navigateToSearch
 
 @Composable
 fun rememberGoodReadsAppState(
@@ -92,10 +93,14 @@ class GoodReadsAppState(
             }
 
             when (topLevelDestination) {
-                HOME -> navController.navigateToHome(topLevelNavOptions)
+                HOME -> navController.navigateToHome(
+                    topLevelNavOptions
+                )
                 MY_BOOKS -> navController.navigateToShelves(topLevelNavOptions)
-                DISCOVER -> navController.navigateToHome(topLevelNavOptions) //TODO
-                PROFILE -> navController.navigateToProfile(topLevelNavOptions) //TODO
+                DISCOVER -> navController.navigateToSearch(
+                    topLevelNavOptions
+                )
+                PROFILE -> navController.navigateToProfile(navOptions = topLevelNavOptions)
             }
         }
     }

@@ -14,7 +14,7 @@ class TokenInterceptor @Inject constructor(
         val responseBuilder = chain.request().newBuilder()
 
         runBlocking {
-            responseBuilder.addHeader(HEADER_AUTHORIZATION, sessionRepository.getAccessToken())
+            responseBuilder.addHeader(HEADER_AUTHORIZATION, sessionRepository.getUserId())
         }
 
         return chain.proceed(responseBuilder.build())

@@ -21,7 +21,7 @@ enum class TopLevelDestination(
     DISCOVER(
         selectedIcon = R.drawable.ic_notebook_2_line,
         unselectedIcon = R.drawable.ic_notebook_2_line,
-        titleTextId = R.string.discover_bottom_nav_title,
+        titleTextId = R.string.search_section_title,
     ),
     PROFILE(
         selectedIcon = R.drawable.ic_avatar_fill,

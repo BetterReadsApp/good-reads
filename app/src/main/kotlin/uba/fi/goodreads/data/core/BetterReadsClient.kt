@@ -29,8 +29,14 @@ internal interface BetterReadsClient {
     @GET("/shelves")
     suspend fun getShelves(@Query("user_id") userId: String): List<ShelfNetworkDto>
 
+    @GET("/shelves/{shelfId}")
+    suspend fun getShelf(@Path("shelfId") shelfId: Int): ShelfNetworkDto
+
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
+
+    @GET("/books")
+    suspend fun getBooks(@Query("keywords") text: String): List<BookNetworkDto>
 
     @POST("books/{book_id}/ratings")
     suspend fun rateBook(@Path("book_id") bookId: String, @Query("value") value: Int): RatingResponse //aca no falta el user id?
@@ -40,6 +46,9 @@ internal interface BetterReadsClient {
 
     @GET("/users/{userId}")
     suspend fun getUser(@Path("userId") userId: String): UserNetworkDto
+
+    @GET("/users")
+    suspend fun searchUsers(@Query("name") text: String): List<UserNetworkDto>
 
     @POST("/users/{userId}/followers")
     suspend fun followUser(@Path("userId") userId: String)
