@@ -41,7 +41,8 @@ fun ReviewRoute(
     }
 
     ReviewScreen(
-        onBack = viewModel::onBack
+        onBack = viewModel::onBack,
+        onReviewChange = viewModel::onReviewChange
     )
 }
 
@@ -49,21 +50,35 @@ fun ReviewRoute(
 @Composable
 fun ReviewScreen(
     onBack: () -> Unit,
+    onReviewChange: (String) -> Unit,
 ) {
+    var text by remember { mutableStateOf("") }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
         modifier = Modifier.fillMaxSize()
     ) {
-        TopBar(onBack = onBack)
-        ReviewTextField()
+        TopBar(
+            onBack = onBack,
+            onSave = {
+                onReviewChange(text)
+                onBack()
+            }
+        )
+        ReviewTextField(
+            text = text,
+            onTextChange = { text = it }
+        )
     }
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(onBack: () -> Unit) {
+fun TopBar(
+    onBack: () -> Unit,
+    onSave: () -> Unit
+) {
     TopAppBar(
         title = { Text("Write a review") },
         navigationIcon = {
@@ -78,7 +93,7 @@ fun TopBar(onBack: () -> Unit) {
         },
         actions = {
             IconButton(
-                onClick = {}
+                onClick = {onSave()}
             ) {
                 Icon(
                     imageVector = Icons.Default.Check,
@@ -90,11 +105,13 @@ fun TopBar(onBack: () -> Unit) {
 }
 
 @Composable
-fun ReviewTextField() {
-    var text by remember { mutableStateOf("") }
+fun ReviewTextField(
+    text: String,
+    onTextChange: (String) -> Unit
+) {
     TextField(
         value = text,
-        onValueChange = { newText -> text = newText },
+        onValueChange = { onTextChange(it) },
         label = { Text("Write a review") },
         modifier = Modifier.fillMaxSize()
     )
@@ -106,8 +123,8 @@ fun ReviewTextField() {
 
 
 
-@Composable
-@Preview(showBackground = true)
-fun ReviewsScreenPreview() {
-    ReviewScreen({})
-}
+//@Composable
+//@Preview(showBackground = true)
+//fun ReviewsScreenPreview() {
+//    ReviewScreen({})
+//}

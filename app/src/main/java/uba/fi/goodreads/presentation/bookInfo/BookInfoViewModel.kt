@@ -12,14 +12,13 @@ import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.RateBookUseCase
 import uba.fi.goodreads.presentation.bookInfo.navigation.BookInfoDestination
-import uba.fi.goodreads.presentation.home.navigation.HomeDestination
 import javax.inject.Inject
 
 @HiltViewModel
 class BookInfoViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getBookInfoUseCase: GetBookInfoUseCase,
-    private val reviewBookUseCase: RateBookUseCase
+    private val rateBookUseCase: RateBookUseCase
 ) : ViewModel() {
 
     private val _screenState: MutableStateFlow<BookInfoUIState> =
@@ -47,7 +46,7 @@ class BookInfoViewModel @Inject constructor(
 
     fun onUserRatingChange(rating: Int) {
         viewModelScope.launch {
-            reviewBookUseCase(bookId, rating).also { result ->
+            rateBookUseCase(bookId, rating).also { result ->
                 when (result) {
                     is RateBookUseCase.Result.Error,
                     is RateBookUseCase.Result.UnexpectedError -> Unit
