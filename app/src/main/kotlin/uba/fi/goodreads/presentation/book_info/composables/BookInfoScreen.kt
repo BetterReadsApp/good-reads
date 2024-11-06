@@ -2,7 +2,6 @@ package uba.fi.goodreads.presentation.book_info.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -90,11 +88,19 @@ fun BookInfoScreen(
         AddToShelfButton(onAddShelfClick)
         Spacer(modifier = Modifier.height(16.dp))
         RatingBox(
-           userRating = screenState.userRating,
+           userRating = screenState.book.your_rating?: 0,
             onUserRatingChange = onUserRatingChange
         )
         Spacer(modifier = Modifier.height(16.dp))
-        WriteReviewButton(onClick = onReviewClick)
+        if (screenState.book.your_review != null) {
+            PreviousReview(prevReview = screenState.book.your_review, onClick = onReviewClick)
+        } else {
+            WriteReviewButton(onClick = onReviewClick)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        UsersReviewList(screenState.reviews)
     }
 }
 
@@ -131,24 +137,6 @@ private fun BookCoverImage() {
             )
         }
 
-    }
-}
-
-@Composable
-fun WriteReviewButton(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .width(200.dp)
-            .height(50.dp)
-            .background(Color.LightGray)
-            .clickable(onClick = onClick ),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Write a review",
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Black
-        )
     }
 }
 
@@ -205,6 +193,7 @@ fun AddToShelfButton(onClick: () -> Unit) {
 fun BookInfoScreenPreview(
     @PreviewParameter(BookInfoScreenPreviewParameterProvider::class) state: BookInfoUIState
 ) {
+    val state = state.copy(book = state.book.copy(your_review = "Me gusto mucho este libro"))
     GoodReadsTheme {
         BookInfoScreen(
             state,

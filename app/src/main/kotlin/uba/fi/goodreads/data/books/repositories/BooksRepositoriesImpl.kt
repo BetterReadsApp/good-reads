@@ -23,15 +23,15 @@ internal class BooksRepositoriesImpl @Inject constructor(
         }
     }
 
-    override suspend fun rateBook(bookId: String, rate: Int): NetworkResult<Double> {
+    override suspend fun rateBook(bookId: String, userId: String, rate: Int): NetworkResult<Double> {
         return responseHandler {
-            client.rateBook(bookId, rate).avgRating
+            client.rateBook(bookId, userId, RateBody(value = rate)).avgRating
         }
     }
 
-    override suspend fun reviewBook(bookId: String, review: String): NetworkResult<String> {
+    override suspend fun reviewBook(bookId: String, user_id: String, review: String): NetworkResult<String> {
         return responseHandler {
-            client.reviewBook(bookId, review)
+            client.reviewBook(bookId, user_id, ReviewBody(review = review)).your_new_description
         }
     }
 }

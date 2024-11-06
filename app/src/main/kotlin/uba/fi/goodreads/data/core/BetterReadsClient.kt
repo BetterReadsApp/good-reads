@@ -3,17 +3,21 @@ package uba.fi.goodreads.data.core
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import uba.fi.goodreads.data.shelf.request.CreateShelfBody
 import uba.fi.goodreads.data.auth.request.LoginBody
+import uba.fi.goodreads.data.books.repositories.RateBody
 import uba.fi.goodreads.data.auth.request.RegisterBody
+import uba.fi.goodreads.data.books.repositories.ReviewBody
 import uba.fi.goodreads.data.auth.response.LoginResponse
 import uba.fi.goodreads.data.auth.response.RegisterResponse
 import uba.fi.goodreads.data.books.response.BookNetworkDto
 import uba.fi.goodreads.data.books.response.RatingResponse
 import uba.fi.goodreads.data.shelf.request.AddBookToShelfBody
+import uba.fi.goodreads.data.books.response.ReviewResponse
 import uba.fi.goodreads.data.shelf.response.ShelfNetworkDto
 import uba.fi.goodreads.data.users.response.UserNetworkDto
 
@@ -37,14 +41,14 @@ internal interface BetterReadsClient {
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
 
+    @POST("/books/{book_id}/ratings")
+    suspend fun rateBook(@Path("book_id") book_id: String, @Header("auth") auth: String, @Body body: RateBody): RatingResponse //aca no falta el user id?
+
     @GET("/books")
     suspend fun getBooks(@Query("keywords") text: String): List<BookNetworkDto>
 
-    @POST("books/{book_id}/ratings")
-    suspend fun rateBook(@Path("book_id") bookId: String, @Query("value") value: Int): RatingResponse //aca no falta el user id?
-
     @POST("/books/{book_id}/reviews")
-    suspend fun reviewBook(@Path("book_id") bookId: String, @Query("review") review: String): String //aca no falta el user id?
+    suspend fun reviewBook(@Path("book_id") book_id: String, @Header("auth") auth: String, @Body body: ReviewBody): ReviewResponse //aca no falta el user id?
 
     @GET("/users/{userId}")
     suspend fun getUser(@Path("userId") userId: String): UserNetworkDto

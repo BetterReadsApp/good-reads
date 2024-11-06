@@ -20,7 +20,7 @@ import javax.inject.Inject
 class BookInfoViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getBookInfoUseCase: GetBookInfoUseCase,
-    private val reviewBookUseCase: RateBookUseCase,
+    private val rateBookUseCase: RateBookUseCase
 ) : ViewModel() {
 
     private val _screenState: MutableStateFlow<BookInfoUIState> =
@@ -48,7 +48,7 @@ class BookInfoViewModel @Inject constructor(
 
     fun onUserRatingChange(rating: Int) {
         viewModelScope.launch {
-            reviewBookUseCase(bookId, rating).also { result ->
+            rateBookUseCase(bookId, rating).also { result ->
                 when (result) {
                     is RateBookUseCase.Result.Error,
                     is RateBookUseCase.Result.UnexpectedError -> Unit
@@ -56,7 +56,7 @@ class BookInfoViewModel @Inject constructor(
                     is RateBookUseCase.Result.Success -> _screenState.update { state ->
                         state.copy(
                             userRating = rating,
-                            book = state.book.copy(avgRating = result.avgRating)
+                            book = state.book.copy(avgRating = result.avgRating, your_rating = rating)
                         )
                     }
                 }
