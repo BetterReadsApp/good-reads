@@ -17,8 +17,10 @@ data class UserNetworkDto(
     @SerialName("rated_books") val ratedBooks: List<RatedBookDto>? = null,
     @SerialName("following") val following: List<UserNetworkDto>? = null,
     @SerialName("followers") val followers: List<UserNetworkDto>? = null,
+    @SerialName("is_following") val isFollowing: Boolean? = null,
 ) {
-    fun toDomain() = User(
+    fun toDomain(ownId: String? = null) = User(
+        isMyUser = ownId == id.toString(),
         name = name,
         lastName = lastName,
         email = email,
@@ -27,5 +29,6 @@ data class UserNetworkDto(
         ratedBooks = ratedBooks?.map { it.toDomain() } ?: emptyList(),
         following = following?.size ?: 0,
         followers = followers?.size ?: 0,
+        followedByMe = isFollowing ?: false
     )
 }

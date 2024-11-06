@@ -1,6 +1,8 @@
 package uba.fi.goodreads.presentation.book_info
 
 import uba.fi.goodreads.domain.model.Book
+import uba.fi.goodreads.presentation.book_info.navigation.BookInfoDestination
+import uba.fi.goodreads.domain.model.UserReview
 
 data class BookInfoUIState(
     val book: Book = Book(
@@ -14,6 +16,7 @@ data class BookInfoUIState(
         avgRating = null,
         userRated = null
     ),
-    val reviews: List<String> = emptyList(),
-    val userRating: Int = 0
+    val reviews: List<UserReview> = emptyList(),
+    val userRating: Int = 0,
+    val destination: BookInfoDestination? = null,
 )

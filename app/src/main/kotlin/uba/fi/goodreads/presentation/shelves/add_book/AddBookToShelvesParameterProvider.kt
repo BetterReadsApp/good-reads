@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.shelves.addBookScreen
+package uba.fi.goodreads.presentation.shelves.add_book
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import uba.fi.goodreads.domain.mocks.BookMock

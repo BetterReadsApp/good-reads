@@ -18,6 +18,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -35,21 +36,34 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import uba.fi.goodreads.R
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
+import uba.fi.goodreads.presentation.bookInfo.composables.PreviousReview
+import uba.fi.goodreads.presentation.bookInfo.composables.UsersReviewList
+import uba.fi.goodreads.presentation.bookInfo.composables.WriteReviewButton
 import uba.fi.goodreads.presentation.book_info.BookInfoScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.book_info.BookInfoUIState
 import uba.fi.goodreads.presentation.book_info.BookInfoViewModel
+import uba.fi.goodreads.presentation.book_info.navigation.BookInfoDestination
 
 
 @Composable
 fun BookInfoRoute(
+    navigate: (BookInfoDestination) -> Unit,
     viewModel: BookInfoViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
+    LaunchedEffect(screenState.destination) {
+        screenState.destination?.let { destination ->
+            navigate(destination)
+            viewModel.onClearDestination()
+        }
+    }
+
     BookInfoScreen(
         screenState = screenState,
         onUserRatingChange = viewModel::onUserRatingChange,
-        onAddShelfClick = viewModel::onAddShelfClick
+        onAddShelfClick = viewModel::onAddShelfClick,
+        onReviewClick = viewModel::onReviewClick,
     )
 }
 
@@ -57,7 +71,8 @@ fun BookInfoRoute(
 fun BookInfoScreen(
     screenState: BookInfoUIState,
     onUserRatingChange: (Int) -> Unit,
-    onAddShelfClick: () -> Unit
+    onReviewClick: () -> Unit,
+    onAddShelfClick: () -> Unit,
 ) {
     //val scrollState = rememberScrollState()
     Column(
@@ -78,11 +93,19 @@ fun BookInfoScreen(
         AddToShelfButton(onAddShelfClick)
         Spacer(modifier = Modifier.height(16.dp))
         RatingBox(
-           userRating = screenState.userRating,
+           userRating = screenState.book.your_rating?: 0,
             onUserRatingChange = onUserRatingChange
         )
         Spacer(modifier = Modifier.height(16.dp))
-        WriteReviewButton(onClick = {})
+        if (screenState.book.your_review != null) {
+            PreviousReview(prevReview = screenState.book.your_review, onClick = onReviewClick)
+        } else {
+            WriteReviewButton(onClick = onReviewClick)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        UsersReviewList(screenState.reviews)
     }
 }
 
@@ -119,24 +142,6 @@ private fun BookCoverImage() {
             )
         }
 
-    }
-}
-
-@Composable
-fun WriteReviewButton(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .width(200.dp)
-            .height(50.dp)
-            .background(Color.LightGray)
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Write a review",
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Black
-        )
     }
 }
 
@@ -193,9 +198,11 @@ fun AddToShelfButton(onClick: () -> Unit) {
 fun BookInfoScreenPreview(
     @PreviewParameter(BookInfoScreenPreviewParameterProvider::class) state: BookInfoUIState
 ) {
+    val state = state.copy(book = state.book.copy(your_review = "Me gusto mucho este libro"))
     GoodReadsTheme {
         BookInfoScreen(
             state,
+            onReviewClick = {},
             onUserRatingChange = {},
             onAddShelfClick = {}
         )

@@ -5,19 +5,20 @@ import uba.fi.goodreads.data.auth.repositories.SessionRepository
 import uba.fi.goodreads.data.books.repositories.BooksRepository
 import javax.inject.Inject
 
-class ReviewBookUseCase @Inject constructor(
+class RateBookUseCase @Inject constructor(
     private val booksRepository: BooksRepository,
     private val sessionRepository: SessionRepository
+
 ) {
     sealed class Result {
-        data class Success(val newReview: String) : Result()
+        data class Success(val avgRating: Double) : Result()
         data class Error(val title: String? = null, val description: String? = null) : Result()
         data object UnexpectedError : Result()
     }
 
-    suspend operator fun invoke(bookId: String, review: String): Result {
-        return when(val result = booksRepository.reviewBook(
-            bookId, sessionRepository.getUserId(), review
+    suspend operator fun invoke(bookId: String, rating: Int): Result {
+        return when(val result = booksRepository.rateBook(
+            bookId, sessionRepository.getUserId(), rating
         )) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,

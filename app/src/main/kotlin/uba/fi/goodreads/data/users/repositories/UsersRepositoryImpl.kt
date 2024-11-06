@@ -11,15 +11,27 @@ internal class UsersRepositoryImpl @Inject constructor(
     private val responseHandler: ResponseHandler,
 ): UsersRepository {
 
-    override suspend fun getUser(id: String): NetworkResult<User> {
+    override suspend fun getUser(id: String, ownId: String): NetworkResult<User> {
         return responseHandler {
-            client.getUser(userId = id).toDomain()
+            client.getUser(userId = id).toDomain(ownId)
         }
     }
 
     override suspend fun searchUsers(text: String): NetworkResult<List<User>> {
         return responseHandler {
             client.searchUsers(text = text).map { it.toDomain() }
+        }
+    }
+
+    override suspend fun followUser(id: String): NetworkResult<Unit> {
+        return responseHandler {
+            client.followUser(id)
+        }
+    }
+
+    override suspend fun unfollowUser(id: String): NetworkResult<Unit> {
+        return responseHandler {
+            client.unfollowUser(id)
         }
     }
 }

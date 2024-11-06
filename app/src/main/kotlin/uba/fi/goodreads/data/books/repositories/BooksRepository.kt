@@ -9,6 +9,7 @@ interface BooksRepository {
 
     suspend fun getBooks(text: String): NetworkResult<List<Book>>
 
-    suspend fun rateBook(bookId: String, rate: Int): NetworkResult<Double>
+    suspend fun rateBook(bookId: String, userId: String, rate: Int): NetworkResult<Double>
 
+    suspend fun reviewBook(bookId: String, userId: String ,review: String): NetworkResult<String>
 }

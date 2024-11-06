@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
 @Composable
 fun RatingBox(
     userRating: Int,
@@ -30,14 +29,13 @@ fun RatingBox(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(text = "My rate", style = MaterialTheme.typography.labelMedium)
+        Text(text = "Your rate", style = MaterialTheme.typography.titleMedium)
         RatingStars(
             rating = userRating,
             onRatingChange = onUserRatingChange
         )
     }
 }
-
 @Composable
 fun RatingStars(
     rating: Int,
@@ -58,7 +56,6 @@ fun RatingStars(
         }
     }
 }
-
 @Composable
 private fun OurRatingBar(rating: Float) {
     Column (
@@ -72,7 +69,6 @@ private fun OurRatingBar(rating: Float) {
         Text(text = "70.677 calificaciones - 4.597 reseñas")
     }
 }
-
 @Composable
 fun AvgRatingStars(
     rating: Double
@@ -114,9 +110,6 @@ fun AvgRatingStars(
     }
     Text(text = "70.677 calificaciones - 4.597 reseñas")
 }
-
-
-
 @Preview(showBackground = true)
 @Composable
 fun RatingStarsPreview() {
@@ -125,8 +118,6 @@ fun RatingStarsPreview() {
         onRatingChange = {}
     )
 }
-
-
 @Preview(showBackground = true)
 @Composable
 fun RatingStarsPreview2() {

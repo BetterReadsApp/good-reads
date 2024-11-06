@@ -14,6 +14,9 @@ data class BookNetworkDto(
     @SerialName("genre") val genre: String? = null,
     @SerialName("publication_date") val publicationDate: String? = null,
     @SerialName("average_rating") val avgRating: Double? = null,
+    @SerialName("your_rating") val yourRating: Int? = null,
+    @SerialName("your_review") val yourReview: String? = null,
+    @SerialName("reviews") val reviews: List<ReviewNetworkDto> = emptyList(),
 ) {
     fun toDomain() = Book(
         id = id.toString(),
@@ -24,19 +27,24 @@ data class BookNetworkDto(
         genres = genre?.let { listOf(it) } ?: emptyList(),
         publicationDate = publicationDate ?: "",
         avgRating = avgRating,
-        userRated = null
+        userRated = null,
+        your_rating = yourRating,
+        your_review = yourReview,
+        reviews = reviews.map { it.toDomain() }
     )
 }
 
 @Serializable
 data class RatedBookDto(
-    @SerialName("book_id") val id: Int,
+    @SerialName("id") val id: Int,
     @SerialName("value") val rating: Int,
+    @SerialName("title") val title: String,
+    @SerialName("author") val author: String,
 ) {
     fun toDomain() = Book(
         id = id.toString(),
-        title = "Hardcoded",
-        author = "Author hardcoded",
+        title = title,
+        author = author,
         userRated = rating,
         pages = 0
     )

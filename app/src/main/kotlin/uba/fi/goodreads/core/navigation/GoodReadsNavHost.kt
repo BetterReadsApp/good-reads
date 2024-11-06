@@ -4,8 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import uba.fi.goodreads.core.ui.GoodReadsAppState
-import uba.fi.goodreads.presentation.book_info.bookInfoScreen
-import uba.fi.goodreads.presentation.book_info.navigateToBookInfo
+import uba.fi.goodreads.presentation.book_info.navigation.bookInfoScreen
+import uba.fi.goodreads.presentation.book_info.navigation.navigateToBookInfo
+import uba.fi.goodreads.presentation.review.navigation.navigateToReviewScreen
 import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
 import uba.fi.goodreads.presentation.home.navigation.homeScreen
 import uba.fi.goodreads.presentation.profile.navigation.navigateToProfile
@@ -14,6 +15,9 @@ import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.navigat
 import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.shelfBooksScreen
 import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.shelvesScreen
 import uba.fi.goodreads.presentation.search.navigation.searchScreen
+import uba.fi.goodreads.presentation.review.navigation.reviewScreen
+import uba.fi.goodreads.presentation.shelves.add_book.navigation.addBookToShelvesScreen
+import uba.fi.goodreads.presentation.shelves.add_book.navigation.navigateToAddBookToShelves
 
 @Composable
 fun GoodReadsNavHost(
@@ -40,7 +44,10 @@ fun GoodReadsNavHost(
             onBookInfo = navController::navigateToBookInfo
         )
 
-        bookInfoScreen()
+        bookInfoScreen(
+            navigateToReview = navController::navigateToReviewScreen,
+            navigateToAddBookToShelf = navController::navigateToAddBookToShelves
+        )
 
         profileScreen(
             onBack = navController::popBackStack
@@ -49,6 +56,14 @@ fun GoodReadsNavHost(
         searchScreen(
             navigateToBook = navController::navigateToBookInfo,
             navigateToProfile = navController::navigateToProfile
+        )
+
+        reviewScreen(
+            onBack = navController::popBackStack
+        )
+
+        addBookToShelvesScreen(
+            onBack = navController::popBackStack
         )
     }
 }
