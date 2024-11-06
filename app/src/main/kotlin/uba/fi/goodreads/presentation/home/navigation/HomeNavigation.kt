@@ -6,6 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import uba.fi.goodreads.presentation.home.composables.HomeRoute
+import uba.fi.goodreads.presentation.search.navigation.SearchDestination
 
 const val HOME_ROUTE = "home"
 private const val DEEP_LINK_URI_PATTERN =
