@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -86,11 +87,15 @@ fun BookInfoScreen(
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
         RatingBox(
-           userRating = screenState.userRating,
+           userRating = screenState.book.your_rating?: 0,
             onUserRatingChange = onUserRatingChange
         )
         Spacer(modifier = Modifier.height(16.dp))
-        WriteReviewButton(onClick = onReviewClick)
+        if (screenState.book.your_review != null) {
+            PreviousReview(prevReview = screenState.book.your_review, onClick = onReviewClick)
+        } else {
+            WriteReviewButton(onClick = onReviewClick)
+        }
     }
 }
 
@@ -149,6 +154,35 @@ fun WriteReviewButton(onClick: () -> Unit) {
 }
 
 @Composable
+fun PreviousReview(prevReview: String, onClick: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable {
+            onClick()
+        }
+
+    ) {
+        Text(
+            text = "Your review:",
+            style = MaterialTheme.typography.titleMedium,
+            color = Color.Black
+        )
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .background(Color.Gray)
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = prevReview,
+                color = Color.White
+            )
+        }
+    }
+}
+
+@Composable
 private fun TitleAndAuthor(book: Book) {
     val title = book.title
     val author = book.author
@@ -184,6 +218,7 @@ private fun TitleAndAuthor(book: Book) {
 fun BookInfoScreenPreview(
     @PreviewParameter(BookInfoScreenPreviewParameterProvider::class) state: BookInfoUIState
 ) {
+    val state = state.copy(book = state.book.copy(your_review = "Me gusto mucho este libro"))
     GoodReadsTheme {
         BookInfoScreen(
             state,

@@ -54,7 +54,7 @@ class BookInfoViewModel @Inject constructor(
                     is RateBookUseCase.Result.Success -> _screenState.update { state ->
                         state.copy(
                             userRating = rating,
-                            book = state.book.copy(avgRating = result.avgRating)
+                            book = state.book.copy(avgRating = result.avgRating, your_rating = rating)
                         )
                     }
                 }

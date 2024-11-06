@@ -1,5 +1,6 @@
 package uba.fi.goodreads.presentation.review.composables
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import uba.fi.goodreads.presentation.review.ReviewViewModel
 import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
@@ -41,6 +41,7 @@ fun ReviewRoute(
     }
 
     ReviewScreen(
+        previousReview = screenState.book.your_review ?: "",
         onBack = viewModel::onBack,
         onReviewChange = viewModel::onReviewChange
     )
@@ -49,10 +50,11 @@ fun ReviewRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReviewScreen(
+    previousReview: String,
     onBack: () -> Unit,
     onReviewChange: (String) -> Unit,
 ) {
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(previousReview) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,

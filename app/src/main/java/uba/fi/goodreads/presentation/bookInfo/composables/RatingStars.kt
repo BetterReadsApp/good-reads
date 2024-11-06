@@ -33,7 +33,7 @@ fun RatingBox(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(text = "My rate", style = MaterialTheme.typography.labelMedium)
+        Text(text = "Your rate", style = MaterialTheme.typography.titleMedium)
         RatingStars(
             rating = userRating,
             onRatingChange = onUserRatingChange

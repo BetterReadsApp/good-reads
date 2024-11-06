@@ -9,13 +9,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
+import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
 import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
 import javax.inject.Inject
 
 @HiltViewModel
 class ReviewViewModel @Inject constructor(
     private val reviewBookUseCase: ReviewBookUseCase,
+    private val getBookInfoUseCase: GetBookInfoUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -25,6 +28,23 @@ class ReviewViewModel @Inject constructor(
 
     private val bookId: String = savedStateHandle["bookId"] ?: ""
 
+    init {
+        viewModelScope.launch {
+            getBookInfoUseCase(bookId).also { result ->
+                when (result) {
+                    is GetBookInfoUseCase.Result.Error,
+                    is GetBookInfoUseCase.Result.UnexpectedError -> Unit
+
+                    is GetBookInfoUseCase.Result.Success -> _screenState.update {
+                        BookReviewUIState(
+                            book = result.book
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     fun onReviewChange(review: String) {
         viewModelScope.launch {
             reviewBookUseCase(bookId, review).also { result ->
@@ -32,15 +52,13 @@ class ReviewViewModel @Inject constructor(
                     is ReviewBookUseCase.Result.Error,
                     is ReviewBookUseCase.Result.UnexpectedError -> Unit
                     is ReviewBookUseCase.Result.Success -> _screenState.update {
-                        it.copy(
-                            userReview = review
-                        )
+                        BookReviewUIState(
+                            book = it.book.copy(your_review = result.newReview
+                        ))
                     }
                 }
-
-            }
         }
-    }
+    }}
 
     fun onBack() {
         _screenState.update {
