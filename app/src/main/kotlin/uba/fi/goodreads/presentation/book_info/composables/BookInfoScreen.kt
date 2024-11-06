@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -74,13 +76,15 @@ fun BookInfoScreen(
     onReviewClick: () -> Unit,
     onAddShelfClick: () -> Unit,
 ) {
-    //val scrollState = rememberScrollState()
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
+        
     ) {
         BookCoverImage()
         TitleAndAuthor(screenState.book)
@@ -97,7 +101,7 @@ fun BookInfoScreen(
             onUserRatingChange = onUserRatingChange
         )
         Spacer(modifier = Modifier.height(16.dp))
-        if (screenState.book.your_review != null) {
+        if (!screenState.book.your_review.isNullOrEmpty()) {
             PreviousReview(prevReview = screenState.book.your_review, onClick = onReviewClick)
         } else {
             WriteReviewButton(onClick = onReviewClick)
