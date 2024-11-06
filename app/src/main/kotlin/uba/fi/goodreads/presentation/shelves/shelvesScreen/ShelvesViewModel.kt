@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.shelves
+package uba.fi.goodreads.presentation.shelves.shelvesScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,17 +8,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import uba.fi.goodreads.domain.model.Shelf
 import uba.fi.goodreads.domain.usecase.CreateShelfUseCase
+import uba.fi.goodreads.domain.usecase.GetShelfUseCase
 import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
-import uba.fi.goodreads.presentation.shelves.ShelvesUiState
+import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.ShelvesDestination
 import javax.inject.Inject
 
 @HiltViewModel
 class ShelvesViewModel @Inject constructor(
     private val getShelves: GetShelvesUseCase,
-    private val createShelf: CreateShelfUseCase
-): ViewModel() {
+    private val createShelf: CreateShelfUseCase,
+    private val getShelf: GetShelfUseCase
+) : ViewModel() {
 
     private val _screenState: MutableStateFlow<ShelvesUiState> =
         MutableStateFlow(ShelvesUiState.Loading)
@@ -30,6 +31,7 @@ class ShelvesViewModel @Inject constructor(
                 when (val result = getShelves()) {
                     is GetShelvesUseCase.Result.Error,
                     is GetShelvesUseCase.Result.UnexpectedError -> ShelvesUiState.Error
+
                     is GetShelvesUseCase.Result.Success -> ShelvesUiState.Success(
                         shelves = result.shelves
                     )
@@ -64,8 +66,10 @@ class ShelvesViewModel @Inject constructor(
 
     fun onConfirmShelfCreation() {
         viewModelScope.launch {
-            createShelf(name = (screenState.value as? ShelvesUiState.Success)?.newShelfName ?: "").also { result ->
-                when(result) {
+            createShelf(
+                name = (screenState.value as? ShelvesUiState.Success)?.newShelfName ?: ""
+            ).also { result ->
+                when (result) {
                     is CreateShelfUseCase.Result.Error,
                     is CreateShelfUseCase.Result.UnexpectedError -> Unit // TODO
                     is CreateShelfUseCase.Result.Success -> Unit
@@ -76,6 +80,24 @@ class ShelvesViewModel @Inject constructor(
                     ) ?: state
                 }
             }
+        }
+    }
+
+    fun onShelfClick(id: String) {
+        _screenState.update {
+            (it as? ShelvesUiState.Success)?.copy(
+                destination = ShelvesDestination.ShelfBooks(
+                    id
+                )
+            ) ?: it
+        }
+    }
+
+    fun onClearDestination() {
+        _screenState.update {
+            (it as? ShelvesUiState.Success)?.copy(
+                destination = null
+            ) ?: it
         }
     }
 }

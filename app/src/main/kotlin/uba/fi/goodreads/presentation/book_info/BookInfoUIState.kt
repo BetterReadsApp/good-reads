@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.bookInfo
+package uba.fi.goodreads.presentation.book_info
 
 import uba.fi.goodreads.domain.model.Book
 
@@ -7,6 +7,7 @@ data class BookInfoUIState(
         id = "1",
         author = "",
         description = "",
+        pages = 0,
         genres = emptyList(),
         publicationDate = "",
         title = "",

@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.bookInfo.composables
+package uba.fi.goodreads.presentation.book_info.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,9 +35,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import uba.fi.goodreads.R
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
-import uba.fi.goodreads.presentation.bookInfo.BookInfoScreenPreviewParameterProvider
-import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
-import uba.fi.goodreads.presentation.bookInfo.BookInfoViewModel
+import uba.fi.goodreads.presentation.book_info.BookInfoScreenPreviewParameterProvider
+import uba.fi.goodreads.presentation.book_info.BookInfoUIState
+import uba.fi.goodreads.presentation.book_info.BookInfoViewModel
 
 
 @Composable
@@ -48,7 +48,8 @@ fun BookInfoRoute(
 
     BookInfoScreen(
         screenState = screenState,
-        onUserRatingChange = viewModel::onUserRatingChange
+        onUserRatingChange = viewModel::onUserRatingChange,
+        onAddShelfClick = viewModel::onAddShelfClick
     )
 }
 
@@ -56,6 +57,7 @@ fun BookInfoRoute(
 fun BookInfoScreen(
     screenState: BookInfoUIState,
     onUserRatingChange: (Int) -> Unit,
+    onAddShelfClick: () -> Unit
 ) {
     //val scrollState = rememberScrollState()
     Column(
@@ -72,6 +74,8 @@ fun BookInfoScreen(
         AvgRatingStars(screenState.book.avgRating ?: 3.5)
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        AddToShelfButton(onAddShelfClick)
         Spacer(modifier = Modifier.height(16.dp))
         RatingBox(
            userRating = screenState.userRating,
@@ -166,6 +170,23 @@ private fun TitleAndAuthor(book: Book) {
     }
 }
 
+@Composable
+fun AddToShelfButton(onClick: () -> Unit) {
+    Box (
+        modifier = Modifier
+            .width(200.dp)
+            .height(50.dp)
+            .background(Color.LightGray)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Add to my Shelves",
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Black
+        )
+    }
+}
 
 @Composable
 @Preview(showBackground = true)
@@ -175,7 +196,8 @@ fun BookInfoScreenPreview(
     GoodReadsTheme {
         BookInfoScreen(
             state,
-            onUserRatingChange = {}
+            onUserRatingChange = {},
+            onAddShelfClick = {}
         )
     }
 }

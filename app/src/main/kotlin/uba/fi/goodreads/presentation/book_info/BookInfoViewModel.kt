@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.bookInfo
+package uba.fi.goodreads.presentation.book_info
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -60,4 +60,8 @@ class BookInfoViewModel @Inject constructor(
             }
         }
     }
+
+    fun onAddShelfClick(){
+       Unit
+    } //TODO
 }

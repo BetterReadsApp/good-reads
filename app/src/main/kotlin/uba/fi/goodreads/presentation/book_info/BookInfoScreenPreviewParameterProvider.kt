@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.bookInfo
+package uba.fi.goodreads.presentation.book_info
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import uba.fi.goodreads.domain.mocks.BookMock
