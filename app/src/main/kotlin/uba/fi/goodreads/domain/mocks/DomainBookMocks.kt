@@ -6,6 +6,7 @@ object DomainBookMocks {
 
     fun getBooks() = listOf(
         Book(
+            id = "1",
             title = "Atomic Habits",
             author = "James Clear",
             description = "No matter your goals, Atomic Habits offers a proven framework for improving - every day.",
@@ -16,6 +17,7 @@ object DomainBookMocks {
 
         ),
         Book(
+            id = "1",
             title = "Clean Architecture",
             author = "Rober Martin",
             description = "By applying universal rules of software architecture, you can dramatically improve developer productivity throughout the life of any software system.",

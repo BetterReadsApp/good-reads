@@ -4,6 +4,7 @@ import uba.fi.goodreads.domain.model.Book
 
 object BookMock {
     fun getbook() = Book(
+        id = "1",
         title = "Atomic Habits",
         author = "James Clear",
         description = "No matter your goals, Atomic Habits offers a proven framework for improving - every day.",

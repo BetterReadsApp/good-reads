@@ -4,8 +4,6 @@ import uba.fi.goodreads.core.network.NetworkResult
 import uba.fi.goodreads.data.auth.repositories.SessionRepository
 import uba.fi.goodreads.data.shelf.repositories.ShelvesRepository
 import uba.fi.goodreads.domain.model.Shelf
-import uba.fi.goodreads.domain.mocks.DomainShelfMocks
-import uba.fi.goodreads.domain.model.User
 import javax.inject.Inject
 
 class GetShelvesUseCase @Inject constructor(
@@ -21,7 +19,7 @@ class GetShelvesUseCase @Inject constructor(
 
     suspend operator fun invoke(): Result {
         return when (val resultWrapper = shelvesRepository.getShelves(
-            sessionRepository.getAccessToken()
+            sessionRepository.getUserId()
         )) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,

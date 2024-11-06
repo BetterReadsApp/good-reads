@@ -162,7 +162,7 @@ private fun TitleAndAuthor(book: Book) {
         Spacer(modifier = Modifier.height(5.dp))
 
         Text(
-            text = book.description,
+            text = book.description ?: "",
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()

@@ -30,22 +30,22 @@ internal class SessionRepositoryImpl @Inject constructor(
     }
 
     private suspend fun logOutUser() {
-        clearAccessToken()
+        clearUserId()
     }
 
-    override suspend fun saveAccessToken(accessToken: String) {
+    override suspend fun saveUserId(accessToken: String) {
         withContext(ioDispatcher) {
             userSessionLocalDataSource.saveAccessToken(accessToken)
         }
     }
 
-    override suspend fun clearAccessToken() {
+    override suspend fun clearUserId() {
         withContext(ioDispatcher) {
             userSessionLocalDataSource.clearAccessToken()
         }
     }
 
-    override suspend fun getAccessToken(): String {
+    override suspend fun getUserId(): String {
         return withContext(ioDispatcher) {
             val token = userSessionLocalDataSource.getAccessToken()
             token
@@ -57,7 +57,7 @@ internal class SessionRepositoryImpl @Inject constructor(
         password: String,
     ): NetworkResult<Unit> {
         return responseHandler {
-            saveAccessToken(
+            saveUserId(
                 client.logIn(
                     LoginBody(
                         email = email,
@@ -75,7 +75,7 @@ internal class SessionRepositoryImpl @Inject constructor(
         lastName: String
     ): NetworkResult<Unit> {
         return responseHandler {
-            saveAccessToken(
+            saveUserId(
             client.register(
                 RegisterBody(
                     email = email,
