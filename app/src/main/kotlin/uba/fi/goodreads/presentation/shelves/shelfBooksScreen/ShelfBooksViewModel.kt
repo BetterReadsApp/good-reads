@@ -24,7 +24,7 @@ class ShelfBooksViewModel @Inject constructor(
         MutableStateFlow(ShelfBooksUiState())
     val screenState: StateFlow<ShelfBooksUiState> = _screenState.asStateFlow()
 
-    private val shelfId: Int = savedStateHandle["shelfId"] ?: 0
+    private val shelfId: String = savedStateHandle["shelfId"] ?: ""
 
     init {
         viewModelScope.launch {

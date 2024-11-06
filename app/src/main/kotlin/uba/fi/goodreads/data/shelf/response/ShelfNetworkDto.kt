@@ -10,13 +10,13 @@ import java.time.LocalDate
 data class ShelfNetworkDto(
     @SerialName("name") val name: String,
     @SerialName("id") val id: Int,
-    @SerialName("books") val books: List<BookNetworkDto>
+    @SerialName("books") val books: List<BookNetworkDto>? = null
 ) {
     fun toDomain() = Shelf(
         name = name,
         id = id,
-        books = books.map { it.toDomain() },
+        books = books?.map { it.toDomain() } ?: emptyList(),
         dateAdded = LocalDate.now(),
-        numberOfBooks = books.size
+        numberOfBooks = books?.size ?: 0
     )
 }

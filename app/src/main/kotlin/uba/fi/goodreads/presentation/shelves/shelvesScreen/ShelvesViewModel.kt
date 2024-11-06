@@ -19,7 +19,7 @@ class ShelvesViewModel @Inject constructor(
     private val getShelves: GetShelvesUseCase,
     private val createShelf: CreateShelfUseCase,
     private val getShelf: GetShelfUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _screenState: MutableStateFlow<ShelvesUiState> =
         MutableStateFlow(ShelvesUiState.Loading)
@@ -31,6 +31,7 @@ class ShelvesViewModel @Inject constructor(
                 when (val result = getShelves()) {
                     is GetShelvesUseCase.Result.Error,
                     is GetShelvesUseCase.Result.UnexpectedError -> ShelvesUiState.Error
+
                     is GetShelvesUseCase.Result.Success -> ShelvesUiState.Success(
                         shelves = result.shelves
                     )
@@ -65,8 +66,10 @@ class ShelvesViewModel @Inject constructor(
 
     fun onConfirmShelfCreation() {
         viewModelScope.launch {
-            createShelf(name = (screenState.value as? ShelvesUiState.Success)?.newShelfName ?: "").also { result ->
-                when(result) {
+            createShelf(
+                name = (screenState.value as? ShelvesUiState.Success)?.newShelfName ?: ""
+            ).also { result ->
+                when (result) {
                     is CreateShelfUseCase.Result.Error,
                     is CreateShelfUseCase.Result.UnexpectedError -> Unit // TODO
                     is CreateShelfUseCase.Result.Success -> Unit
@@ -80,7 +83,21 @@ class ShelvesViewModel @Inject constructor(
         }
     }
 
-    //fun onShelfClick(id: Int) {
-    //        _screenState.update { it.copy(destination = ShelvesDestination.ShelfBooks(id))}
-    //}
+    fun onShelfClick(id: String) {
+        _screenState.update {
+            (it as? ShelvesUiState.Success)?.copy(
+                destination = ShelvesDestination.ShelfBooks(
+                    id
+                )
+            ) ?: it
+        }
+    }
+
+    fun onClearDestination() {
+        _screenState.update {
+            (it as? ShelvesUiState.Success)?.copy(
+                destination = null
+            ) ?: it
+        }
+    }
 }

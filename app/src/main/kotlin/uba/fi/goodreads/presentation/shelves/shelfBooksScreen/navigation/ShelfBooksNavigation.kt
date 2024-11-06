@@ -8,30 +8,31 @@ import androidx.navigation.navDeepLink
 import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.composables.ShelfBooksRoute
 
 
-const val SHELVES_ROUTE = "my_books"
+const val SHELF_BOOK_ROUTE = "shelf_books/{shelfId}"
 private const val DEEP_LINK_URI_PATTERN =
-    "goodReads://shelves"
+    "goodReads://shelf_books"
 
-fun NavController.navigateToShelves(navOptions: NavOptions) = navigate(SHELVES_ROUTE, navOptions)
+fun NavController.navigateToShelfBooks(shelfId: String, navOptions: NavOptions? = null) =
+    navigate("shelf_books/$shelfId", navOptions)
 
 fun NavGraphBuilder.shelfBooksScreen(
     onBack: () -> Unit,
-    onBookInfo: () -> Unit
+    onBookInfo: (String) -> Unit
 ) {
     composable(
-        route = SHELVES_ROUTE,
+        route = SHELF_BOOK_ROUTE,
         deepLinks = listOf(
             navDeepLink { uriPattern = DEEP_LINK_URI_PATTERN },
         )
     ) {
         ShelfBooksRoute(
             navigate = { destination ->
-            navigate(
-                destination = destination,
-                onBack = onBack,
-                onBookInfo = onBookInfo
-            )
-        }
+                navigate(
+                    destination = destination,
+                    onBack = onBack,
+                    onBookInfo = onBookInfo
+                )
+            }
         )
     }
 }
@@ -39,10 +40,10 @@ fun NavGraphBuilder.shelfBooksScreen(
 internal fun navigate(
     destination: ShelfBooksDestination,
     onBack: () -> Unit,
-    onBookInfo: () -> Unit
+    onBookInfo: (String) -> Unit
 ) {
     when (destination) {
         is ShelfBooksDestination.Back -> onBack()
-        is ShelfBooksDestination.BookInfo -> onBookInfo()
+        is ShelfBooksDestination.BookInfo -> onBookInfo(destination.id.toString())
     }
 }

@@ -1,5 +1,6 @@
 package uba.fi.goodreads.presentation.shelves.shelvesScreen.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -46,10 +48,18 @@ fun ShelvesRoute(
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
+    LaunchedEffect((screenState as? ShelvesUiState.Success)?.destination) {
+        (screenState as? ShelvesUiState.Success)?.destination?.let { destination ->
+            navigate(destination)
+            viewModel.onClearDestination()
+        }
+    }
+
     ShelvesScreen(
         screenState = screenState,
         onCreateShelfClick = viewModel::onCreateShelfClick,
         onConfirmCreateShelf = viewModel::onConfirmShelfCreation,
+        onShelfClick = viewModel::onShelfClick,
         onDismissDialog = viewModel::onDismissDialog,
         onShelfNameChange = viewModel::onShelfNameChange
     )
@@ -60,6 +70,7 @@ fun ShelvesScreen(
     screenState: ShelvesUiState,
     onCreateShelfClick: () -> Unit,
     onShelfNameChange: (String) -> Unit,
+    onShelfClick: (String) -> Unit,
     onDismissDialog: () -> Unit,
     onConfirmCreateShelf: () -> Unit,
 ) {
@@ -69,6 +80,7 @@ fun ShelvesScreen(
         is ShelvesUiState.Success -> SuccessContent(
             screenState,
             onCreateShelfClick,
+            onShelfClick = onShelfClick,
             onShelfNameChange = onShelfNameChange,
             onDismissDialog = onDismissDialog,
             onConfirmCreateShelf = onConfirmCreateShelf
@@ -81,6 +93,7 @@ private fun SuccessContent(
     screenState: ShelvesUiState.Success,
     onCreateShelfClick: () -> Unit,
     onShelfNameChange: (String) -> Unit,
+    onShelfClick: (String) -> Unit,
     onDismissDialog: () -> Unit,
     onConfirmCreateShelf: () -> Unit,
 ) {
@@ -107,7 +120,7 @@ private fun SuccessContent(
             fontSize = 32.sp
         )
         screenState.shelves.forEach { shelf ->
-            ShelfPreview(shelf)
+            ShelfPreview(shelf, onShelfClick)
             Spacer(Modifier.height(16.dp))
         }
         Spacer(Modifier.weight(1f))
@@ -127,8 +140,14 @@ private fun SuccessContent(
 }
 
 @Composable
-private fun ShelfPreview(shelf: Shelf) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+private fun ShelfPreview(
+    shelf: Shelf,
+    onShelfClick: (String) -> Unit
+) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .clickable{ onShelfClick(shelf.id.toString()) }
+    ) {
         Row {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -199,7 +218,8 @@ fun ShelvesScreenPreview(
             onCreateShelfClick = {},
             onDismissDialog = {},
             onShelfNameChange = {},
-            onConfirmCreateShelf = {}
+            onConfirmCreateShelf = {},
+            onShelfClick = {}
         )
     }
 }

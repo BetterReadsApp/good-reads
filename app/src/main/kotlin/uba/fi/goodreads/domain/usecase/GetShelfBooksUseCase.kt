@@ -15,7 +15,7 @@ class GetShelfBooksUseCase @Inject constructor (
         data object UnexpectedError : Result()
     }
 
-    suspend operator fun invoke(shelfId: Int): Result {
+    suspend operator fun invoke(shelfId: String): Result {
         return when (val resultWrapper = shelvesRepository.getShelf(shelfId)){
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,

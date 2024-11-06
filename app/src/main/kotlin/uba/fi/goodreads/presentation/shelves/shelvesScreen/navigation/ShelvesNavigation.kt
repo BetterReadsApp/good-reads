@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import uba.fi.goodreads.presentation.profile.navigation.ProfileDestination
 import uba.fi.goodreads.presentation.shelves.shelvesScreen.composables.ShelvesRoute
 
 
@@ -14,13 +15,31 @@ private const val DEEP_LINK_URI_PATTERN =
 
 fun NavController.navigateToShelves(navOptions: NavOptions) = navigate(SHELVES_ROUTE, navOptions)
 
-fun NavGraphBuilder.shelvesScreen() {
+fun NavGraphBuilder.shelvesScreen(
+    navigateToShelfBooks: (String) -> Unit
+) {
     composable(
         route = SHELVES_ROUTE,
         deepLinks = listOf(
             navDeepLink { uriPattern = DEEP_LINK_URI_PATTERN },
         )
     ) {
-        shelvesScreen()
+        ShelvesRoute(
+            navigate = { destination ->
+                navigate(
+                    destination = destination,
+                    navigateToShelfBooks = navigateToShelfBooks
+                )
+            }
+        )
+    }
+}
+
+internal fun navigate(
+    destination: ShelvesDestination,
+    navigateToShelfBooks: (String) -> Unit
+) {
+    when (destination) {
+        is ShelvesDestination.ShelfBooks -> navigateToShelfBooks(destination.shelfId.toString())
     }
 }

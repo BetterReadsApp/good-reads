@@ -17,7 +17,7 @@ class GetShelfUseCase @Inject constructor(
 
     suspend operator fun invoke(shelfId: Int): Result {
         return when (val resultWrapper = shelvesRepository.getShelf(
-            shelfId
+            shelfId.toString()
         )) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,
