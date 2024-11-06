@@ -18,6 +18,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -35,21 +36,30 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import uba.fi.goodreads.R
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
-import uba.fi.goodreads.presentation.ReviewScreen.composables.ReviewsScreen
 import uba.fi.goodreads.presentation.bookInfo.BookInfoScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
 import uba.fi.goodreads.presentation.bookInfo.BookInfoViewModel
+import uba.fi.goodreads.presentation.bookInfo.navigation.BookInfoDestination
 
 
 @Composable
 fun BookInfoRoute(
+    navigate: (BookInfoDestination) -> Unit,
     viewModel: BookInfoViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
+    LaunchedEffect(screenState.destination) {
+        screenState.destination?.let { destination ->
+            navigate(destination)
+            viewModel.onClearDestination()
+        }
+    }
+
     BookInfoScreen(
         screenState = screenState,
-        onUserRatingChange = viewModel::onUserRatingChange
+        onUserRatingChange = viewModel::onUserRatingChange,
+        onReviewClick = viewModel::onReviewClick
     )
 }
 
@@ -57,6 +67,7 @@ fun BookInfoRoute(
 fun BookInfoScreen(
     screenState: BookInfoUIState,
     onUserRatingChange: (Int) -> Unit,
+    onReviewClick: () -> Unit,
 ) {
     //val scrollState = rememberScrollState()
     Column(
@@ -79,7 +90,7 @@ fun BookInfoScreen(
             onUserRatingChange = onUserRatingChange
         )
         Spacer(modifier = Modifier.height(16.dp))
-        WriteReviewButton(onClick = {})
+        WriteReviewButton(onClick = onReviewClick)
     }
 }
 
@@ -176,6 +187,7 @@ fun BookInfoScreenPreview(
     GoodReadsTheme {
         BookInfoScreen(
             state,
+            onReviewClick = {},
             onUserRatingChange = {}
         )
     }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.RateBookUseCase
+import uba.fi.goodreads.presentation.bookInfo.navigation.BookInfoDestination
 import uba.fi.goodreads.presentation.home.navigation.HomeDestination
 import javax.inject.Inject
 
@@ -62,7 +63,11 @@ class BookInfoViewModel @Inject constructor(
         }
     }
 
-    fun onReviewClick(id: Int) {
-        _screenState.update { it.copy(destination = HomeDestination.BookInfo(id)) }
+    fun onReviewClick() {
+        _screenState.update { it.copy(destination = BookInfoDestination.Review(bookId)) }
+    }
+
+    fun onClearDestination() {
+        _screenState.update { it.copy(destination = null) }
     }
 }

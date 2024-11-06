@@ -1,8 +1,10 @@
-package uba.fi.goodreads.presentation.ReviewScreen
+package uba.fi.goodreads.presentation.review
 
 import uba.fi.goodreads.domain.model.Book
+import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
 
 data class BookReviewUIState(
+    val destination: ReviewDestination? = null,
     val book: Book = Book(
         author = "",
         description = "",
