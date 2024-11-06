@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
-import uba.fi.goodreads.presentation.bookInfo.BookInfoUIState
 import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
 import javax.inject.Inject
 

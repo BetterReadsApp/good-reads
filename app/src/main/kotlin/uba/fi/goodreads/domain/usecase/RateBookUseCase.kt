@@ -18,7 +18,7 @@ class RateBookUseCase @Inject constructor(
 
     suspend operator fun invoke(bookId: String, rating: Int): Result {
         return when(val result = booksRepository.rateBook(
-            bookId, sessionRepository.getAccessToken(), rating
+            bookId, sessionRepository.getUserId(), rating
         )) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,

@@ -2,6 +2,7 @@ package uba.fi.goodreads.presentation.book_info.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,6 +36,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import uba.fi.goodreads.R
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
+import uba.fi.goodreads.presentation.bookInfo.composables.PreviousReview
+import uba.fi.goodreads.presentation.bookInfo.composables.UsersReviewList
+import uba.fi.goodreads.presentation.bookInfo.composables.WriteReviewButton
 import uba.fi.goodreads.presentation.book_info.BookInfoScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.book_info.BookInfoUIState
 import uba.fi.goodreads.presentation.book_info.BookInfoViewModel

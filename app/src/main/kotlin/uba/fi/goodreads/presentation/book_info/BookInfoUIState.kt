@@ -3,7 +3,6 @@ package uba.fi.goodreads.presentation.book_info
 import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.presentation.book_info.navigation.BookInfoDestination
 import uba.fi.goodreads.domain.model.UserReview
-import uba.fi.goodreads.presentation.bookInfo.navigation.BookInfoDestination
 
 data class BookInfoUIState(
     val book: Book = Book(

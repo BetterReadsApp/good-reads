@@ -10,10 +10,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 class ReviewNetworkDto (
     @SerialName("review") val text: String,
-    @SerialName("user_id") val userId: String,
+    @SerialName("user_id") val userId: Int,
 ) {
     fun toDomain() = UserReview(
         text = text,
-        userId = userId
+        userId = userId.toString()
     )
 }
