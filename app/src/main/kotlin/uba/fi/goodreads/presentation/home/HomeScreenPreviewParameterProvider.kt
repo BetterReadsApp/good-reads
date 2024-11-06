@@ -3,6 +3,7 @@ package uba.fi.goodreads.presentation.home
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import uba.fi.goodreads.domain.mocks.DomainBookMocks
 import uba.fi.goodreads.domain.mocks.DomainPostMocks
+import uba.fi.goodreads.presentation.search.SearchUiState
 
 class HomeScreenPreviewParameterProvider: PreviewParameterProvider<HomeUiState> {
 

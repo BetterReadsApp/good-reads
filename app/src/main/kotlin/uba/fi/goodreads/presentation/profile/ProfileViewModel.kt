@@ -1,5 +1,6 @@
 package uba.fi.goodreads.presentation.profile
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +16,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getUserProfile: GetProfileUseCase
+    private val getUserProfile: GetProfileUseCase,
+    private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
+
+    private val userId: String? = savedStateHandle["userId"]
 
     private val _screenState: MutableStateFlow<ProfileUiState> =
         MutableStateFlow(ProfileUiState())
@@ -24,7 +28,7 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getUserProfile().also { result ->
+            getUserProfile(userId).also { result ->
                 when (result) {
                     is GetProfileUseCase.Result.Error,
                     is GetProfileUseCase.Result.UnexpectedError -> Unit

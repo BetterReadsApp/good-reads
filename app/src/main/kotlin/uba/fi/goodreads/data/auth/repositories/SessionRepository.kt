@@ -9,11 +9,11 @@ interface SessionRepository {
 
     suspend fun listenForUnauthorizedResponses()
 
-    suspend fun saveAccessToken(accessToken: String)
+    suspend fun saveUserId(accessToken: String)
 
-    suspend fun clearAccessToken()
+    suspend fun clearUserId()
 
-    suspend fun getAccessToken(): String
+    suspend fun getUserId(): String
 
     suspend fun login(
         email: String,
