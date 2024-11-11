@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.GetShelfBooksUseCase
+import uba.fi.goodreads.presentation.search.navigation.SearchDestination
+import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.ShelfBooksDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,8 +48,11 @@ class ShelfBooksViewModel @Inject constructor(
     }
 
     fun onBookClick (bookId: String){
-        Unit
-    } //TODO
+        _screenState.update { it.copy(destination = ShelfBooksDestination.BookInfo(bookId)) }
+    }
 
+    fun onClearDestination() {
+        _screenState.update { it.copy(destination = null) }
+    }
 
 }
