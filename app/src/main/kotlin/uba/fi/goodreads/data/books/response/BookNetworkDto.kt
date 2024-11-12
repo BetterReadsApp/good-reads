@@ -9,6 +9,7 @@ data class BookNetworkDto(
     @SerialName("pages") val pages: Int? = null,
     @SerialName("title") val title: String,
     @SerialName("id") val id: Int,
+    @SerialName("author_id") val authorId: Int? = null,
     @SerialName("summary") val summary: String? = null,
     @SerialName("author") val author: String,
     @SerialName("genre") val genre: String? = null,
@@ -18,8 +19,9 @@ data class BookNetworkDto(
     @SerialName("your_review") val yourReview: String? = null,
     @SerialName("reviews") val reviews: List<ReviewNetworkDto> = emptyList(),
 ) {
-    fun toDomain() = Book(
+    fun toDomain(currentUserId: String? = null) = Book(
         id = id.toString(),
+        iAmTheAuthor = authorId?.let { it.toString() == currentUserId },
         title = title,
         author = author,
         pages = pages ?: 0,

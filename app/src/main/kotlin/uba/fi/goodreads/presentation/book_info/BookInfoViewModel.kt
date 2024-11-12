@@ -68,6 +68,10 @@ class BookInfoViewModel @Inject constructor(
         _screenState.update { it.copy(destination = BookInfoDestination.Review(bookId)) }
     }
 
+    fun onCreateQuizClick() {
+        _screenState.update { it.copy(destination = BookInfoDestination.CreateQuiz(bookId)) }
+    }
+
     fun onClearDestination() {
         _screenState.update { it.copy(destination = null) }
     }

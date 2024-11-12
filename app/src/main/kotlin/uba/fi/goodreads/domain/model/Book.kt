@@ -2,6 +2,7 @@ package uba.fi.goodreads.domain.model
 
 data class Book(
     val id: String,
+    val iAmTheAuthor: Boolean? = null,
     val title: String,
     val description: String? = null,
     val author: String,
