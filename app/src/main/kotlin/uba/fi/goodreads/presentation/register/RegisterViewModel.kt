@@ -68,13 +68,20 @@ class RegisterViewModel @Inject constructor(
         _screenState.update { it.copy(destination = RegisterDestination.Login) }
     }
 
+    fun onAuthorCheckChange(value: Boolean) {
+        _screenState.update { state ->
+            state.copy(isAuthor = value)
+        }
+    }
+
     fun onContinueClick() {
         viewModelScope.launch {
             register(
                 email = screenState.value.email,
                 password = screenState.value.password,
                 firstName = screenState.value.firstName,
-                lastName = screenState.value.lastName
+                lastName = screenState.value.lastName,
+                isAuthor = screenState.value.isAuthor
             ).also { result ->
                 when (result) {
                     is RegisterUseCase.Result.Error,

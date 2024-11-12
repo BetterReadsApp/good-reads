@@ -1,6 +1,7 @@
-package uba.fi.goodreads.presentation.login.composables
+package uba.fi.goodreads.presentation.register.composables
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -51,6 +53,7 @@ fun RegisterRoute(
         onFirstNameChange = viewModel::onFirstNameChange,
         onLastNameChange = viewModel::onLastNameChange,
         onAlreadyHaveAccClick = viewModel::onAlreadyHaveAccClick,
+        onAuthorCheckChange = viewModel::onAuthorCheckChange,
         onContinueClick = viewModel::onContinueClick
     )
 }
@@ -63,6 +66,7 @@ fun RegisterScreen(
     onFirstNameChange: (String) -> Unit,
     onLastNameChange: (String) -> Unit,
     onAlreadyHaveAccClick: () -> Unit,
+    onAuthorCheckChange: (Boolean) -> Unit,
     onContinueClick: () -> Unit,
 ) {
     Column(
@@ -139,6 +143,20 @@ fun RegisterScreen(
             }
         )
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = screenState.isAuthor,
+                onCheckedChange = onAuthorCheckChange
+            )
+            Text(text = "Are you an author?")
+        }
+
         Spacer(Modifier.weight(1f))
 
         TextButton(
@@ -184,6 +202,7 @@ fun RegisterScreenPreview(
             onContinueClick = {},
             onFirstNameChange = {},
             onAlreadyHaveAccClick = {},
+            onAuthorCheckChange = {},
             onLastNameChange = {}
         )
     }

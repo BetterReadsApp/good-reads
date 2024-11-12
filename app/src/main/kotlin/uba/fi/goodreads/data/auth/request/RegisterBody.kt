@@ -9,4 +9,5 @@ data class RegisterBody(
     @SerialName("password") val password: String,
     @SerialName("name") val firstName: String,
     @SerialName("last_name") val lastName: String,
+    @SerialName("is_author") val isAuthor: Boolean,
 )

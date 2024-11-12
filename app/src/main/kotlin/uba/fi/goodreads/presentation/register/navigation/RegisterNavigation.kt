@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import uba.fi.goodreads.presentation.login.composables.RegisterRoute
+import uba.fi.goodreads.presentation.register.composables.RegisterRoute
 
 const val REGISTER_ROUTE = "register"
 private const val DEEP_LINK_URI_PATTERN =

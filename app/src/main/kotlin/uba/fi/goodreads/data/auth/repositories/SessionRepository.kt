@@ -25,5 +25,6 @@ interface SessionRepository {
         password: String,
         firstName: String,
         lastName: String,
+        isAuthor: Boolean
     ): NetworkResult<Unit>
 }

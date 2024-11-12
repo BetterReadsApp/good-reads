@@ -72,7 +72,8 @@ internal class SessionRepositoryImpl @Inject constructor(
         email: String,
         password: String,
         firstName: String,
-        lastName: String
+        lastName: String,
+        isAuthor: Boolean
     ): NetworkResult<Unit> {
         return responseHandler {
             saveUserId(
@@ -81,7 +82,8 @@ internal class SessionRepositoryImpl @Inject constructor(
                     email = email,
                     password = password,
                     firstName = firstName,
-                    lastName = lastName
+                    lastName = lastName,
+                    isAuthor = isAuthor
                 )
             ).userId.toString()
             )

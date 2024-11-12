@@ -19,12 +19,14 @@ class RegisterUseCase @Inject constructor(
         password: String,
         firstName: String,
         lastName: String,
+        isAuthor: Boolean
     ): Result {
         return when (sessionRepository.register(
             email = email,
             password = password,
             firstName = firstName,
-            lastName = lastName
+            lastName = lastName,
+            isAuthor = isAuthor
         )) {
             is NetworkResult.ErrorBase,
             is NetworkResult.NetworkError,

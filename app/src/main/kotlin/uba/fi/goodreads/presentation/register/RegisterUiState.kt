@@ -9,5 +9,6 @@ data class RegisterUiState(
     val firstName: String = "",
     val lastName: String = "",
     val isError: Boolean = false,
+    val isAuthor: Boolean = false,
     val buttonEnabled: Boolean = false,
 )
