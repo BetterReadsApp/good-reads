@@ -3,6 +3,7 @@ package uba.fi.goodreads.data.books.response
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import uba.fi.goodreads.domain.model.Book
+import uba.fi.goodreads.domain.model.BookGenre
 
 @Serializable
 data class BookNetworkDto(
@@ -11,7 +12,7 @@ data class BookNetworkDto(
     @SerialName("id") val id: Int,
     @SerialName("summary") val summary: String? = null,
     @SerialName("author") val author: String,
-    @SerialName("genre") val genre: String? = null,
+    @SerialName("genre") val genre: BookGenre? = null,
     @SerialName("publication_date") val publicationDate: String? = null,
     @SerialName("average_rating") val avgRating: Double? = null,
     @SerialName("your_rating") val yourRating: Int? = null,
