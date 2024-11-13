@@ -18,4 +18,6 @@ interface BooksRepository {
 
     suspend fun getQuiz(bookId: String): NetworkResult<List<QuizQuestion>>
 
+    suspend fun getRecommendedBooks(): NetworkResult<List<Book>>
+
 }

@@ -101,6 +101,7 @@ dependencies {
 
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.dataStore.core)
+    implementation(libs.play.services.basement)
 
     ksp(libs.hilt.compiler)
 

@@ -52,4 +52,10 @@ internal class BooksRepositoriesImpl @Inject constructor(
             client.getQuiz(bookId = bookId).map { it.toDomain() }
         }
     }
+
+    override suspend fun getRecommendedBooks(): NetworkResult<List<Book>> {
+        return responseHandler {
+            client.getRecommendedBooks().map { it.toDomain() }
+        }
+    }
 }

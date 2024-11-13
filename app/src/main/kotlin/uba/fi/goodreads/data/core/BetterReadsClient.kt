@@ -73,5 +73,8 @@ internal interface BetterReadsClient {
     @GET("/books/{bookId}/quiz")
     suspend fun getQuiz(@Path("bookId") bookId: String): List<QuizQuestionDto>
 
+    @GET("/recommended")
+    suspend fun getRecommendedBooks(): List<BookNetworkDto>
+
 
 }
