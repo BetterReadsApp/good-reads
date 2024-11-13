@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import uba.fi.goodreads.core.ui.GoodReadsAppState
 import uba.fi.goodreads.presentation.book_info.navigation.bookInfoScreen
 import uba.fi.goodreads.presentation.book_info.navigation.navigateToBookInfo
+import uba.fi.goodreads.presentation.create_quiz.navigation.navigateToCreateQuiz
 import uba.fi.goodreads.presentation.review.navigation.navigateToReviewScreen
 import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
 import uba.fi.goodreads.presentation.home.navigation.homeScreen
@@ -47,7 +48,8 @@ fun GoodReadsNavHost(
 
         bookInfoScreen(
             navigateToReview = navController::navigateToReviewScreen,
-            navigateToAddBookToShelf = navController::navigateToAddBookToShelves
+            navigateToAddBookToShelf = navController::navigateToAddBookToShelves,
+            navigateToCreateQuiz = navController::navigateToCreateQuiz
         )
 
         profileScreen(

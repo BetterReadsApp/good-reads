@@ -31,7 +31,6 @@ class ShelvesViewModel @Inject constructor(
                 when (val result = getShelves()) {
                     is GetShelvesUseCase.Result.Error,
                     is GetShelvesUseCase.Result.UnexpectedError -> ShelvesUiState.Error
-
                     is GetShelvesUseCase.Result.Success -> ShelvesUiState.Success(
                         shelves = result.shelves
                     )

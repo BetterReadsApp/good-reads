@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -66,6 +67,7 @@ fun BookInfoRoute(
         onUserRatingChange = viewModel::onUserRatingChange,
         onAddShelfClick = viewModel::onAddShelfClick,
         onReviewClick = viewModel::onReviewClick,
+        onCreateQuizClick = viewModel::onCreateQuizClick,
     )
 }
 
@@ -75,6 +77,7 @@ fun BookInfoScreen(
     onUserRatingChange: (Int) -> Unit,
     onReviewClick: () -> Unit,
     onAddShelfClick: () -> Unit,
+    onCreateQuizClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -87,7 +90,10 @@ fun BookInfoScreen(
         
     ) {
         BookCoverImage()
-        TitleAndAuthor(screenState.book)
+        TitleAndAuthor(
+            book = screenState.book,
+            onCreateQuizClick = onCreateQuizClick
+        )
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
         AvgRatingStars(screenState.book.avgRating ?: 3.5)
@@ -150,7 +156,10 @@ private fun BookCoverImage() {
 }
 
 @Composable
-private fun TitleAndAuthor(book: Book) {
+private fun TitleAndAuthor(
+    book: Book,
+    onCreateQuizClick: () -> Unit,
+) {
     val title = book.title
     val author = book.author
     Column {
@@ -170,6 +179,11 @@ private fun TitleAndAuthor(book: Book) {
         )
         Spacer(modifier = Modifier.height(5.dp))
 
+        Button(onClick = onCreateQuizClick) {
+            Text("Create quiz")
+        }
+
+        Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = book.description ?: "",
             style = MaterialTheme.typography.bodyMedium,
@@ -208,6 +222,7 @@ fun BookInfoScreenPreview(
             state,
             onReviewClick = {},
             onUserRatingChange = {},
+            onCreateQuizClick = {},
             onAddShelfClick = {}
         )
     }
