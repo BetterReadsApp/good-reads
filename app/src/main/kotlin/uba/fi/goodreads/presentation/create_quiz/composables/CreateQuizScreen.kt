@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -64,7 +65,11 @@ fun CreateQuizScreen(
     onOptionTextChange: (Int, Int, String) -> Unit,
     onCorrectOptionSelected: (Int, Int) -> Unit
 ) {
-    Column (modifier = Modifier.fillMaxSize()) {
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+    ) {
         Column(
             modifier = Modifier
                 .weight(1f, false)
@@ -124,7 +129,8 @@ fun CreateQuizScreen(
             onClick = onSaveQuiz,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
+            enabled = screenState.questions.isNotEmpty()
         ) {
             Text(text = "Save Quiz")
         }

@@ -1,8 +1,10 @@
 package uba.fi.goodreads.data.books.response
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import uba.fi.goodreads.domain.model.QuizQuestion
 
+@Serializable
 data class QuizQuestionDto(
     @SerialName("title") val questionText: String,
     @SerialName("choice_1") val choice1: String,

@@ -9,7 +9,7 @@ class BookInfoScreenPreviewParameterProvider: PreviewParameterProvider<BookInfoU
     )
 
     private fun getSuccessState() = BookInfoUIState (
-        book = BookMock.getbook(),
+        book = BookMock.getBook(),
     )
 }
 

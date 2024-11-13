@@ -283,8 +283,11 @@ private fun Book(book: Book) {
                 .height(120.dp)
                 .padding(vertical = 8.dp),
             model = ImageRequest.Builder(LocalContext.current)
-                .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
+                .data(book.photoUrl) // TODO AL MODEL
                 .crossfade(true)
+                .listener(
+                    onError = { _, throwable -> throwable.throwable.printStackTrace() }
+                )
                 .build(),
             // placeholder = painterResource(R.drawable.placeholder),
             contentDescription = "Cover of one of the books present inside the shelf",

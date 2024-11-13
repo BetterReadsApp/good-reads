@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import uba.fi.goodreads.core.ui.GoodReadsAppState
 import uba.fi.goodreads.presentation.book_info.navigation.bookInfoScreen
 import uba.fi.goodreads.presentation.book_info.navigation.navigateToBookInfo
+import uba.fi.goodreads.presentation.create_quiz.navigation.createQuizScreen
 import uba.fi.goodreads.presentation.create_quiz.navigation.navigateToCreateQuiz
 import uba.fi.goodreads.presentation.review.navigation.navigateToReviewScreen
 import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
@@ -73,6 +74,10 @@ fun GoodReadsNavHost(
 
         genreScreen(
             navigateToBook = navController::navigateToBookInfo
+        )
+
+        createQuizScreen(
+            onBack = navController::popBackStack
         )
     }
 }

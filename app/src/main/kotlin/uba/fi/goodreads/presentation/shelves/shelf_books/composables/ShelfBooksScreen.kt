@@ -92,7 +92,7 @@ fun BookSummary(book: Book, onBookClick: (String) -> Unit ) {
         Row {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
+                    .data(book.photoUrl)
                     .crossfade(true)
                     .build(),
                 // placeholder = painterResource(R.drawable.placeholder),

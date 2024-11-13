@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -53,7 +54,7 @@ fun HomeRoute(
     val screenState by viewModel.screenState.collectAsState()
 
     LaunchedEffect((screenState as? HomeUiState.Success)?.destination) {
-        (screenState as? HomeUiState.Success)?.destination?.let  { destination ->
+        (screenState as? HomeUiState.Success)?.destination?.let { destination ->
             navigate(destination)
             viewModel.onClearDestination()
         }
@@ -175,19 +176,27 @@ private fun BookRecommendation(
             )
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
+                    .data(book.photoUrl)
                     .crossfade(true)
+                    .listener(
+                        onError = { _, throwable ->
+                            println("ACAAA: ${book.photoUrl}")
+                            throwable.throwable.printStackTrace()
+                        }
+                    )
                     .build(),
                 // placeholder = painterResource(R.drawable.placeholder),
+                modifier = Modifier
+                    .height(200.dp),
                 contentDescription = book.description,
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
             )
 
             Text(
                 text = book.author,
                 textAlign = TextAlign.Center,
 
-            )
+                )
         }
 
     }

@@ -14,7 +14,8 @@ data class BookInfoUIState(
         title = "",
         avgRating = null,
         userRated = null,
-        hasQuizzes = false
+        hasQuizzes = false,
+        photoUrl = ""
     ),
     val userRating: Int = 0,
     val destination: BookInfoDestination? = null,

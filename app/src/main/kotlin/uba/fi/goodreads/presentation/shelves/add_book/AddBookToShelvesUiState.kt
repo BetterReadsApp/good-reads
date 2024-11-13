@@ -7,7 +7,7 @@ import uba.fi.goodreads.presentation.shelves.add_book.navigation.AddBookToShelfD
 
 data class AddBookToShelvesUiState (
     val destination: AddBookToShelfDestination? = null,
-    val book: Book = BookMock.getbook(),
+    val book: Book = BookMock.getBook(),
     val shelves: List<Shelf> = emptyList(),
     val selectedShelves: Set<String> = emptySet()
 

@@ -16,9 +16,18 @@ interface BooksRepository {
 
     suspend fun reviewBook(bookId: String, userId: String, review: String): NetworkResult<String>
 
-    suspend fun editQuiz(bookId: String, questions: List<QuizQuestion>): NetworkResult<Unit>
+    suspend fun createQuiz(
+        bookId: String,
+        questions: List<QuizQuestion>
+    ): NetworkResult<Unit>
 
-    suspend fun getQuiz(bookId: String): NetworkResult<List<QuizQuestion>>
+    suspend fun editQuiz(
+        quizId: String,
+        bookId: String,
+        questions: List<QuizQuestion>
+    ): NetworkResult<Unit>
+
+    suspend fun getQuiz(quizId: String): NetworkResult<List<QuizQuestion>>
 
     suspend fun getRecommendedBooks(userId: String): NetworkResult<List<Book>>
 

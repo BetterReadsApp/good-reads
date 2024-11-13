@@ -15,8 +15,9 @@ data class BookReviewUIState(
         id = "1",
         pages = 1,
         yourRating = null,
-        your_review = null,
-        hasQuizzes = false
+        yourReview = null,
+        hasQuizzes = false,
+        photoUrl = ""
     ),
     val reviews: List<String> = emptyList()
 )

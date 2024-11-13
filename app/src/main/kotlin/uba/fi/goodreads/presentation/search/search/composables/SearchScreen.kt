@@ -85,59 +85,64 @@ fun SearchScreen(
             placeholder = { Text("Search") }
         )
 
-        Text(
-            text = "Users",
-            modifier = Modifier.padding(
-                start = 16.dp,
-                bottom = 16.dp,
-            ),
-            style = MaterialTheme.typography.titleMedium
-        )
-
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp)
-        ) {
-            items(screenState.users) { user ->
-                UserCard(
-                    pictureUrl = "", // TODO
-                    firstName = user.name,
-                    lastName = user.lastName,
-                    onCardClick = { onUserClick(user.id) }
+        if (screenState.search.isNotBlank()) {
+            if (screenState.users.isNotEmpty()) {
+                Text(
+                    text = "Users",
+                    modifier = Modifier.padding(
+                        start = 16.dp,
+                        bottom = 16.dp,
+                    ),
+                    style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(Modifier.width(16.dp))
+
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp)
+                ) {
+                    items(screenState.users) { user ->
+                        UserCard(
+                            pictureUrl = "", // TODO
+                            firstName = user.name,
+                            lastName = user.lastName,
+                            onCardClick = { onUserClick(user.id) }
+                        )
+                        Spacer(Modifier.width(16.dp))
+                    }
+                }
             }
-        }
 
-        Text(
-            text = "Books",
-            modifier = Modifier.padding(
-                top = 16.dp,
-                start = 16.dp,
-                ),
-            style = MaterialTheme.typography.titleMedium
-        )
-
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(screenState.books) { book ->
-                BookRow(
-                    book = book,
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { onBookClick(book.id) }
+            if (screenState.books.isNotEmpty()) {
+                Text(
+                    text = "Books",
+                    modifier = Modifier.padding(
+                        top = 16.dp,
+                        start = 16.dp,
+                    ),
+                    style = MaterialTheme.typography.titleMedium
                 )
-                HorizontalDivider()
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(screenState.books) { book ->
+                        BookRow(
+                            book = book,
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { onBookClick(book.id) }
+                        )
+                        HorizontalDivider()
+                    }
+                }
             }
-        }
-        if ((screenState.books.isEmpty()) && (screenState.users.isEmpty())){
-            HorizontalDivider()
+        } else {
             Text(
                 text = "Explore by Genre",
-                style = MaterialTheme.typography.headlineLarge,
+                style = MaterialTheme.typography.headlineMedium,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier =
+                Modifier.fillMaxWidth().padding(vertical = 12.dp)
             )
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()

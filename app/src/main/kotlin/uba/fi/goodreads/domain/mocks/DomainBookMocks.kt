@@ -14,7 +14,8 @@ object DomainBookMocks {
             genres = listOf(BookGenre.Philosophy),
             publicationDate = "21/01/2005",
             pages = 420,
-            hasQuizzes = false
+            hasQuizzes = false,
+            photoUrl = ""
 
         ),
         Book(
@@ -25,7 +26,8 @@ object DomainBookMocks {
             genres = listOf(BookGenre.Philosophy),
             publicationDate = "21/01/2005",
             pages = 320,
-            hasQuizzes = true
+            hasQuizzes = true,
+            photoUrl = ""
         )
     )
 }

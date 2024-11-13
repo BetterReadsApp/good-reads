@@ -25,37 +25,65 @@ internal class BooksRepositoriesImpl @Inject constructor(
         }
     }
 
-    override suspend fun getBooksByGenre(genre: String): NetworkResult<List<Book>>{
+    override suspend fun getBooksByGenre(genre: String): NetworkResult<List<Book>> {
         return responseHandler {
             client.getBooksByGenre(genre).map { it.toDomain() }
         }
     }
 
-    override suspend fun rateBook(bookId: String, userId: String, rate: Int): NetworkResult<Double> {
+    override suspend fun rateBook(
+        bookId: String,
+        userId: String,
+        rate: Int
+    ): NetworkResult<Double> {
         return responseHandler {
             client.rateBook(bookId, userId, RateBody(value = rate)).avgRating
         }
     }
 
-    override suspend fun reviewBook(bookId: String, userId: String, review: String): NetworkResult<String> {
+    override suspend fun reviewBook(
+        bookId: String,
+        userId: String,
+        review: String
+    ): NetworkResult<String> {
         return responseHandler {
             client.reviewBook(bookId, userId, ReviewBody(review = review)).your_new_description
         }
     }
 
-    override suspend fun editQuiz(bookId: String, questions: List<QuizQuestion>): NetworkResult<Unit> {
+    override suspend fun editQuiz(
+        quizId: String,
+        bookId: String,
+        questions: List<QuizQuestion>
+    ): NetworkResult<Unit> {
         return responseHandler {
             client.editQuiz(
-                bookId = bookId,
-                QuizDto(
-                questions = questions.map { it.toDto() }
-            ))
+                quizId = quizId,
+                body = QuizDto(
+                    title = "Quiz",
+                    bookId = bookId,
+                    questions = questions.map { it.toDto() }
+                ))
         }
     }
 
-    override suspend fun getQuiz(bookId: String): NetworkResult<List<QuizQuestion>> {
+    override suspend fun createQuiz(
+        bookId: String,
+        questions: List<QuizQuestion>
+    ): NetworkResult<Unit> {
         return responseHandler {
-            client.getQuiz(bookId = bookId).map { it.toDomain() }
+            client.createQuiz(
+                body = QuizDto(
+                    title = "Quiz",
+                    bookId = bookId,
+                    questions = questions.map { it.toDto() }
+                ))
+        }
+    }
+
+    override suspend fun getQuiz(quizId: String): NetworkResult<List<QuizQuestion>> {
+        return responseHandler {
+            client.getQuiz(quizId = quizId).map { it.toDomain() }
         }
     }
 

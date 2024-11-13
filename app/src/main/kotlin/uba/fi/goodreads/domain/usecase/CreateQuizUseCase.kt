@@ -16,11 +16,27 @@ class CreateQuizUseCase @Inject constructor(
         data object UnexpectedError : Result()
     }
 
-    suspend operator fun invoke(bookId: String, questions: List<QuizQuestion>): Result {
-        return when(val resultWrapper = booksRepository.editQuiz(bookId = bookId, questions = questions)) {
+    suspend operator fun invoke(
+        edit: Boolean,
+        quizId: String?,
+        bookId: String,
+        questions: List<QuizQuestion>
+    ): Result {
+        return when (
+            if (edit) booksRepository.editQuiz(
+                quizId = quizId ?: "",
+                bookId = bookId,
+                questions = questions
+            )
+            else booksRepository.createQuiz(
+                bookId = bookId,
+                questions = questions
+            )
+        ) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,
             is NetworkResult.NetworkError -> Result.UnexpectedError
+
             is NetworkResult.Success -> Result.Success
         }
     }

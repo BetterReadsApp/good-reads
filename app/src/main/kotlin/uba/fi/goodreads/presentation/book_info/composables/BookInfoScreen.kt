@@ -1,6 +1,5 @@
 package uba.fi.goodreads.presentation.book_info.composables
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,12 +29,15 @@ import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import uba.fi.goodreads.R
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
@@ -68,6 +70,7 @@ fun BookInfoRoute(
         onAddShelfClick = viewModel::onAddShelfClick,
         onReviewClick = viewModel::onReviewClick,
         onCreateQuizClick = viewModel::onCreateQuizClick,
+        onAnswerQuizClick = viewModel::onAnswerQuizClick,
     )
 }
 
@@ -78,6 +81,7 @@ fun BookInfoScreen(
     onReviewClick: () -> Unit,
     onAddShelfClick: () -> Unit,
     onCreateQuizClick: () -> Unit,
+    onAnswerQuizClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -89,10 +93,11 @@ fun BookInfoScreen(
         verticalArrangement = Arrangement.Top,
         
     ) {
-        BookCoverImage()
+        BookCoverImage(screenState.book.photoUrl)
         TitleAndAuthor(
             book = screenState.book,
-            onCreateQuizClick = onCreateQuizClick
+            onCreateQuizClick = onCreateQuizClick,
+            onAnswerQuizClick = onAnswerQuizClick
         )
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
@@ -107,8 +112,8 @@ fun BookInfoScreen(
             onUserRatingChange = onUserRatingChange
         )
         Spacer(modifier = Modifier.height(16.dp))
-        if (!screenState.book.your_review.isNullOrEmpty()) {
-            PreviousReview(prevReview = screenState.book.your_review, onClick = onReviewClick)
+        if (!screenState.book.yourReview.isNullOrEmpty()) {
+            PreviousReview(prevReview = screenState.book.yourReview, onClick = onReviewClick)
         } else {
             WriteReviewButton(onClick = onReviewClick)
         }
@@ -121,12 +126,15 @@ fun BookInfoScreen(
 
 
 @Composable
-private fun BookCoverImage() {
-    val bookCoverImage = painterResource(id = R.drawable.ficciones)
+private fun BookCoverImage(imageUrl: String) {
     Box(modifier = Modifier.fillMaxWidth().height(250.dp)) {
-        Image(
-            painter = bookCoverImage,
-            contentDescription = "Book Cover",
+
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(imageUrl)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(R.drawable.ficciones),
             modifier = Modifier
                 .fillMaxSize()
                 .graphicsLayer {
@@ -135,15 +143,21 @@ private fun BookCoverImage() {
                         radiusY = 20f
                     )
                 },
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            contentDescription = null
         )
+
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Image(
-                painter = bookCoverImage,
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUrl)
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(R.drawable.ficciones),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxHeight()
@@ -159,10 +173,13 @@ private fun BookCoverImage() {
 private fun TitleAndAuthor(
     book: Book,
     onCreateQuizClick: () -> Unit,
+    onAnswerQuizClick: () -> Unit,
 ) {
     val title = book.title
     val author = book.author
-    Column {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = title,
@@ -179,9 +196,16 @@ private fun TitleAndAuthor(
         )
         Spacer(modifier = Modifier.height(5.dp))
 
-        Button(onClick = onCreateQuizClick) {
-            Text("Create quiz")
+        if (book.iAmTheAuthor) {
+            Button(onClick = onCreateQuizClick) {
+                Text(if (book.hasQuizzes) "Edit quiz"  else "Create quiz")
+            }
+        } else if (book.hasQuizzes) {
+            Button(onClick = onAnswerQuizClick) {
+                Text("Answer quiz")
+            }
         }
+
 
         Spacer(modifier = Modifier.height(5.dp))
         Text(
@@ -216,14 +240,15 @@ fun AddToShelfButton(onClick: () -> Unit) {
 fun BookInfoScreenPreview(
     @PreviewParameter(BookInfoScreenPreviewParameterProvider::class) state: BookInfoUIState
 ) {
-    val state = state.copy(book = state.book.copy(your_review = "Me gusto mucho este libro"))
+    val state = state.copy(book = state.book.copy(yourReview = "Me gusto mucho este libro"))
     GoodReadsTheme {
         BookInfoScreen(
             state,
             onReviewClick = {},
             onUserRatingChange = {},
             onCreateQuizClick = {},
-            onAddShelfClick = {}
+            onAddShelfClick = {},
+            onAnswerQuizClick = {}
         )
     }
 }

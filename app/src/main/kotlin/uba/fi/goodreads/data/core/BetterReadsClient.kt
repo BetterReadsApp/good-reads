@@ -5,6 +5,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import uba.fi.goodreads.data.shelf.request.CreateShelfBody
@@ -71,11 +72,14 @@ internal interface BetterReadsClient {
     @POST("/shelves/{shelfId}/books")
     suspend fun addBookToShelf(@Path("shelfId") shelfId: String, @Body body: AddBookToShelfBody)
 
-    @POST("/books/{bookId}/quiz")
-    suspend fun editQuiz(@Path("bookId") bookId: String, @Body body: QuizDto)
+    @POST("/quizzes")
+    suspend fun createQuiz(@Body body: QuizDto)
 
-    @GET("/books/{bookId}/quiz")
-    suspend fun getQuiz(@Path("bookId") bookId: String): List<QuizQuestionDto>
+    @PUT("/quizzes/{quizId}/")
+    suspend fun editQuiz(@Path("quizId") quizId: String, @Body body: QuizDto)
+
+    @GET("/quizzes/{quizId}")
+    suspend fun getQuiz(@Path("quizId") quizId: String): List<QuizQuestionDto>
 
     @GET("/recommended")
     suspend fun getRecommendedBooks(): List<RecommendedBookDto>

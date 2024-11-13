@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RegisterResponse(
-    @SerialName("user_id") val userId: Int
+    @SerialName("id") val userId: Int
 )

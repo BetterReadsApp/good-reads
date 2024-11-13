@@ -42,7 +42,7 @@ fun BookRow(
                 .width(80.dp)
                 .height(120.dp),
             model = ImageRequest.Builder(LocalContext.current)
-                .data(book.imageUrl) // TODO AL MODEL
+                .data(book.photoUrl) // TODO AL MODEL
                 .crossfade(true)
                 .build(),
             placeholder = painterResource(R.drawable.ficciones),

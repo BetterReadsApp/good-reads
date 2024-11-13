@@ -1,6 +1,5 @@
 package uba.fi.goodreads.presentation.review.composables
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,7 +40,7 @@ fun ReviewRoute(
     }
 
     ReviewScreen(
-        previousReview = screenState.book.your_review ?: "",
+        previousReview = screenState.book.yourReview ?: "",
         onBack = viewModel::onBack,
         onReviewChange = viewModel::onReviewChange
     )

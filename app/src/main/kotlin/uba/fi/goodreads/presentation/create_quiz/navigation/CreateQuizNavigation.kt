@@ -8,12 +8,12 @@ import androidx.navigation.navDeepLink
 import uba.fi.goodreads.presentation.create_quiz.composables.CreateQuizRoute
 
 
-const val CREATE_QUIZ_ROUTE = "create_quiz/{bookId}"
+const val CREATE_QUIZ_ROUTE = "create_quiz/{bookId}/{quizId}"
 private const val DEEP_LINK_URI_PATTERN =
     "goodReads://create_quiz"
 
-fun NavController.navigateToCreateQuiz(bookId: String, navOptions: NavOptions? = null) = navigate(
-    "create_quiz/$bookId", navOptions
+fun NavController.navigateToCreateQuiz(bookId: String, quizId: String? = null, navOptions: NavOptions? = null) = navigate(
+    "create_quiz/$bookId/$quizId", navOptions
 )
 
 fun NavGraphBuilder.createQuizScreen(
@@ -25,6 +25,7 @@ fun NavGraphBuilder.createQuizScreen(
             navDeepLink { uriPattern = DEEP_LINK_URI_PATTERN })
     ) { navBackResult ->
         val bookId = navBackResult.arguments?.getString("bookId") ?: ""
+        val quizId = navBackResult.arguments?.getString("quizId") ?: ""
         CreateQuizRoute(
             navigate = { destination ->
                 navigate(

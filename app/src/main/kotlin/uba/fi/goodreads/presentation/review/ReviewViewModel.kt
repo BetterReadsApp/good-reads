@@ -52,7 +52,7 @@ class ReviewViewModel @Inject constructor(
                     is ReviewBookUseCase.Result.UnexpectedError -> Unit
                     is ReviewBookUseCase.Result.Success -> _screenState.update {
                         BookReviewUIState(
-                            book = it.book.copy(your_review = result.newReview
+                            book = it.book.copy(yourReview = result.newReview
                         ))
                     }
                 }

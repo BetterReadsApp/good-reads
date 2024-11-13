@@ -17,7 +17,7 @@ class SearchScreenPreviewParameterProvider: PreviewParameterProvider<SearchUiSta
         users = DomainUsersMock.getUsers()
     )
     private fun getBlankState() = SearchUiState(
-        search = "Busca",
+        search = "",
         books = emptyList(),
         users = emptyList()
     )

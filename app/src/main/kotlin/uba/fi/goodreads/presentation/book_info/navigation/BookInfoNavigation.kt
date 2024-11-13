@@ -19,7 +19,7 @@ fun NavController.navigateToBookInfo(bookId: String, navOptions: NavOptions? = n
 fun NavGraphBuilder.bookInfoScreen(
     navigateToReview: (String) -> Unit,
     navigateToAddBookToShelf: (String) -> Unit,
-    navigateToCreateQuiz: (String) -> Unit
+    navigateToCreateQuiz: (String, String?) -> Unit
 ) {
     composable(
         route = BOOKINFO_ROUTE,
@@ -44,11 +44,11 @@ internal fun navigate(
     destination: BookInfoDestination,
     navigateToReview: (String) -> Unit,
     navigateToAddBookToShelf: (String) -> Unit,
-    navigateToCreateQuiz: (String) -> Unit,
+    navigateToCreateQuiz: (String, String?) -> Unit,
 ) {
     when (destination) {
         is BookInfoDestination.Review -> navigateToReview(destination.bookId)
         is BookInfoDestination.AddBookToShelf -> navigateToAddBookToShelf(destination.bookId)
-        is BookInfoDestination.CreateQuiz -> navigateToCreateQuiz(destination.bookId)
+        is BookInfoDestination.CreateQuiz -> navigateToCreateQuiz(destination.bookId, destination.quizId)
     }
 }

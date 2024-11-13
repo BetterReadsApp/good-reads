@@ -14,8 +14,8 @@ class GetQuizUseCase @Inject constructor(
         data object UnexpectedError : Result()
     }
 
-    suspend operator fun invoke(bookId: String): Result {
-        return when(val resultWrapper = booksRepository.getQuiz(bookId = bookId)) {
+    suspend operator fun invoke(quizId: String): Result {
+        return when(val resultWrapper = booksRepository.getQuiz(quizId = quizId)) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,
             is NetworkResult.NetworkError -> Result.UnexpectedError

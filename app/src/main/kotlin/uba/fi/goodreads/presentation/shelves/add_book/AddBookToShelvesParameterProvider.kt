@@ -10,7 +10,7 @@ class AddBookToShelvesParameterProvider: PreviewParameterProvider<AddBookToShelv
     )
 
     private fun getSuccessState() = AddBookToShelvesUiState(
-        book = BookMock.getbook(),
+        book = BookMock.getBook(),
         shelves = DomainShelfMocks.getShelves()
     )
 }

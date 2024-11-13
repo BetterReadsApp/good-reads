@@ -29,12 +29,16 @@ class CreateQuizViewModel @Inject constructor(
     val screenState: StateFlow<CreateQuizUIState> = _screenState.asStateFlow()
 
     private val bookId: String = savedStateHandle["bookId"] ?: ""
+    private val quizId: String = savedStateHandle["quizId"] ?: ""
+
+    private var edit: Boolean = false
 
     init {
         viewModelScope.launch {
-            getQuizUseCase(bookId = bookId).let { result ->
+            getQuizUseCase(quizId = quizId).let { result ->
                 when (result) {
                     is GetQuizUseCase.Result.Success -> {
+                        edit = true
                         _screenState.update { it.copy(questions = result.quiz) }
                     }
                     else -> {}
@@ -79,7 +83,9 @@ class CreateQuizViewModel @Inject constructor(
     fun onSaveQuiz() {
         viewModelScope.launch {
             createQuizUseCase(
+                edit = edit,
                 bookId = bookId,
+                quizId = quizId,
                 questions = screenState.value.questions
             )
         }
