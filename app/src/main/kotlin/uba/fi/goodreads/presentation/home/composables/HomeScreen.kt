@@ -35,6 +35,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import uba.fi.goodreads.R
+import uba.fi.goodreads.core.design_system.component.feedback.FeedbackScreen
+import uba.fi.goodreads.core.design_system.component.feedback.FeedbackType
+import uba.fi.goodreads.core.design_system.component.loading.Loading
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.presentation.home.HomeScreenPreviewParameterProvider
@@ -49,8 +52,8 @@ fun HomeRoute(
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
-    LaunchedEffect(screenState.destination) {
-        screenState.destination?.let { destination ->
+    LaunchedEffect((screenState as? HomeUiState.Success)?.destination) {
+        (screenState as? HomeUiState.Success)?.destination?.let  { destination ->
             navigate(destination)
             viewModel.onClearDestination()
         }
@@ -65,6 +68,22 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     screenState: HomeUiState,
+    onBookClicked: (Int) -> Unit
+) {
+    val scrollState = rememberScrollState()
+    when (screenState) {
+        HomeUiState.Error -> FeedbackScreen(type = FeedbackType.ERROR)
+        HomeUiState.Loading -> Loading()
+        is HomeUiState.Success -> HomeScreenSuccessContent(
+            screenState,
+            onBookClicked,
+        )
+    }
+}
+
+@Composable
+fun HomeScreenSuccessContent(
+    screenState: HomeUiState.Success,
     onBookClicked: (Int) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -99,6 +118,7 @@ fun HomeScreen(
         }
     }
 }
+
 
 @Composable
 private fun Post(
@@ -140,7 +160,7 @@ private fun BookRecommendation(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onBookClicked(1) }
+            .clickable { onBookClicked(book.id.toInt()) }
     ) {
         Column(
             modifier = Modifier

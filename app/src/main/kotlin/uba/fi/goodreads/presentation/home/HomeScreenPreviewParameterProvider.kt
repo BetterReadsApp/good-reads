@@ -11,7 +11,7 @@ class HomeScreenPreviewParameterProvider: PreviewParameterProvider<HomeUiState> 
         getSuccessState(),
     )
 
-    private fun getSuccessState() = HomeUiState(
+    private fun getSuccessState() = HomeUiState.Success(
         feed = DomainPostMocks.getPosts(),
         forYou = DomainBookMocks.getBooks()
     )
