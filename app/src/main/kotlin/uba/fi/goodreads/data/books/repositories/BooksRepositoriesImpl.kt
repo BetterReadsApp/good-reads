@@ -17,9 +17,15 @@ internal class BooksRepositoriesImpl @Inject constructor(
         }
     }
 
-    override suspend fun getBooks(text: String): NetworkResult<List<Book>> {
+    override suspend fun getBooksByKeyword(text: String): NetworkResult<List<Book>> {
         return responseHandler {
-            client.getBooks(text).map { it.toDomain() }
+            client.getBooksByKeyword(text).map { it.toDomain() }
+        }
+    }
+
+    override suspend fun getBooksByGenre(genre: String): NetworkResult<List<Book>>{
+        return responseHandler {
+            client.getBooksByGenre(genre).map { it.toDomain() }
         }
     }
 

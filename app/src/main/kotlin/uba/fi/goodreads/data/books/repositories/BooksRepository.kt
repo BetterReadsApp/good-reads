@@ -7,7 +7,9 @@ interface BooksRepository {
 
     suspend fun getBook(bookId: String): NetworkResult<Book>
 
-    suspend fun getBooks(text: String): NetworkResult<List<Book>>
+    suspend fun getBooksByKeyword(text: String): NetworkResult<List<Book>>
+
+    suspend fun getBooksByGenre(genre:String): NetworkResult<List<Book>>
 
     suspend fun rateBook(bookId: String, userId: String, rate: Int): NetworkResult<Double>
 
