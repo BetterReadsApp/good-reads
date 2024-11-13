@@ -18,6 +18,7 @@ import uba.fi.goodreads.data.books.request.QuizDto
 import uba.fi.goodreads.data.books.response.BookNetworkDto
 import uba.fi.goodreads.data.books.response.QuizQuestionDto
 import uba.fi.goodreads.data.books.response.RatingResponse
+import uba.fi.goodreads.data.books.response.RecommendedBookDto
 import uba.fi.goodreads.data.shelf.request.AddBookToShelfBody
 import uba.fi.goodreads.data.books.response.ReviewResponse
 import uba.fi.goodreads.data.shelf.response.ShelfNetworkDto
@@ -73,5 +74,6 @@ internal interface BetterReadsClient {
     @GET("/books/{bookId}/quiz")
     suspend fun getQuiz(@Path("bookId") bookId: String): List<QuizQuestionDto>
 
-
+    @GET("/recommended")
+    suspend fun getRecommendedBooks(): List<RecommendedBookDto>
 }
