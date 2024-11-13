@@ -14,6 +14,6 @@ data class QuizQuestion(
             choice2 = options[1],
             choice3 = options[2],
             choice4 = options[3],
-            correctChoiceIndex = correctOptionIndex
+            correctChoiceIndex = correctOptionIndex + 1
         )
 }

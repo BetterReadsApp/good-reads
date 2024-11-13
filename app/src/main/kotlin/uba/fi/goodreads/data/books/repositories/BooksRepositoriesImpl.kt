@@ -61,7 +61,7 @@ internal class BooksRepositoriesImpl @Inject constructor(
                 quizId = quizId,
                 body = QuizDto(
                     title = "Quiz",
-                    bookId = bookId,
+                    bookId = bookId.toInt(),
                     questions = questions.map { it.toDto() }
                 ))
         }
@@ -75,7 +75,7 @@ internal class BooksRepositoriesImpl @Inject constructor(
             client.createQuiz(
                 body = QuizDto(
                     title = "Quiz",
-                    bookId = bookId,
+                    bookId = bookId.toInt(),
                     questions = questions.map { it.toDto() }
                 ))
         }
@@ -83,7 +83,7 @@ internal class BooksRepositoriesImpl @Inject constructor(
 
     override suspend fun getQuiz(quizId: String): NetworkResult<List<QuizQuestion>> {
         return responseHandler {
-            client.getQuiz(quizId = quizId).map { it.toDomain() }
+            client.getQuiz(quizId = quizId).questions?.map { it.toDomain() } ?: emptyList()
         }
     }
 

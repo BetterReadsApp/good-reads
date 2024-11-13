@@ -15,6 +15,7 @@ import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.GetQuizUseCase
 import uba.fi.goodreads.domain.usecase.RateBookUseCase
 import uba.fi.goodreads.presentation.book_info.navigation.BookInfoDestination
+import uba.fi.goodreads.presentation.create_quiz.navigation.CreateQuizDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -87,7 +88,15 @@ class CreateQuizViewModel @Inject constructor(
                 bookId = bookId,
                 quizId = quizId,
                 questions = screenState.value.questions
-            )
+            ).also { result ->
+                when(result) {
+                    is CreateQuizUseCase.Result.Error,
+                    is CreateQuizUseCase.Result.UnexpectedError -> Unit
+                    is CreateQuizUseCase.Result.Success -> _screenState.update {
+                        it.copy(destination = CreateQuizDestination.Back)
+                    }
+                }
+            }
         }
     }
 

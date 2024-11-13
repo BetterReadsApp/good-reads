@@ -79,7 +79,7 @@ internal interface BetterReadsClient {
     suspend fun editQuiz(@Path("quizId") quizId: String, @Body body: QuizDto)
 
     @GET("/quizzes/{quizId}")
-    suspend fun getQuiz(@Path("quizId") quizId: String): List<QuizQuestionDto>
+    suspend fun getQuiz(@Path("quizId") quizId: String): QuizDto
 
     @GET("/recommended")
     suspend fun getRecommendedBooks(): List<RecommendedBookDto>

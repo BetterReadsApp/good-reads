@@ -41,7 +41,7 @@ data class BookNetworkDto(
         yourReview = yourReview,
         reviews = reviews.map { it.toDomain() },
         hasQuizzes = hasQuizzes ?: false,
-        quizId = quizzes?.firstOrNull()?.id
+        quizId = quizzes?.firstOrNull()?.id?.toString()
     )
 }
 
