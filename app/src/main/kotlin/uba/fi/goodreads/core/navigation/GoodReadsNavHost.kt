@@ -12,11 +12,13 @@ import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
 import uba.fi.goodreads.presentation.home.navigation.homeScreen
 import uba.fi.goodreads.presentation.profile.navigation.navigateToProfile
 import uba.fi.goodreads.presentation.profile.navigation.profileScreen
-import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.navigateToShelfBooks
-import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.shelfBooksScreen
-import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.shelvesScreen
-import uba.fi.goodreads.presentation.search.navigation.searchScreen
+import uba.fi.goodreads.presentation.shelves.shelf_books.navigation.navigateToShelfBooks
+import uba.fi.goodreads.presentation.shelves.shelf_books.navigation.shelfBooksScreen
+import uba.fi.goodreads.presentation.shelves.shelves.navigation.shelvesScreen
+import uba.fi.goodreads.presentation.search.search.navigation.searchScreen
 import uba.fi.goodreads.presentation.review.navigation.reviewScreen
+import uba.fi.goodreads.presentation.search.genre.navigation.genreScreen
+import uba.fi.goodreads.presentation.search.genre.navigation.navigateToGenre
 import uba.fi.goodreads.presentation.shelves.add_book.navigation.addBookToShelvesScreen
 import uba.fi.goodreads.presentation.shelves.add_book.navigation.navigateToAddBookToShelves
 
@@ -57,7 +59,8 @@ fun GoodReadsNavHost(
 
         searchScreen(
             navigateToBook = navController::navigateToBookInfo,
-            navigateToProfile = navController::navigateToProfile
+            navigateToProfile = navController::navigateToProfile,
+            navigateToGenre = navController::navigateToGenre
         )
 
         reviewScreen(
@@ -66,6 +69,10 @@ fun GoodReadsNavHost(
 
         addBookToShelvesScreen(
             onBack = navController::popBackStack
+        )
+
+        genreScreen(
+            navigateToBook = navController::navigateToBookInfo
         )
     }
 }

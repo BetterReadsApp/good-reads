@@ -9,8 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import uba.fi.goodreads.data.shelf.repositories.ShelvesRepository
-import uba.fi.goodreads.data.users.repositories.UsersRepository
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.RateBookUseCase
 import uba.fi.goodreads.presentation.book_info.navigation.BookInfoDestination
@@ -56,7 +54,7 @@ class BookInfoViewModel @Inject constructor(
                     is RateBookUseCase.Result.Success -> _screenState.update { state ->
                         state.copy(
                             userRating = rating,
-                            book = state.book.copy(avgRating = result.avgRating, your_rating = rating)
+                            book = state.book.copy(avgRating = result.avgRating, yourRating = rating)
                         )
                     }
                 }

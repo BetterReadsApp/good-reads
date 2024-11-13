@@ -48,10 +48,13 @@ internal interface BetterReadsClient {
     suspend fun rateBook(@Path("book_id") book_id: String, @Header("auth") auth: String, @Body body: RateBody): RatingResponse //aca no falta el user id?
 
     @GET("/books")
-    suspend fun getBooks(@Query("keywords") text: String): List<BookNetworkDto>
+    suspend fun getBooksByKeyword(@Query("keywords") text: String): List<BookNetworkDto>
+
+    @GET("/books")
+    suspend fun getBooksByGenre(@Query("genre") text: String): List<BookNetworkDto>
 
     @POST("/books/{book_id}/reviews")
-    suspend fun reviewBook(@Path("book_id") book_id: String, @Header("auth") auth: String, @Body body: ReviewBody): ReviewResponse //aca no falta el user id?
+    suspend fun reviewBook(@Path("book_id") bookId: String, @Header("auth") auth: String, @Body body: ReviewBody): ReviewResponse //aca no falta el user id?
 
     @GET("/users/{userId}")
     suspend fun getUser(@Path("userId") userId: String): UserNetworkDto

@@ -3,36 +3,40 @@ package uba.fi.goodreads.data.books.response
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import uba.fi.goodreads.domain.model.Book
+import uba.fi.goodreads.domain.model.BookGenre
 
 @Serializable
 data class BookNetworkDto(
     @SerialName("pages") val pages: Int? = null,
     @SerialName("title") val title: String,
     @SerialName("id") val id: Int,
-    @SerialName("author_id") val authorId: Int? = null,
     @SerialName("summary") val summary: String? = null,
-    @SerialName("author") val author: AuthorOfRecommended,
+    @SerialName("author") val author: AuthorDto,
     @SerialName("genre") val genre: String? = null,
     @SerialName("publication_date") val publicationDate: String? = null,
     @SerialName("average_rating") val avgRating: Double? = null,
     @SerialName("your_rating") val yourRating: Int? = null,
     @SerialName("your_review") val yourReview: String? = null,
     @SerialName("reviews") val reviews: List<ReviewNetworkDto> = emptyList(),
+    @SerialName("has_quizzes") val hasQuizzes: Boolean,
 ) {
     fun toDomain(currentUserId: String? = null) = Book(
         id = id.toString(),
-        iAmTheAuthor = authorId?.let { it.toString() == currentUserId },
+        iAmTheAuthor = author.id?.let { it.toString() == currentUserId } ,
         title = title,
         author = "${author.name} ${author.lastName}",
         pages = pages ?: 0,
         description = summary ?: "",
-        genres = genre?.let { listOf(it) } ?: emptyList(),
+        genres = BookGenre.entries.firstOrNull { it.genreName == genre }?.let {
+            listOf(it)
+        },
         publicationDate = publicationDate ?: "",
         avgRating = avgRating,
         userRated = null,
-        your_rating = yourRating,
+        yourRating = yourRating,
         your_review = yourReview,
-        reviews = reviews.map { it.toDomain() }
+        reviews = reviews.map { it.toDomain() },
+        hasQuizzes = hasQuizzes
     )
 }
 
@@ -48,7 +52,8 @@ data class RatedBookDto(
         title = title,
         author = author,
         userRated = rating,
-        pages = 0
+        pages = 0,
+        hasQuizzes = false
     )
 }
 
@@ -65,7 +70,10 @@ data class RecommendedBookDto(
         title = title,
         author = "Anonimo",
         pages = 0,
-        genres = listOf(genre),
+        genres = BookGenre.entries.firstOrNull { it.genreName == genre }?.let {
+            listOf(it)
+        },
         publicationDate = publicationDate,
+        hasQuizzes = hasQuizzes
     )
 }

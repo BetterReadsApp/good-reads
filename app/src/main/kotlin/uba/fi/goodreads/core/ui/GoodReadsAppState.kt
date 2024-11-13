@@ -20,8 +20,8 @@ import uba.fi.goodreads.core.navigation.TopLevelDestination.MY_BOOKS
 import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
 import uba.fi.goodreads.presentation.home.navigation.navigateToHome
 import uba.fi.goodreads.presentation.profile.navigation.navigateToProfile
-import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.navigateToShelves
-import uba.fi.goodreads.presentation.search.navigation.navigateToSearch
+import uba.fi.goodreads.presentation.shelves.shelves.navigation.navigateToShelves
+import uba.fi.goodreads.presentation.search.search.navigation.navigateToSearch
 
 @Composable
 fun rememberGoodReadsAppState(
