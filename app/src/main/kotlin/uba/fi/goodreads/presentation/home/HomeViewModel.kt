@@ -10,10 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetFeedUseCase
 import uba.fi.goodreads.domain.usecase.GetForYouUseCase
-import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
 import uba.fi.goodreads.presentation.home.navigation.HomeDestination
-import uba.fi.goodreads.presentation.shelves.shelvesScreen.ShelvesUiState
-import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.ShelvesDestination
 import javax.inject.Inject
 
 @HiltViewModel

@@ -18,7 +18,7 @@ class SearchUseCase @Inject constructor(
     }
 
     suspend operator fun invoke(text: String): Result {
-        return when (val booksResult = booksRepository.getBooks(text)
+        return when (val booksResult = booksRepository.getBooksByKeyword(text)
         ) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,
