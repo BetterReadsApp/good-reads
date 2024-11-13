@@ -11,5 +11,8 @@ object BookMock {
         description = "No matter your goals, Atomic Habits offers a proven framework for improving - every day.",
         publicationDate = "21/10/2003",
         pages = 420,
-        genres = listOf(BookGenre.SciFi, BookGenre.Biography))
+        genres = listOf(BookGenre.SciFi, BookGenre.Biography),
+        hasQuizzes = false
+    )
+
 }

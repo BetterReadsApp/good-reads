@@ -12,7 +12,8 @@ data class Book(
     val publicationDate: String? = null,
     val imageUrl: String = "",
     val avgRating: Double? = null,
-    val your_rating: Int? = null,
+    val yourRating: Int? = null,
     val your_review: String? = null,
     val reviews: List<UserReview> = emptyList(),
+    val hasQuizzes: Boolean
 )

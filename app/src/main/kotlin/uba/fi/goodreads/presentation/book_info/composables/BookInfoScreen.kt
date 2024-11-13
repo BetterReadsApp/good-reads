@@ -103,7 +103,7 @@ fun BookInfoScreen(
         AddToShelfButton(onAddShelfClick)
         Spacer(modifier = Modifier.height(16.dp))
         RatingBox(
-           userRating = screenState.book.your_rating?: 0,
+           userRating = screenState.book.yourRating?: 0,
             onUserRatingChange = onUserRatingChange
         )
         Spacer(modifier = Modifier.height(16.dp))

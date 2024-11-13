@@ -37,9 +37,9 @@ internal class BooksRepositoriesImpl @Inject constructor(
         }
     }
 
-    override suspend fun reviewBook(bookId: String, user_id: String, review: String): NetworkResult<String> {
+    override suspend fun reviewBook(bookId: String, userId: String, review: String): NetworkResult<String> {
         return responseHandler {
-            client.reviewBook(bookId, user_id, ReviewBody(review = review)).your_new_description
+            client.reviewBook(bookId, userId, ReviewBody(review = review)).your_new_description
         }
     }
 
