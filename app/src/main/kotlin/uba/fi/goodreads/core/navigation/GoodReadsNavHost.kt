@@ -14,8 +14,9 @@ import uba.fi.goodreads.presentation.profile.navigation.profileScreen
 import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.navigateToShelfBooks
 import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.shelfBooksScreen
 import uba.fi.goodreads.presentation.shelves.shelvesScreen.navigation.shelvesScreen
-import uba.fi.goodreads.presentation.search.navigation.searchScreen
+import uba.fi.goodreads.presentation.search.searchScreen.navigation.searchScreen
 import uba.fi.goodreads.presentation.review.navigation.reviewScreen
+import uba.fi.goodreads.presentation.search.genreScreen.navigation.navigateToGenre
 import uba.fi.goodreads.presentation.shelves.add_book.navigation.addBookToShelvesScreen
 import uba.fi.goodreads.presentation.shelves.add_book.navigation.navigateToAddBookToShelves
 
@@ -55,7 +56,8 @@ fun GoodReadsNavHost(
 
         searchScreen(
             navigateToBook = navController::navigateToBookInfo,
-            navigateToProfile = navController::navigateToProfile
+            navigateToProfile = navController::navigateToProfile,
+            navigateToGenre = navController::navigateToGenre
         )
 
         reviewScreen(

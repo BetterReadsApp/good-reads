@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.search.composables
+package uba.fi.goodreads.presentation.search.searchScreen.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,10 +34,10 @@ import uba.fi.goodreads.core.design_system.component.book_row.BookRow
 import uba.fi.goodreads.core.design_system.component.user_card.UserCard
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.BookGenre
-import uba.fi.goodreads.presentation.search.SearchScreenPreviewParameterProvider
-import uba.fi.goodreads.presentation.search.SearchUiState
-import uba.fi.goodreads.presentation.search.SearchViewModel
-import uba.fi.goodreads.presentation.search.navigation.SearchDestination
+import uba.fi.goodreads.presentation.search.searchScreen.SearchScreenPreviewParameterProvider
+import uba.fi.goodreads.presentation.search.searchScreen.SearchUiState
+import uba.fi.goodreads.presentation.search.searchScreen.SearchViewModel
+import uba.fi.goodreads.presentation.search.searchScreen.navigation.SearchDestination
 
 @Composable
 fun SearchRoute(
@@ -143,7 +143,7 @@ fun SearchScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items(BookGenre.entries) { genre ->
-                    GeneroItem(genre.toString(), onClick = {onGenreClick(genre.toString())})
+                    GenreItem(genre.toString(), onClick = {onGenreClick(genre.toString())})
                     HorizontalDivider()
                 }
             }
@@ -153,7 +153,7 @@ fun SearchScreen(
 }
 
 @Composable
-fun GeneroItem(genero: String, onClick: () -> Unit) {
+fun GenreItem(genre: String, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -161,10 +161,10 @@ fun GeneroItem(genero: String, onClick: () -> Unit) {
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = genero, modifier = Modifier.weight(1f))
+        Text(text = genre, modifier = Modifier.weight(1f))
         Icon(
-            imageVector = Icons.Default.ArrowForward,
-            contentDescription = "Ir a detalles de $genero"
+            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+            contentDescription = "search books of the $genre genre"
         )
     }
 }

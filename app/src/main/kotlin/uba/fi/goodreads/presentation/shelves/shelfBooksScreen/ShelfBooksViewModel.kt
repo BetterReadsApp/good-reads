@@ -9,16 +9,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.GetShelfBooksUseCase
-import uba.fi.goodreads.presentation.search.navigation.SearchDestination
 import uba.fi.goodreads.presentation.shelves.shelfBooksScreen.navigation.ShelfBooksDestination
 import javax.inject.Inject
 
 @HiltViewModel
 class ShelfBooksViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val getBookInfoUseCase: GetBookInfoUseCase,
+    savedStateHandle: SavedStateHandle,
     private val getShelfBooksUseCase: GetShelfBooksUseCase
 ): ViewModel() {
 

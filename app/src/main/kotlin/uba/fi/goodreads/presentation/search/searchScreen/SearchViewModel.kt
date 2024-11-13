@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.search
+package uba.fi.goodreads.presentation.search.searchScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.SearchUseCase
-import uba.fi.goodreads.presentation.search.navigation.SearchDestination
+import uba.fi.goodreads.presentation.search.searchScreen.navigation.GenreDestination
+import uba.fi.goodreads.presentation.search.searchScreen.navigation.SearchDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,7 +53,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun onGenreClick(s: String) {
-
+    fun onGenreClick(genre: String) {
+        _screenState.update {it.copy(destination = SearchDestination.Genre(genre))}
     }
 }

@@ -1,11 +1,11 @@
-package uba.fi.goodreads.presentation.search.navigation
+package uba.fi.goodreads.presentation.search.searchScreen.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import uba.fi.goodreads.presentation.search.composables.SearchRoute
+import uba.fi.goodreads.presentation.search.searchScreen.composables.SearchRoute
 
 const val SEARCH_ROUTE = "search"
 private const val DEEP_LINK_URI_PATTERN =
@@ -16,6 +16,7 @@ fun NavController.navigateToSearch(navOptions: NavOptions) = navigate(SEARCH_ROU
 fun NavGraphBuilder.searchScreen(
     navigateToBook: (String) -> Unit,
     navigateToProfile: (String) -> Unit,
+    navigateToGenre: (String) -> Unit
 ) {
     composable(
         route = SEARCH_ROUTE,
@@ -28,7 +29,8 @@ fun NavGraphBuilder.searchScreen(
                 navigate(
                     destination = destination,
                     navigateToBook = navigateToBook,
-                            navigateToProfile = navigateToProfile
+                    navigateToProfile = navigateToProfile,
+                    navigateToGenre = navigateToGenre
                 )
             }
         )
@@ -39,9 +41,11 @@ internal fun navigate(
     destination: SearchDestination,
     navigateToBook: (String) -> Unit,
     navigateToProfile: (String) -> Unit,
+    navigateToGenre: (String) -> Unit
 ) {
     when (destination) {
         is SearchDestination.BookInfo -> navigateToBook(destination.id)
         is SearchDestination.Profile -> navigateToProfile(destination.id.toString())
+        is SearchDestination.Genre -> navigateToGenre(destination.id)
     }
 }

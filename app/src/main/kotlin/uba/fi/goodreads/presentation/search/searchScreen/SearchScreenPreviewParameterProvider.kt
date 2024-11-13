@@ -1,8 +1,7 @@
-package uba.fi.goodreads.presentation.search
+package uba.fi.goodreads.presentation.search.searchScreen
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import uba.fi.goodreads.domain.mocks.DomainBookMocks
-import uba.fi.goodreads.domain.mocks.DomainPostMocks
 import uba.fi.goodreads.domain.mocks.DomainUsersMock
 
 class SearchScreenPreviewParameterProvider: PreviewParameterProvider<SearchUiState> {
