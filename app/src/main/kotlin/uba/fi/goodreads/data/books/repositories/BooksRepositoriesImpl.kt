@@ -53,7 +53,7 @@ internal class BooksRepositoriesImpl @Inject constructor(
         }
     }
 
-    override suspend fun getRecommendedBooks(): NetworkResult<List<Book>> {
+    override suspend fun getRecommendedBooks(userId: String): NetworkResult<List<Book>> {
         return responseHandler {
             client.getRecommendedBooks().map { it.toDomain() }
         }

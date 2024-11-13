@@ -160,7 +160,7 @@ private fun BookRecommendation(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onBookClicked(1) }
+            .clickable { onBookClicked(book.id.toInt()) }
     ) {
         Column(
             modifier = Modifier

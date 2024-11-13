@@ -1,12 +1,14 @@
 package uba.fi.goodreads.domain.usecase
 
 import uba.fi.goodreads.core.network.NetworkResult
+import uba.fi.goodreads.data.auth.repositories.SessionRepository
 import uba.fi.goodreads.data.books.repositories.BooksRepository
 import uba.fi.goodreads.domain.model.Book
 import javax.inject.Inject
 
 class GetForYouUseCase @Inject constructor(
-    private val booksRepository: BooksRepository
+    private val booksRepository: BooksRepository,
+    private val sessionRepository: SessionRepository
 ) {
     sealed class Result {
         data class Success(val recommendedBooks: List<Book>) : Result()
@@ -15,7 +17,7 @@ class GetForYouUseCase @Inject constructor(
     }
 
     suspend operator fun invoke(): Result {
-        return when(val resultWrapper = booksRepository.getRecommendedBooks()) {
+        return when(val resultWrapper = booksRepository.getRecommendedBooks(sessionRepository.getUserId())) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,
             is NetworkResult.NetworkError -> Result.UnexpectedError

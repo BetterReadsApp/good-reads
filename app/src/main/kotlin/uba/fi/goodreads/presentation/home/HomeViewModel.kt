@@ -62,21 +62,3 @@ class HomeViewModel @Inject constructor(
         }
     }
 }
-
-//fun onShelfClick(id: String) {
-//    _screenState.update {
-//        (it as? ShelvesUiState.Success)?.copy(
-//            destination = ShelvesDestination.ShelfBooks(
-//                id
-//            )
-//        ) ?: it
-//    }
-//}
-//
-//fun onClearDestination() {
-//    _screenState.update {
-//        (it as? ShelvesUiState.Success)?.copy(
-//            destination = null
-//        ) ?: it
-//    }
-//}
