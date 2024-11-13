@@ -9,11 +9,17 @@ class SearchScreenPreviewParameterProvider: PreviewParameterProvider<SearchUiSta
 
     override val values: Sequence<SearchUiState> = sequenceOf(
         getSuccessState(),
+        getBlankState()
     )
 
     private fun getSuccessState() = SearchUiState(
         search = "Busca",
         books = DomainBookMocks.getBooks(),
         users = DomainUsersMock.getUsers()
+    )
+    private fun getBlankState() = SearchUiState(
+        search = "Busca",
+        books = emptyList(),
+        users = emptyList()
     )
 }

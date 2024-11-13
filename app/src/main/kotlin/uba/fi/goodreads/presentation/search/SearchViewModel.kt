@@ -51,4 +51,8 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
+
+    fun onGenreClick(s: String) {
+
+    }
 }

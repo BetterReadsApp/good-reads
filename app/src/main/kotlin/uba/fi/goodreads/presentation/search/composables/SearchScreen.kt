@@ -1,6 +1,8 @@
 package uba.fi.goodreads.presentation.search.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,7 +12,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -18,7 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -26,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import uba.fi.goodreads.core.design_system.component.book_row.BookRow
 import uba.fi.goodreads.core.design_system.component.user_card.UserCard
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
+import uba.fi.goodreads.domain.model.BookGenre
 import uba.fi.goodreads.presentation.search.SearchScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.search.SearchUiState
 import uba.fi.goodreads.presentation.search.SearchViewModel
@@ -50,6 +58,7 @@ fun SearchRoute(
         onSearchChange = viewModel::onSearchChange,
         onBookClick = viewModel::onBookClick,
         onUserClick = viewModel::onUserClick,
+        onGenreClick = viewModel::onGenreClick
     )
 }
 
@@ -59,6 +68,7 @@ fun SearchScreen(
     onSearchChange: (String) -> Unit,
     onBookClick: (String) -> Unit,
     onUserClick: (Int) -> Unit,
+    onGenreClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -121,6 +131,41 @@ fun SearchScreen(
                 HorizontalDivider()
             }
         }
+        if ((screenState.books.isEmpty()) && (screenState.users.isEmpty())){
+            HorizontalDivider()
+            Text(
+                text = "Explore by Genre",
+                style = MaterialTheme.typography.headlineLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(BookGenre.entries) { genre ->
+                    GeneroItem(genre.toString(), onClick = {onGenreClick(genre.toString())})
+                    HorizontalDivider()
+                }
+            }
+        }
+    }
+
+}
+
+@Composable
+fun GeneroItem(genero: String, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = genero, modifier = Modifier.weight(1f))
+        Icon(
+            imageVector = Icons.Default.ArrowForward,
+            contentDescription = "Ir a detalles de $genero"
+        )
     }
 }
 
@@ -134,7 +179,8 @@ fun SearchScreenPreview(
             state,
             onBookClick = {},
             onSearchChange = {},
-            onUserClick = {}
+            onUserClick = {},
+            onGenreClick = {}
         )
     }
 }
