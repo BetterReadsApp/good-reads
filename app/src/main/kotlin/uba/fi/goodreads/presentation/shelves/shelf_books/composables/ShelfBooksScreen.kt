@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -21,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -95,7 +98,9 @@ fun BookSummary(book: Book, onBookClick: (String) -> Unit ) {
                     .data(book.photoUrl)
                     .crossfade(true)
                     .build(),
-                // placeholder = painterResource(R.drawable.placeholder),
+                modifier = Modifier
+                    .size(120.dp, 180.dp)
+                    .clip(RoundedCornerShape(8.dp)),
                 contentDescription = "Cover of one of the books present inside the shelf",
                 contentScale = ContentScale.Crop,
             )

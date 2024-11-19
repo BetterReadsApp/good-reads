@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -149,15 +151,33 @@ private fun ShelfPreview(
         .clickable{ onShelfClick(shelf.id.toString()) }
     ) {
         Row {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
-                    .crossfade(true)
-                    .build(),
-                // placeholder = painterResource(R.drawable.placeholder),
-                contentDescription = "Cover of one of the books present inside the shelf",
-                contentScale = ContentScale.Crop,
-            )
+            if (shelf.books.isEmpty()){
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://cdn-icons-png.flaticon.com/512/29/29809.png")
+                        .crossfade(true)
+                        .build(),
+                    modifier = Modifier
+                        .size(120.dp, 180.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentDescription = "Cover of one of the books present inside the shelf",
+                    contentScale = ContentScale.Crop,
+                )
+
+            }else{
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(shelf.books.first().photoUrl)
+                        .crossfade(true)
+                        .build(),
+                    modifier = Modifier
+                        .size(120.dp, 180.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentDescription = "Icon that indicates the shelf is empty",
+                    contentScale = ContentScale.Crop,
+                )
+            }
+
             Column {
                 Text(
                     text = shelf.name
