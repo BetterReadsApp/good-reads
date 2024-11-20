@@ -58,6 +58,7 @@ class ProfileViewModel @Inject constructor(
                             ratedBooks = result.user.ratedBooks,
                             followedByMe = result.user.followedByMe,
                             ownProfile = result.user.isMyUser,
+                            isAuthor = result.user.isAuthor,
                             avatarUrl = result.user.avatarUrl,
                             loading = false
                         )
@@ -94,5 +95,9 @@ class ProfileViewModel @Inject constructor(
 
     fun onClearDestination() {
         _screenState.update { it.copy(destination = null) }
+    }
+
+    fun onAddBookClick() {
+        _screenState.update { it.copy(destination = ProfileDestination.AddBook) }
     }
 }

@@ -17,4 +17,5 @@ data class ProfileUiState(
     val ratedBooks: List<Book> = emptyList(),
     val followedByMe: Boolean = false,
     val ownProfile: Boolean = true,
+    val isAuthor: Boolean = false,
 )
