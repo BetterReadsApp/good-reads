@@ -8,7 +8,6 @@ import javax.inject.Inject
 
 class AnswerQuizUseCase @Inject constructor(
     private val booksRepository: BooksRepository,
-    private val sessionRepository: SessionRepository
 ) {
     sealed class Result {
         data object Success : Result()
@@ -21,8 +20,9 @@ class AnswerQuizUseCase @Inject constructor(
         answers: List<QuizAnswer>
     ): Result {
         return when (
-            booksRepository.answerQuiz(quizId, sessionRepository.getUserId(), answers)
+            val resultWrapper = booksRepository.answerQuiz(quizId, answers)
         ) {
+            is NetworkResult.GenericError -> Result.Error(resultWrapper.title, resultWrapper.detail)
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,
             is NetworkResult.NetworkError -> Result.UnexpectedError

@@ -25,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import uba.fi.goodreads.core.design_system.component.feedback.FeedbackScreen
+import uba.fi.goodreads.core.design_system.component.feedback.FeedbackType
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.QuizAnswer
 import uba.fi.goodreads.domain.model.QuizQuestion
@@ -60,34 +62,42 @@ fun AnswerQuizScreen(
     onSendAnswer: () -> Unit,
     onOptionSelected: (Int, Int, Int) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding()
-    ) {
+    if (screenState.error != null) {
+        FeedbackScreen(
+            FeedbackType.ERROR,
+            title = screenState.error
+        )
+    } else {
+
         Column(
             modifier = Modifier
-                .weight(1f, false)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp)
+                .fillMaxSize()
+                .statusBarsPadding()
         ) {
-            screenState.questions.forEachIndexed { questionIndex, question ->
-                Question(
-                    questionIndex,
-                    question,
-                    onOptionSelected = onOptionSelected,
-                    answer = screenState.answers[questionIndex]
-                )
-            }
-
-            Button(
-                onClick = onSendAnswer,
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                enabled = screenState.questions.isNotEmpty()
+                    .weight(1f, false)
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp)
             ) {
-                Text(text = "Send Answers")
+                screenState.questions.forEachIndexed { questionIndex, question ->
+                    Question(
+                        questionIndex,
+                        question,
+                        onOptionSelected = onOptionSelected,
+                        answer = screenState.answers[questionIndex]
+                    )
+                }
+
+                Button(
+                    onClick = onSendAnswer,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    enabled = screenState.questions.isNotEmpty()
+                ) {
+                    Text(text = "Send Answers")
+                }
             }
         }
     }

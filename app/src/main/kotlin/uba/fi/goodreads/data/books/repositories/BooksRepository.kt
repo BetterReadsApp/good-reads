@@ -30,7 +30,6 @@ interface BooksRepository {
 
     suspend fun answerQuiz(
         quizId: String,
-        currentUserId: String,
         answers: List<QuizAnswer>
     ): NetworkResult<Unit>
 

@@ -87,7 +87,7 @@ internal interface BetterReadsClient {
     suspend fun getQuiz(@Path("quizId") quizId: String): QuizDto
 
     @POST("/quizzes/{quizId}/answers")
-    suspend fun answerQuiz(@Path("quizId") quizId: String, @Query("user_id") userId: String, @Body body: AnswerDto)
+    suspend fun answerQuiz(@Path("quizId") quizId: String, @Body body: AnswerDto)
 
     @GET("/recommended")
     suspend fun getRecommendedBooks(): List<RecommendedBookDto>

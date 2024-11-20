@@ -7,5 +7,6 @@ import uba.fi.goodreads.presentation.answer_quiz.navigation.AnswerQuizDestinatio
 data class AnswerQuizUIState(
     val questions: List<QuizQuestion> = emptyList(),
     val answers: List<QuizAnswer> = emptyList(),
+    val error: String? = null,
     val destination: AnswerQuizDestination? = null,
 )

@@ -57,8 +57,12 @@ class AnswerQuizViewModel @Inject constructor(
                 answers = screenState.value.answers
             ).also { result ->
                 when (result) {
-                    is AnswerQuizUseCase.Result.Error,
-                    is AnswerQuizUseCase.Result.UnexpectedError -> Unit
+                    is AnswerQuizUseCase.Result.Error -> _screenState.update {
+                        it.copy(error = result.description)
+                    }
+                    is AnswerQuizUseCase.Result.UnexpectedError -> _screenState.update {
+                    it.copy(error = "Unknown error")
+                }
 
                     is AnswerQuizUseCase.Result.Success -> _screenState.update {
                         it.copy(destination = AnswerQuizDestination.Back)

@@ -85,13 +85,11 @@ internal class BooksRepositoriesImpl @Inject constructor(
 
     override suspend fun answerQuiz(
         quizId: String,
-        currentUserId: String,
         answers: List<QuizAnswer>
     ): NetworkResult<Unit> {
         return responseHandler{
             client.answerQuiz(
                 quizId = quizId,
-                userId = currentUserId,
                 body = AnswerDto(
                     answers = answers.map { it.toDto() }
                 )
