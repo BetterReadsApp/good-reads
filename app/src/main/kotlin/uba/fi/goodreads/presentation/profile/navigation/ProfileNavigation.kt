@@ -16,7 +16,8 @@ fun NavController.navigateToProfile(userId: String? = null, navOptions: NavOptio
 )
 
 fun NavGraphBuilder.profileScreen(
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onAddBook: () -> Unit
 ) {
     composable(
         route = PROFILE_ROUTE,
@@ -29,7 +30,8 @@ fun NavGraphBuilder.profileScreen(
             navigate = { destination ->
                 navigate(
                     destination = destination,
-                    onBack = onBack
+                    onBack = onBack,
+                    onAddBook = onAddBook
                 )
             }
         )
@@ -38,9 +40,12 @@ fun NavGraphBuilder.profileScreen(
 
 internal fun navigate(
     destination: ProfileDestination,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onAddBook: () -> Unit,
 ) {
     when (destination) {
         is ProfileDestination.Back -> onBack()
+        is ProfileDestination.AddBook -> onAddBook()
+
     }
 }

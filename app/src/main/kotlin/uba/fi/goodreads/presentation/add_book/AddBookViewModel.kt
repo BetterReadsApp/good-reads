@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
+import uba.fi.goodreads.presentation.add_book.navigation.AddBookDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +39,6 @@ class AddBookViewModel @Inject constructor(
 
                     is GetBookInfoUseCase.Result.Success -> _screenState.update {
                         AddBookUIState(
-                            book = result.book
                         )
                     }
                 }
@@ -46,24 +46,10 @@ class AddBookViewModel @Inject constructor(
         }
     }
 
-    fun onReviewChange(review: String) {
-        viewModelScope.launch {
-            reviewBookUseCase(bookId, review).also { result ->
-                when (result) {
-                    is ReviewBookUseCase.Result.Error,
-                    is ReviewBookUseCase.Result.UnexpectedError -> Unit
-                    is ReviewBookUseCase.Result.Success -> _screenState.update {
-                        AddBookUIState(
-                            book = it.book.copy(yourReview = result.newReview
-                        ))
-                    }
-                }
-        }
-        }}
-/*
+
     fun onBack() {
         _screenState.update {
-            it.copy(destination = ReviewDestination.Back)
+            it.copy(destination = AddBookDestination.Back)
         }
     }
 
@@ -72,6 +58,6 @@ class AddBookViewModel @Inject constructor(
             it.copy(destination = null)
         }
     }
-*/
+
 }
 

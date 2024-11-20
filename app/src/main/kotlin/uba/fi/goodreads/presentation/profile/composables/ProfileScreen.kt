@@ -64,7 +64,8 @@ fun ProfileRoute(
     ProfileScreen(
         screenState = screenState,
         onFollowClick = viewModel::onFollowClick,
-        onBack = viewModel::onBack
+        onBack = viewModel::onBack,
+        onAddBookClick = viewModel::onAddBookClick,
     )
 }
 
@@ -73,6 +74,7 @@ fun ProfileRoute(
 fun ProfileScreen(
     screenState: ProfileUiState,
     onFollowClick: () -> Unit,
+    onAddBookClick: () -> Unit,
     onBack: () -> Unit
 ) {
     Column(
@@ -113,6 +115,12 @@ fun ProfileScreen(
                 followingAmount = screenState.followingAmount.toString(),
                 onFollowClick = onFollowClick
             )
+
+            if (screenState.isAuthor) {
+                Button(
+                    onClick = onAddBookClick
+                ) { }
+            }
 
             Shelves(screenState.shelves)
 
@@ -310,7 +318,8 @@ fun ProfileScreenPreview(
         ProfileScreen(
             screenState = state,
             onFollowClick = {},
-            onBack = {}
+            onBack = {},
+            onAddBookClick = {}
         )
     }
 }

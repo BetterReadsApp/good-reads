@@ -44,7 +44,8 @@ class ProfileViewModel @Inject constructor(
                             shelves = result.user.shelves,
                             ratedBooks = result.user.ratedBooks,
                             followedByMe = result.user.followedByMe,
-                            ownProfile = result.user.isMyUser
+                            ownProfile = result.user.isMyUser,
+                            isAuthor = result.user.isAuthor
                         )
                     }
                 }
@@ -70,5 +71,9 @@ class ProfileViewModel @Inject constructor(
 
     fun onClearDestination() {
         _screenState.update { it.copy(destination = null) }
+    }
+
+    fun onAddBookClick() {
+        _screenState.update { it.copy(destination = ProfileDestination.AddBook) }
     }
 }

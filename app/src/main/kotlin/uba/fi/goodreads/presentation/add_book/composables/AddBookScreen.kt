@@ -20,6 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,38 +32,33 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import uba.fi.goodreads.presentation.add_book.AddBookViewModel
-import uba.fi.goodreads.presentation.review.ReviewViewModel
-import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
+import uba.fi.goodreads.presentation.add_book.navigation.AddBookDestination
+
 
 @Composable
-fun ReviewRoute(
-    navigate: (ReviewDestination) -> Unit,
-    viewModel: ReviewViewModel = hiltViewModel(),
+fun AddBookRoute(
+    navigate: (AddBookDestination) -> Unit,
+    viewModel: AddBookViewModel = hiltViewModel(),
 ) {
-    //val screenState by viewModel.screenState.collectAsState()
+    val screenState by viewModel.screenState.collectAsState()
 
-    //LaunchedEffect(screenState.destination) {
-    //    screenState.destination?.let { destination ->
-    //        navigate(destination)
-    //        viewModel.onClearDestination()
-    //    }
-    //}
+    LaunchedEffect(screenState.destination) {
+        screenState.destination?.let { destination ->
+            navigate(destination)
+            viewModel.onClearDestination()
+        }
+    }
 
-//    ReviewScreen(
-//        previousReview = screenState.book.yourReview ?: "",
-//        onBack = viewModel::onBack,
-//        onReviewChange = viewModel::onReviewChange
-//    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBookScreen(
-//    onBack: () -> Unit,
-//    onReviewChange: (String) -> Unit,
-    //viewModel: AddBookViewModel = hiltViewModel(),
+    onBack: () -> Unit,
+    viewModel: AddBookViewModel,
 ) {
     var url by remember { mutableStateOf("") }
     var title by remember { mutableStateOf("") }
@@ -72,13 +69,9 @@ fun AddBookScreen(
         verticalArrangement = Arrangement.Top,
         modifier = Modifier.fillMaxSize()
     ) {
-//        TopBar(
-//            onBack = onBack,
-//            onSave = {
-//                onReviewChange(text)
-//                onBack()
-//            }
-//        )
+        TopBar(
+            onBack = onBack,
+        )
         Box(
             modifier = Modifier
                 .height(200.dp)
@@ -86,8 +79,7 @@ fun AddBookScreen(
         ) {
             // Mostrar la imagen de portada o la imagen por defecto
             val painter = rememberAsyncImagePainter(
-                //model = if (viewModel.coverUrl.value.isNotBlank()) viewModel.coverUrl.value else "https://via.placeholder.com/200x200.png?text=Sin+portada"
-                model = "https://via.placeholder.com/200x200.png?text=Sin+portada"
+                model = if (viewModel.coverUrl.value.isNotBlank()) viewModel.coverUrl.value else "https://via.placeholder.com/200x200.png?text=Sin+portada"
             )
             Image(
                 painter = painter,
@@ -98,24 +90,24 @@ fun AddBookScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = url, //viewModel.coverUrl.value,
-            onValueChange = { url = it}, //viewModel.coverUrl.value = it },
+            value = viewModel.coverUrl.value,
+            onValueChange = { viewModel.coverUrl.value = it },
             label = { Text("URL de portada") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         // Input para el título
         OutlinedTextField(
-            value = title,//viewModel.title.value,
-            onValueChange = { title = it},//viewModel.title.value = it },
+            value = viewModel.title.value,
+            onValueChange = { viewModel.title.value = it },
             label = { Text("Título") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         // Input para la descripción
         OutlinedTextField(
-            value = description,//viewModel.description.value,
-            onValueChange = { description = it},//viewModel.description.value = it },
+            value = viewModel.description.value,
+            onValueChange = { viewModel.description.value = it },
             label = { Text("Descripción") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -136,7 +128,6 @@ fun AddBookScreen(
 @Composable
 fun TopBar(
     onBack: () -> Unit,
-    onSave: () -> Unit
 ) {
     TopAppBar(
         title = { Text("Write a review") },
@@ -150,40 +141,14 @@ fun TopBar(
                 )
             }
         },
-        actions = {
-            IconButton(
-                onClick = {onSave()}
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = "Save Review"
-                )
-            }
-        }
     )
 }
-
-@Composable
-fun ReviewTextField(
-    text: String,
-    onTextChange: (String) -> Unit
-) {
-    TextField(
-        value = text,
-        onValueChange = { onTextChange(it) },
-        label = { Text("Write a review") },
-        modifier = Modifier.fillMaxSize()
-    )
-}
-
-
-
-
-
-
 
 @Composable
 @Preview(showBackground = true)
 fun ReviewsScreenPreview() {
-    AddBookScreen()
+    AddBookScreen(
+        {},
+        viewModel = hiltViewModel()
+    )
 }

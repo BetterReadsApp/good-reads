@@ -1,18 +1,19 @@
 package uba.fi.goodreads.presentation.add_book.navigation
-/*
+
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import uba.fi.goodreads.presentation.add_book.composables.AddBookRoute
 import uba.fi.goodreads.presentation.review.composables.ReviewRoute
 
-const val ADDBOOKSCREEN_ROUTE = "bookinfo/{bookId}/review"
+const val ADDBOOKSCREEN_ROUTE = "profile/add_book"
 private const val DEEP_LINK_URI_PATTERN =
-    "goodReads://bookinfo/review"
+    "goodReads://profile/add_book"
 
-fun NavController.navigateToAddBookScreen(bookId: String, navOptions: NavOptions? = null) = navigate(
-    "bookinfo/$bookId/review", navOptions
+fun NavController.navigateToAddBookScreen(navOptions: NavOptions? = null) = navigate(
+    "profile/add_book", navOptions
 )
 
 fun NavGraphBuilder.addBookScreen(
@@ -43,4 +44,3 @@ internal fun navigate(
         is AddBookDestination.Back -> onBack()
     }
 }
-*/
