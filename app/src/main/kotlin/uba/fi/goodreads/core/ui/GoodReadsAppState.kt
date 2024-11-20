@@ -100,7 +100,9 @@ class GoodReadsAppState(
                 DISCOVER -> navController.navigateToSearch(
                     topLevelNavOptions
                 )
-                PROFILE -> navController.navigateToProfile(navOptions = topLevelNavOptions)
+                PROFILE -> navController.navigateToProfile(
+                    navOptions = topLevelNavOptions
+                )
             }
         }
     }

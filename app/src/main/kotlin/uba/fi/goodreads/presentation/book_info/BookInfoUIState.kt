@@ -4,6 +4,7 @@ import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.presentation.book_info.navigation.BookInfoDestination
 
 data class BookInfoUIState(
+    val loading: Boolean = true,
     val book: Book = Book(
         id = "1",
         author = "",

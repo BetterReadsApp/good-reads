@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -42,9 +43,10 @@ import uba.fi.goodreads.core.design_system.component.avatar.BrAvatar
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.domain.model.Shelf
-import uba.fi.goodreads.presentation.profile.ProfileScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.profile.ProfileUiState
 import uba.fi.goodreads.presentation.profile.ProfileViewModel
+import uba.fi.goodreads.presentation.edit_profile.navigation.EditProfileDestination
+import uba.fi.goodreads.presentation.profile.ProfileScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.profile.navigation.ProfileDestination
 
 @Composable
@@ -64,6 +66,7 @@ fun ProfileRoute(
     ProfileScreen(
         screenState = screenState,
         onFollowClick = viewModel::onFollowClick,
+        onEditProfile = viewModel::onEditProfileClick,
         onBack = viewModel::onBack
     )
 }
@@ -73,52 +76,66 @@ fun ProfileRoute(
 fun ProfileScreen(
     screenState: ProfileUiState,
     onFollowClick: () -> Unit,
+    onEditProfile: () -> Unit,
     onBack: () -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        TopAppBar(
-            navigationIcon = {
-                IconButton(
-                    onClick = onBack
-                ) {
-                    Icon(
-                        painterResource(
-                            id = R.drawable.ic_back
-                        ),
-                        contentDescription = null
-                    )
-                }
-            },
-            title = {}
-        )
+
+    if (screenState.loading) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
 
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    horizontal = 16.dp,
-                ),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Header(
-                ownProfile = screenState.ownProfile,
-                following = screenState.followedByMe,
-                pictureUrl = null,
-                name = screenState.firstName + " " + screenState.lastName,
-                followersAmount = screenState.followersAmount.toString(),
-                followingAmount = screenState.followingAmount.toString(),
-                onFollowClick = onFollowClick
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(
+                        onClick = onBack
+                    ) {
+                        Icon(
+                            painterResource(
+                                id = R.drawable.ic_back
+                            ),
+                            contentDescription = null
+                        )
+                    }
+                },
+                title = {}
             )
 
-            Shelves(screenState.shelves)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        horizontal = 16.dp,
+                    ),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
 
-            RatedBooks(screenState.ratedBooks)
+                Header(
+                    ownProfile = screenState.ownProfile,
+                    following = screenState.followedByMe,
+                    pictureUrl = screenState.avatarUrl,
+                    name = screenState.firstName + " " + screenState.lastName,
+                    followersAmount = screenState.followersAmount.toString(),
+                    followingAmount = screenState.followingAmount.toString(),
+                    onFollowClick = onFollowClick,
+                    onEditProfile = onEditProfile
+                )
+
+                Shelves(screenState.shelves)
+
+                RatedBooks(screenState.ratedBooks)
+            }
+
         }
-
     }
 }
 
@@ -131,7 +148,8 @@ private fun ColumnScope.Header(
     name: String,
     followersAmount: String,
     followingAmount: String,
-    onFollowClick: () -> Unit
+    onFollowClick: () -> Unit,
+    onEditProfile: () -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
@@ -150,6 +168,14 @@ private fun ColumnScope.Header(
             ) {
                 Text(
                     text = if (following) "Unfollow" else "Follow"
+                )
+            }
+        } else {
+            Button(
+                onClick = onEditProfile
+            ) {
+                Text(
+                    text = "Edit profile"
                 )
             }
         }
@@ -261,6 +287,7 @@ private fun ColumnScope.RatedBooks(
         text = "Rated books"
     )
     LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
         items(ratedBooks) { book ->
@@ -310,6 +337,7 @@ fun ProfileScreenPreview(
         ProfileScreen(
             screenState = state,
             onFollowClick = {},
+            onEditProfile = {},
             onBack = {}
         )
     }

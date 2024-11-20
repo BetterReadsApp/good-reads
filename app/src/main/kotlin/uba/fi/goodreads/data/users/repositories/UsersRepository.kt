@@ -12,4 +12,12 @@ interface UsersRepository {
     suspend fun unfollowUser(id: String): NetworkResult<Unit>
 
     suspend fun searchUsers(text: String): NetworkResult<List<User>>
+
+    suspend fun editUser(
+        firstName: String,
+        lastName: String,
+        email: String,
+        avatarUrl: String,
+        isAuthor: Boolean,
+    ): NetworkResult<Unit>
 }

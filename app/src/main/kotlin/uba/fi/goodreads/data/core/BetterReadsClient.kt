@@ -23,6 +23,7 @@ import uba.fi.goodreads.data.books.response.RecommendedBookDto
 import uba.fi.goodreads.data.shelf.request.AddBookToShelfBody
 import uba.fi.goodreads.data.books.response.ReviewResponse
 import uba.fi.goodreads.data.shelf.response.ShelfNetworkDto
+import uba.fi.goodreads.data.users.request.EditUserBody
 import uba.fi.goodreads.data.users.response.UserNetworkDto
 
 internal interface BetterReadsClient {
@@ -68,6 +69,9 @@ internal interface BetterReadsClient {
 
     @DELETE("/users/{userId}/followers")
     suspend fun unfollowUser(@Path("userId") userId: String)
+
+    @PUT("/users/{userId}")
+    suspend fun editUser(@Body body: EditUserBody)
 
     @POST("/shelves/{shelfId}/books")
     suspend fun addBookToShelf(@Path("shelfId") shelfId: String, @Body body: AddBookToShelfBody)

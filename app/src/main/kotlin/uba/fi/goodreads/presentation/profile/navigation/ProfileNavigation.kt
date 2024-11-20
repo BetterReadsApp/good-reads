@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import uba.fi.goodreads.presentation.edit_profile.navigation.EditProfileDestination
 import uba.fi.goodreads.presentation.profile.composables.ProfileRoute
 
 const val PROFILE_ROUTE = "profile/{userId}"
@@ -16,6 +17,7 @@ fun NavController.navigateToProfile(userId: String? = null, navOptions: NavOptio
 )
 
 fun NavGraphBuilder.profileScreen(
+    navigateToEditProfile: () -> Unit,
     onBack: () -> Unit
 ) {
     composable(
@@ -29,6 +31,7 @@ fun NavGraphBuilder.profileScreen(
             navigate = { destination ->
                 navigate(
                     destination = destination,
+                    navigateToEditProfile = navigateToEditProfile,
                     onBack = onBack
                 )
             }
@@ -38,9 +41,11 @@ fun NavGraphBuilder.profileScreen(
 
 internal fun navigate(
     destination: ProfileDestination,
+    navigateToEditProfile: () -> Unit,
     onBack: () -> Unit
 ) {
     when (destination) {
+        is ProfileDestination.EditProfile -> navigateToEditProfile()
         is ProfileDestination.Back -> onBack()
     }
 }
