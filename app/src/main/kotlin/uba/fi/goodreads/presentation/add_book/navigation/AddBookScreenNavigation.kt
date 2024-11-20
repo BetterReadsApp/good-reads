@@ -12,7 +12,7 @@ const val ADDBOOKSCREEN_ROUTE = "profile/add_book"
 private const val DEEP_LINK_URI_PATTERN =
     "goodReads://profile/add_book"
 
-fun NavController.navigateToAddBookScreen(navOptions: NavOptions? = null) = navigate(
+fun NavController.navigateToAddBook(navOptions: NavOptions? = null) = navigate(
     "profile/add_book", navOptions
 )
 

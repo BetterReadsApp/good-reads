@@ -16,8 +16,6 @@ fun NavController.navigateToBookInfo(bookId: String, navOptions: NavOptions? = n
     "bookinfo/$bookId", navOptions
 )
 
-fun NavController.navigateToAddBook() = navigate("profile/addBook")
-
 fun NavGraphBuilder.bookInfoScreen(
     navigateToReview: (String) -> Unit,
     navigateToAddBookToShelf: (String) -> Unit,

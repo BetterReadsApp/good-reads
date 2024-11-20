@@ -4,8 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import uba.fi.goodreads.core.ui.GoodReadsAppState
+import uba.fi.goodreads.presentation.add_book.navigation.addBookScreen
+import uba.fi.goodreads.presentation.add_book.navigation.navigateToAddBook
 import uba.fi.goodreads.presentation.book_info.navigation.bookInfoScreen
-import uba.fi.goodreads.presentation.book_info.navigation.navigateToAddBook
 import uba.fi.goodreads.presentation.book_info.navigation.navigateToBookInfo
 import uba.fi.goodreads.presentation.create_quiz.navigation.createQuizScreen
 import uba.fi.goodreads.presentation.create_quiz.navigation.navigateToCreateQuiz
@@ -79,6 +80,10 @@ fun GoodReadsNavHost(
         )
 
         createQuizScreen(
+            onBack = navController::popBackStack
+        )
+
+        addBookScreen(
             onBack = navController::popBackStack
         )
     }
