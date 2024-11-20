@@ -37,7 +37,7 @@ class AnswerQuizViewModel @Inject constructor(
                             it.copy(
                                 questions = result.quiz,
                                 answers = result.quiz.map { question ->
-                                    QuizAnswer(question.questionId, 0)
+                                    QuizAnswer(question.questionId, -1)
                                 }
                             )
                         }
@@ -81,7 +81,19 @@ class AnswerQuizViewModel @Inject constructor(
             val updatedAnswers = it.answers.toMutableList()
             updatedAnswers[questionIndex] =
                 QuizAnswer(questionId = questionId, selectedChoice = optionIndex)
-            it.copy(answers = updatedAnswers)
+
+            var answeredQuestions = 0
+
+            updatedAnswers.forEach{ answer ->
+                if (answer.selectedChoice != -1) {
+                    answeredQuestions += 1
+                }
+            }
+            it.copy(
+                answers = updatedAnswers,
+                sendEnabled = (answeredQuestions == _screenState.value.questions.size)
+            )
+
         }
     }
 }

@@ -94,7 +94,7 @@ fun AnswerQuizScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    enabled = screenState.questions.isNotEmpty()
+                    enabled = screenState.sendEnabled
                 ) {
                     Text(text = "Send Answers")
                 }

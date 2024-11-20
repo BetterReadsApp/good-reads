@@ -9,4 +9,5 @@ data class AnswerQuizUIState(
     val answers: List<QuizAnswer> = emptyList(),
     val error: String? = null,
     val destination: AnswerQuizDestination? = null,
+    val sendEnabled: Boolean = false
 )
