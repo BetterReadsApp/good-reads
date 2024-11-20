@@ -1,10 +1,12 @@
 package uba.fi.goodreads.data.books.repositories
 
 import uba.fi.goodreads.core.network.NetworkResult
+import uba.fi.goodreads.data.books.request.AnswerDto
 import uba.fi.goodreads.data.books.request.QuizDto
 import uba.fi.goodreads.data.core.BetterReadsClient
 import uba.fi.goodreads.data.core.ResponseHandler
 import uba.fi.goodreads.domain.model.Book
+import uba.fi.goodreads.domain.model.QuizAnswer
 import uba.fi.goodreads.domain.model.QuizQuestion
 import javax.inject.Inject
 
@@ -78,6 +80,22 @@ internal class BooksRepositoriesImpl @Inject constructor(
                     bookId = bookId.toInt(),
                     questions = questions.map { it.toDto() }
                 ))
+        }
+    }
+
+    override suspend fun answerQuiz(
+        quizId: String,
+        currentUserId: String,
+        answers: List<QuizAnswer>
+    ): NetworkResult<Unit> {
+        return responseHandler{
+            client.answerQuiz(
+                quizId = quizId,
+                userId = currentUserId,
+                body = AnswerDto(
+                    answers = answers.map { it.toDto() }
+                )
+            )
         }
     }
 

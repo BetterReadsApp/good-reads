@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.create_quiz
+package uba.fi.goodreads.presentation.answer_quiz
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -16,15 +16,15 @@ import uba.fi.goodreads.presentation.answer_quiz.navigation.AnswerQuizDestinatio
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateQuizViewModel @Inject constructor(
+class AnswerQuizViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getQuizUseCase: GetQuizUseCase,
     private val createQuizUseCase: CreateQuizUseCase,
 ) : ViewModel() {
 
-    private val _screenState: MutableStateFlow<CreateQuizUIState> =
-        MutableStateFlow(CreateQuizUIState())
-    val screenState: StateFlow<CreateQuizUIState> = _screenState.asStateFlow()
+    private val _screenState: MutableStateFlow<AnswerQuizUIState> =
+        MutableStateFlow(AnswerQuizUIState())
+    val screenState: StateFlow<AnswerQuizUIState> = _screenState.asStateFlow()
 
     private val bookId: String = savedStateHandle["bookId"] ?: ""
     private val quizId: String = savedStateHandle["quizId"] ?: ""
@@ -45,42 +45,10 @@ class CreateQuizViewModel @Inject constructor(
         }
     }
 
-    fun addQuestion() {
-        val newQuestion = QuizQuestion()
-        _screenState.update { it.copy(questions = it.questions + newQuestion) }
-    }
 
-    fun updateQuestionText(index: Int, text: String) {
-        _screenState.update {
-            val updatedQuestions = it.questions.toMutableList()
-            updatedQuestions[index] = updatedQuestions[index].copy(questionText = text)
-            it.copy(questions = updatedQuestions)
-        }
-    }
-
-    fun updateOptionText(questionIndex: Int, optionIndex: Int, text: String) {
-        _screenState.update {
-            val updatedQuestions = it.questions.toMutableList()
-            val updatedOptions = updatedQuestions[questionIndex].options.toMutableList()
-            updatedOptions[optionIndex] = text
-            updatedQuestions[questionIndex] =
-                updatedQuestions[questionIndex].copy(options = updatedOptions)
-            it.copy(questions = updatedQuestions)
-        }
-    }
-
-    fun setCorrectOption(questionIndex: Int, optionIndex: Int) {
-        _screenState.update {
-            val updatedQuestions = it.questions.toMutableList()
-            updatedQuestions[questionIndex] =
-                updatedQuestions[questionIndex].copy(correctOptionIndex = optionIndex)
-            it.copy(questions = updatedQuestions)
-        }
-    }
-
-    fun onSaveQuiz() {
+    fun onSendQuiz() {
         viewModelScope.launch {
-            createQuizUseCase(
+            answerQuizUseCase(
                 edit = edit,
                 bookId = bookId,
                 quizId = quizId,

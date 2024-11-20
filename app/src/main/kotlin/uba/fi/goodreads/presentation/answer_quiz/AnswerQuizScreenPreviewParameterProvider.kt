@@ -1,15 +1,15 @@
-package uba.fi.goodreads.presentation.create_quiz
+package uba.fi.goodreads.presentation.answer_quiz
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import uba.fi.goodreads.domain.model.QuizQuestion
 
 
-class CreateQuizScreenPreviewParameterProvider : PreviewParameterProvider<CreateQuizUIState> {
-    override val values: Sequence<CreateQuizUIState> = sequenceOf(
+class AnswerQuizScreenPreviewParameterProvider : PreviewParameterProvider<AnswerQuizUIState> {
+    override val values: Sequence<AnswerQuizUIState> = sequenceOf(
         getSuccessState(),
     )
 
-    private fun getSuccessState() = CreateQuizUIState(
+    private fun getSuccessState() = AnswerQuizUIState(
         questions = listOf(
             QuizQuestion(
                 questionText = "What is the capital of France?",

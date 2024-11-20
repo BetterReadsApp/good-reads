@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.create_quiz.composables
+package uba.fi.goodreads.presentation.answer_quiz.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,15 +27,15 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
-import uba.fi.goodreads.presentation.create_quiz.CreateQuizScreenPreviewParameterProvider
-import uba.fi.goodreads.presentation.create_quiz.CreateQuizUIState
-import uba.fi.goodreads.presentation.create_quiz.CreateQuizViewModel
 import uba.fi.goodreads.presentation.answer_quiz.navigation.AnswerQuizDestination
+import uba.fi.goodreads.presentation.answer_quiz.AnswerQuizScreenPreviewParameterProvider
+import uba.fi.goodreads.presentation.answer_quiz.AnswerQuizUIState
+import uba.fi.goodreads.presentation.answer_quiz.AnswerQuizViewModel
 
 @Composable
-fun CreateQuizRoute(
+fun AnswerQuizRoute(
     navigate: (AnswerQuizDestination) -> Unit,
-    viewModel: CreateQuizViewModel = hiltViewModel(),
+    viewModel: AnswerQuizViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
@@ -46,23 +46,15 @@ fun CreateQuizRoute(
         }
     }
 
-    CreateQuizScreen(
+    AnswerQuizScreen(
         screenState = screenState,
-        onAddQuestion = viewModel::addQuestion,
-        onQuestionTextChange = viewModel::updateQuestionText,
-        onOptionTextChange = viewModel::updateOptionText,
-        onCorrectOptionSelected = viewModel::setCorrectOption,
-        onSaveQuiz = viewModel::onSaveQuiz,
+        onSendAnswer = viewModel::onSendAnswer
     )
 }
 
 @Composable
-fun CreateQuizScreen(
-    screenState: CreateQuizUIState,
-    onAddQuestion: () -> Unit,
-    onSaveQuiz: () -> Unit,
-    onQuestionTextChange: (Int, String) -> Unit,
-    onOptionTextChange: (Int, Int, String) -> Unit,
+fun AnswerQuizScreen(
+    screenState: AnswerQuizUIState,
     onCorrectOptionSelected: (Int, Int) -> Unit
 ) {
     Column (
@@ -93,7 +85,6 @@ fun CreateQuizScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Options Fields
                 question.options.forEachIndexed { optionIndex, option ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
@@ -139,11 +130,11 @@ fun CreateQuizScreen(
 
 @Composable
 @Preview(showBackground = true)
-fun CreateQuizScreenPreview(
-    @PreviewParameter(CreateQuizScreenPreviewParameterProvider::class) state: CreateQuizUIState
+fun AnswerQuizScreenPreview(
+    @PreviewParameter(AnswerQuizScreenPreviewParameterProvider::class) state: AnswerQuizUIState
 ) {
     GoodReadsTheme {
-        CreateQuizScreen(
+        AnswerQuizScreen(
             state,
             onAddQuestion = {},
             onQuestionTextChange = { _, _ -> },
