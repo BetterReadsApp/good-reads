@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.review
+package uba.fi.goodreads.presentation.add_book
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -15,7 +15,7 @@ import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
 import javax.inject.Inject
 
 @HiltViewModel
-class ReviewViewModel @Inject constructor(
+class AddBookViewModel @Inject constructor(
     private val reviewBookUseCase: ReviewBookUseCase,
     private val getBookInfoUseCase: GetBookInfoUseCase,
     private val savedStateHandle: SavedStateHandle
@@ -57,8 +57,8 @@ class ReviewViewModel @Inject constructor(
                     }
                 }
         }
-    }}
-
+        }}
+/*
     fun onBack() {
         _screenState.update {
             it.copy(destination = ReviewDestination.Back)
@@ -70,4 +70,6 @@ class ReviewViewModel @Inject constructor(
             it.copy(destination = null)
         }
     }
+*/
 }
+
