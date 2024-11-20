@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -93,7 +94,7 @@ fun AddBookScreen(
         BookCoverImage(if (screenState.coverUrl.isNotBlank()) screenState.coverUrl else "https://via.placeholder.com/200x200.png?text=Sin+portada")
 
         Spacer(modifier = Modifier.height(16.dp))
-        InputBox(screenState.coverUrl,"URL de la portada", onCoverUrlChange)
+        InputBox(screenState.coverUrl, "URL de la portada", onCoverUrlChange)
 
         Spacer(modifier = Modifier.height(8.dp))
         InputBox(screenState.title, "Título", onTitleChange)
@@ -101,14 +102,17 @@ fun AddBookScreen(
         Spacer(modifier = Modifier.height(8.dp))
         InputBox(screenState.description, "Descripción", onDescriptionChange)
 
+        Spacer(modifier = Modifier.height(8.dp))
         NumericInput(screenState.pages.toString(), "Páginas", onPagesChange)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = onSaveBookClick,
-            modifier = Modifier.fillMaxWidth()
-            ) {
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+        ) {
             Text("Guardar libro")
         }
     }
@@ -125,7 +129,9 @@ private fun InputBox(
         value = value,
         onValueChange = onChange,
         label = { Text(label) },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
     )
 }
 
@@ -145,7 +151,9 @@ private fun NumericInput(
             }
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         label = { Text(label) }
     )
 }
