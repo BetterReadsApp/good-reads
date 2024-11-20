@@ -71,12 +71,13 @@ data class RecommendedBookDto(
     @SerialName("genre") val genre: String,
     @SerialName("publication_date") val publicationDate: String,
     @SerialName("has_quizzes") val hasQuizzes: Boolean? = null,
+    @SerialName("author") val author: AuthorDto? = null,
     @SerialName("cover_image_url") val photoUrl: String? = null,
 ) {
     fun toDomain() = Book(
         id = id.toString(),
         title = title,
-        author = "Anonimo",
+        author = author?.let { "${it.name} ${it.lastName}" } ?: "",
         pages = 0,
         genres = BookGenre.entries.firstOrNull { it.genreName == genre }?.let {
             listOf(it)

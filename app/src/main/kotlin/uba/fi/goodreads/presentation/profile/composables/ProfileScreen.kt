@@ -1,6 +1,5 @@
 package uba.fi.goodreads.presentation.profile.composables
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -48,7 +46,6 @@ import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.domain.model.Shelf
 import uba.fi.goodreads.presentation.profile.ProfileUiState
 import uba.fi.goodreads.presentation.profile.ProfileViewModel
-import uba.fi.goodreads.presentation.edit_profile.navigation.EditProfileDestination
 import uba.fi.goodreads.presentation.profile.ProfileScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.profile.navigation.ProfileDestination
 
@@ -148,7 +145,7 @@ fun ProfileScreen(
                     onLogoutClick = onLogoutClick,
                 )
 
-                if (screenState.isAuthor) {
+                if (screenState.isAuthor && screenState.ownProfile) {
                     Button(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         onClick = onAddBookClick

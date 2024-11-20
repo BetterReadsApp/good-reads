@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uba.fi.goodreads.domain.model.UserReview
@@ -81,7 +82,7 @@ fun UsersReviewList(comments: List<UserReview>) {
     )
     Box(
         modifier = Modifier
-            .width(300.dp)
+            .fillMaxWidth()
             .height(200.dp)
             .padding(8.dp)
     ) {
@@ -90,13 +91,27 @@ fun UsersReviewList(comments: List<UserReview>) {
                 .fillMaxSize()
         ) {
             items(comments) { comment ->
-                Text(
-                    text = comment.text,
-                    fontSize = 14.sp,
-                    modifier = Modifier
-                        .padding(4.dp)
+
+                Row(
+                    Modifier
                         .fillMaxWidth()
-                )
+                ) {
+                    Text(
+                        text = "${comment.userName}:",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .padding(4.dp)
+                    )
+                    Text(
+                        text = comment.text,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .fillMaxWidth()
+                    )
+                }
+
             }
         }
     }
