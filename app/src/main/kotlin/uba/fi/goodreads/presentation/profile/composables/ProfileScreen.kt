@@ -314,7 +314,12 @@ private fun Shelf(shelf: Shelf) {
                 .height(120.dp)
                 .padding(vertical = 8.dp),
             model = ImageRequest.Builder(LocalContext.current)
-                .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
+                .data(
+                    if (shelf.books.isEmpty())
+                        "https://cdn-icons-png.flaticon.com/512/29/29809.png"
+                    else
+                        shelf.books.first().photoUrl
+                )
                 .crossfade(true)
                 .build(),
             placeholder = painterResource(R.drawable.ficciones),
