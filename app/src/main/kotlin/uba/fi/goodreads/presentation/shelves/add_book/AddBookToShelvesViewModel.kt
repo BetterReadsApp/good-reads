@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.AddBookToShelvesUseCase
+import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
 import uba.fi.goodreads.presentation.shelves.add_book.navigation.AddBookToShelfDestination
 import javax.inject.Inject
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class AddBookToShelvesViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val addBookToShelvesUseCase: AddBookToShelvesUseCase,
-    private val getShelvesUseCase: GetShelvesUseCase
+    private val getShelvesUseCase: GetShelvesUseCase,
+    private val getBookInfoUseCase: GetBookInfoUseCase
 ) : ViewModel() {
 
     private val _screenState: MutableStateFlow<AddBookToShelvesUiState> =
@@ -36,6 +38,16 @@ class AddBookToShelvesViewModel @Inject constructor(
                     is GetShelvesUseCase.Result.Success -> _screenState.update {
                         it.copy(shelves = result.shelves)
                     }
+                }
+            }
+
+            getBookInfoUseCase(bookId).also { result ->
+                when(result) {
+                    is GetBookInfoUseCase.Result.Error -> TODO()
+                    is GetBookInfoUseCase.Result.Success -> _screenState.update {
+                        it.copy(book = result.book)
+                    }
+                    GetBookInfoUseCase.Result.UnexpectedError -> TODO()
                 }
             }
         }
