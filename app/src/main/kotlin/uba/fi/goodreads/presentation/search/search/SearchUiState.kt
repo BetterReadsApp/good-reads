@@ -6,6 +6,7 @@ import uba.fi.goodreads.presentation.search.search.navigation.SearchDestination
 
 data class SearchUiState(
     val destination: SearchDestination? = null,
+    val loading: Boolean = false,
     val search: String = "",
     val users: List<User> = emptyList(),
     val books: List<Book> = emptyList()

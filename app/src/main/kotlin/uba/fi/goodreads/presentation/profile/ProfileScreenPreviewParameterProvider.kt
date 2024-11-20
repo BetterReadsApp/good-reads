@@ -2,6 +2,7 @@ package uba.fi.goodreads.presentation.profile
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import uba.fi.goodreads.domain.mocks.DomainShelfMocks
+import uba.fi.goodreads.presentation.edit_profile.EditProfileUiState
 
 class ProfileScreenPreviewParameterProvider: PreviewParameterProvider<ProfileUiState> {
 
@@ -11,7 +12,7 @@ class ProfileScreenPreviewParameterProvider: PreviewParameterProvider<ProfileUiS
             lastName = "Duzac",
             followingAmount = 10,
             followersAmount = 5,
-            isOwnProfile = true
+            isOwnProfile = true,
         ),
         getState(
             firstName = "Emilia",
@@ -37,6 +38,7 @@ class ProfileScreenPreviewParameterProvider: PreviewParameterProvider<ProfileUiS
         followedByMe: Boolean = false,
         isOwnProfile: Boolean = false
     ) = ProfileUiState(
+        loading = false,
         firstName = firstName,
         lastName = lastName,
         followingAmount = followingAmount,

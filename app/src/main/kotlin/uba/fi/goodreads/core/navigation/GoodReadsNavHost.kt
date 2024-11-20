@@ -10,6 +10,8 @@ import uba.fi.goodreads.presentation.book_info.navigation.bookInfoScreen
 import uba.fi.goodreads.presentation.book_info.navigation.navigateToBookInfo
 import uba.fi.goodreads.presentation.create_quiz.navigation.createQuizScreen
 import uba.fi.goodreads.presentation.create_quiz.navigation.navigateToCreateQuiz
+import uba.fi.goodreads.presentation.edit_profile.navigation.editProfileScreen
+import uba.fi.goodreads.presentation.edit_profile.navigation.navigateToEditProfile
 import uba.fi.goodreads.presentation.review.navigation.navigateToReviewScreen
 import uba.fi.goodreads.presentation.home.navigation.HOME_ROUTE
 import uba.fi.goodreads.presentation.home.navigation.homeScreen
@@ -58,7 +60,12 @@ fun GoodReadsNavHost(
 
         profileScreen(
             onBack = navController::popBackStack,
-            onAddBook = navController::navigateToAddBook
+            onAddBook = navController::navigateToAddBook,
+            navigateToEditProfile = navController::navigateToEditProfile
+        )
+
+        editProfileScreen(
+            onBack = navController::popBackStack
         )
 
         searchScreen(

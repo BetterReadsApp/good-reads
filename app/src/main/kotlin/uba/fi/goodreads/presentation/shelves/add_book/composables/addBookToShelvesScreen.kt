@@ -41,11 +41,13 @@ import uba.fi.goodreads.presentation.shelves.add_book.AddBookToShelvesParameterP
 import uba.fi.goodreads.presentation.shelves.add_book.AddBookToShelvesUiState
 import uba.fi.goodreads.presentation.shelves.add_book.AddBookToShelvesViewModel
 import uba.fi.goodreads.presentation.shelves.add_book.navigation.AddBookToShelfDestination
+import uba.fi.goodreads.presentation.shelves.shelves.ShelvesViewModel
 
 @Composable
 fun AddToShelvesRoute(
     navigate: (AddBookToShelfDestination) -> Unit,
     viewModel: AddBookToShelvesViewModel = hiltViewModel(),
+    shelvesViewModel: ShelvesViewModel = hiltViewModel()
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
@@ -59,7 +61,10 @@ fun AddToShelvesRoute(
     AddToShelvesScreen(
         screenState = screenState,
         selectedShelves = screenState.selectedShelves,
-        onConfirm = viewModel::onConfirm,
+        onConfirm =  {
+            viewModel.onConfirm()
+            shelvesViewModel.triggerRefresh()
+        },
         onShelfClick = viewModel::onShelfClick,
     )
 
