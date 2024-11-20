@@ -11,5 +11,4 @@ data class AddBookUIState(
     val genre: BookGenre = BookGenre.Thriller,
     val pages: Int = 0,
     val publicationDate: String = "2010-10-10",
-
     )

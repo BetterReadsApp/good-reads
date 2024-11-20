@@ -1,5 +1,6 @@
 package uba.fi.goodreads.presentation.add_book.composables
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -29,6 +31,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -60,7 +64,8 @@ fun AddBookRoute(
         onTitleChange = viewModel::onTitleChange,
         onDescriptionChange = viewModel::onDescriptionChange,
         onSaveBookClick = viewModel::onSaveBookClick,
-        onBack = viewModel::onBack
+        onBack = viewModel::onBack,
+        onPagesChange = viewModel::onPagesChange
     )
 }
 
@@ -70,6 +75,7 @@ fun AddBookScreen(
     onCoverUrlChange: (String) -> Unit,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
+    onPagesChange: (String) -> Unit,
     onBack: () -> Unit,
     onSaveBookClick: () -> Unit,
 ) {
@@ -95,6 +101,10 @@ fun AddBookScreen(
         Spacer(modifier = Modifier.height(8.dp))
         InputBox(screenState.description, "Descripción", onDescriptionChange)
 
+        NumericInput(screenState.pages.toString(), "Páginas", onPagesChange)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Button(
             onClick = onSaveBookClick,
             modifier = Modifier.fillMaxWidth()
@@ -116,6 +126,27 @@ private fun InputBox(
         onValueChange = onChange,
         label = { Text(label) },
         modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+private fun NumericInput(
+    value: String,
+    label: String,
+    onValueChange: (String) -> Unit,
+) {
+    OutlinedTextField(
+        value = if (value.isBlank()) "" else value,
+        onValueChange = { input ->
+            if (input.isBlank()) {
+                onValueChange("0")
+            } else if (input.all { it.isDigit() } && input.isNotBlank()) {
+                onValueChange(input)
+            }
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text(label) }
     )
 }
 
@@ -142,7 +173,7 @@ fun TopBar(
 
 @Composable
 @Preview(showBackground = true)
-fun ReviewsScreenPreview() {
+fun AddBookScreenPreview() {
     AddBookScreen(
         screenState = AddBookUIState(),
         onBack = {},
@@ -150,5 +181,6 @@ fun ReviewsScreenPreview() {
         onCoverUrlChange = {},
         onDescriptionChange = {},
         onSaveBookClick = {},
+        onPagesChange = {}
     )
 }
