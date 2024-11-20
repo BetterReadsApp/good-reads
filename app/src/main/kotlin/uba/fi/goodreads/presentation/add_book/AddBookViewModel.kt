@@ -40,6 +40,12 @@ class AddBookViewModel @Inject constructor(
         }
     }
 
+    fun onPagesChange(value: String) {
+        _screenState.update {
+            it.copy(pages = value.toInt())
+        }
+    }
+
     fun onBack() {
         _screenState.update {
             it.copy(destination = AddBookDestination.Back)
@@ -75,7 +81,5 @@ class AddBookViewModel @Inject constructor(
             }
         }
     }
-
-
 }
 
