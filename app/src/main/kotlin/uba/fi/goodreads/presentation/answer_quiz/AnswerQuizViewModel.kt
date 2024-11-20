@@ -39,12 +39,11 @@ class AnswerQuizViewModel @Inject constructor(
                     is GetQuizUseCase.Result.Success -> {
                         edit = true
 
-                        result.quiz.forEach{ quizQuestion ->
-                            answers.add(quizQuestion.questionId,
+                        result.quiz.forEachIndexed{ index, quizQuestion,  ->
+                            answers.add(index,
                                 QuizAnswer(quizQuestion.questionId,0)
                             )
                         }
-                        _screenState.update { it.copy(answers = answers) }
                         _screenState.update { it.copy(questions = result.quiz) }
                     }
                     else -> {}
@@ -75,10 +74,10 @@ class AnswerQuizViewModel @Inject constructor(
         _screenState.update { it.copy(destination = null) }
     }
 
-    fun onOptionSelected(questionId: Int, optionIndex: Int) {
+    fun onOptionSelected(questionIndex: Int, optionIndex: Int, questionId: Int) {
         _screenState.update {
             val updatedAnswers = it.answers.toMutableList()
-            updatedAnswers[questionId] = QuizAnswer (question_id = questionId, selected_choice = optionIndex)
+            updatedAnswers[questionIndex] = QuizAnswer (question_id = questionId, selected_choice = optionIndex+1)
             it.copy(answers = updatedAnswers)
         }
     }
