@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
+import uba.fi.goodreads.presentation.review.BookReviewUIState
 import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
 import javax.inject.Inject
 
@@ -53,7 +54,7 @@ class ReviewViewModel @Inject constructor(
                     is ReviewBookUseCase.Result.Success -> _screenState.update {
                         BookReviewUIState(
                             book = it.book.copy(yourReview = result.newReview
-                        ))
+                            ))
                     }
                 }
         }

@@ -79,6 +79,7 @@ fun ProfileRoute(
     ProfileScreen(
         screenState = screenState,
         onFollowClick = viewModel::onFollowClick,
+        onAddBookClick = viewModel::onAddBookClick,
         onEditProfile = viewModel::onEditProfileClick,
         onLogoutClick = viewModel::onLogoutClick,
         onBack = viewModel::onBack
@@ -91,6 +92,7 @@ fun ProfileScreen(
     screenState: ProfileUiState,
     onFollowClick: () -> Unit,
     onEditProfile: () -> Unit,
+    onAddBookClick: () -> Unit,
     onLogoutClick: () -> Unit,
     onBack: () -> Unit
 ) {
@@ -145,6 +147,15 @@ fun ProfileScreen(
                     onEditProfile = onEditProfile,
                     onLogoutClick = onLogoutClick,
                 )
+
+                if (screenState.isAuthor) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        onClick = onAddBookClick
+                    ) {
+                        Text("Add book")
+                    }
+                }
 
                 Shelves(screenState.shelves)
 
@@ -303,7 +314,12 @@ private fun Shelf(shelf: Shelf) {
                 .height(120.dp)
                 .padding(vertical = 8.dp),
             model = ImageRequest.Builder(LocalContext.current)
-                .data("https://f.media-amazon.com/images/I/41tjPqycZ1L._SY445_SX342_.jpg") // TODO AL MODEL
+                .data(
+                    if (shelf.books.isEmpty())
+                        "https://cdn-icons-png.flaticon.com/512/29/29809.png"
+                    else
+                        shelf.books.first().photoUrl
+                )
                 .crossfade(true)
                 .build(),
             placeholder = painterResource(R.drawable.ficciones),
@@ -380,7 +396,8 @@ fun ProfileScreenPreview(
             onFollowClick = {},
             onEditProfile = {},
             onLogoutClick = {},
-            onBack = {}
+            onAddBookClick = {},
+            onBack = {},
         )
     }
 }
