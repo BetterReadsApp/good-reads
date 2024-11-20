@@ -38,6 +38,7 @@ import uba.fi.goodreads.presentation.edit_profile.EditProfileScreenPreviewParame
 import uba.fi.goodreads.presentation.edit_profile.EditProfileUiState
 import uba.fi.goodreads.presentation.edit_profile.EditProfileViewModel
 import uba.fi.goodreads.presentation.edit_profile.navigation.EditProfileDestination
+import uba.fi.goodreads.presentation.profile.ProfileViewModel
 
 private const val Kimberly = "https://api.dicebear.com/9.x/adventurer/svg?seed=Kimberly"
 private const val Liam = "https://api.dicebear.com/9.x/adventurer/svg?seed=Liam"
@@ -47,6 +48,7 @@ private const val Alexander = "https://api.dicebear.com/9.x/adventurer/svg?seed=
 fun EditProfileRoute(
     navigate: (EditProfileDestination) -> Unit,
     viewModel: EditProfileViewModel = hiltViewModel(),
+    profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
@@ -64,7 +66,10 @@ fun EditProfileRoute(
         onFirstNameChange = viewModel::onFirstNameChange,
         onLastNameChange = viewModel::onLastNameChange,
         onAvatarChange = viewModel::onAvatarChange,
-        onSave = viewModel::onSave,
+        onSave =  {
+            viewModel.onSave()
+            profileViewModel.triggerRefresh()
+        },
         onAuthorCheckChange  = viewModel::onAuthorCheckChange,
     )
 }

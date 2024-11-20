@@ -56,6 +56,16 @@ fun ProfileRoute(
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.loadData()
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.refreshTrigger.collect {
+            viewModel.loadData()
+        }
+    }
+
     LaunchedEffect(screenState.destination) {
         screenState.destination?.let { destination ->
             navigate(destination)
