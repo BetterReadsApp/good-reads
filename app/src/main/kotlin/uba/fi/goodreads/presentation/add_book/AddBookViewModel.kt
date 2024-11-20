@@ -1,17 +1,21 @@
 package uba.fi.goodreads.presentation.add_book
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import uba.fi.goodreads.domain.model.AddedBook
+import uba.fi.goodreads.domain.usecase.SaveBookUseCase
 import uba.fi.goodreads.presentation.add_book.navigation.AddBookDestination
-import uba.fi.goodreads.presentation.review.BookReviewUIState
 import javax.inject.Inject
 
 @HiltViewModel
 class AddBookViewModel @Inject constructor(
+    private val saveBookUseCase: SaveBookUseCase
 ) : ViewModel() {
 
     private val _screenState: MutableStateFlow<AddBookUIState> =
@@ -26,13 +30,13 @@ class AddBookViewModel @Inject constructor(
 
     fun onTitleChange(value: String) {
         _screenState.update {
-            it.copy(coverUrl = value)
+            it.copy(title = value)
         }
     }
 
     fun onDescriptionChange(value: String) {
         _screenState.update {
-            it.copy(coverUrl = value)
+            it.copy(description = value)
         }
     }
 
@@ -54,7 +58,17 @@ class AddBookViewModel @Inject constructor(
 
     fun onSaveBookClick() {
         viewModelScope.launch {
-            saveBookUseCase(title.value, description.value, coverUrl.value).also { result ->
+
+            val addedBook = AddedBook(
+                title = _screenState.value.title,
+                summary = _screenState.value.description,
+                genre = _screenState.value.genre,
+                pages = _screenState.value.pages,
+                publicationDate = _screenState.value.publicationDate,
+                coverUrl = _screenState.value.coverUrl,
+            )
+            saveBookUseCase(addedBook).also {
+            result ->
                 when (result) {
                     is SaveBookUseCase.Result.Error,
                     is SaveBookUseCase.Result.UnexpectedError -> Unit

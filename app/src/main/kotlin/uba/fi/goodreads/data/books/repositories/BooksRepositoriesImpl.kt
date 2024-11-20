@@ -94,7 +94,9 @@ internal class BooksRepositoriesImpl @Inject constructor(
         }
     }
 
-    override suspend fun addBook(book: AddedBook) {
-        return client.addBook(book.)
+    override suspend fun createBook(book: AddedBook, authorId: String): NetworkResult<Unit> {
+        return responseHandler {
+            client.createBook(book.toDomain(authorId))
+        }
     }
 }

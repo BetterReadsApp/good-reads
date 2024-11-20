@@ -53,18 +53,13 @@ fun AddBookRoute(
             viewModel.onClearDestination()
         }
     }
-    AddBookScreen(
-        onBack = { viewModel.onBack() },
-        onSaveBookClick = { viewModel.onSaveBookClick() },
-        viewModel = viewModel
-    )
 
     AddBookScreen(
         screenState = screenState,
         onCoverUrlChange = viewModel::onCoverUrlChange,
         onTitleChange = viewModel::onTitleChange,
         onDescriptionChange = viewModel::onDescriptionChange,
-        onSave = viewModel::onSave,
+        onSaveBookClick = viewModel::onSaveBookClick,
         onBack = viewModel::onBack
     )
 }
@@ -75,10 +70,8 @@ fun AddBookScreen(
     onCoverUrlChange: (String) -> Unit,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
-    onSave: () -> Unit,
     onBack: () -> Unit,
     onSaveBookClick: () -> Unit,
-    viewModel: AddBookViewModel
 ) {
 
     Column(
@@ -147,7 +140,7 @@ fun TopBar(
     onBack: () -> Unit,
 ) {
     TopAppBar(
-        title = { Text("Write a review") },
+        title = { Text("Agregar Libro") },
         navigationIcon = {
             IconButton(
                 onClick = onBack
@@ -170,6 +163,6 @@ fun ReviewsScreenPreview() {
         onTitleChange = {},
         onCoverUrlChange = {},
         onDescriptionChange = {},
-        onSave = {},
+        onSaveBookClick = {},
     )
 }

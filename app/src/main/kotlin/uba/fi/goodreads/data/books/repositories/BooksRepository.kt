@@ -32,6 +32,6 @@ interface BooksRepository {
 
     suspend fun getRecommendedBooks(userId: String): NetworkResult<List<Book>>
 
-    suspend fun addBook(book: AddedBook)
+    suspend fun createBook(book: AddedBook, authorId: String): NetworkResult<Unit>
 
 }

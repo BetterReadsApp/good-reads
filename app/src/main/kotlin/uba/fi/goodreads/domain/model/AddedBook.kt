@@ -1,5 +1,8 @@
 package uba.fi.goodreads.domain.model
 
+import uba.fi.goodreads.data.books.repositories.CreateBookBody
+import uba.fi.goodreads.data.books.repositories.ReviewBody
+
 data class AddedBook(
     val title: String,
     val summary: String,
@@ -7,5 +10,16 @@ data class AddedBook(
     val pages: Int,
     val publicationDate: String,
     val coverUrl: String,
-    val authorId: Int
-)
+) {
+    fun toDomain(authorId: String): CreateBookBody {
+        return CreateBookBody(
+            title = title,
+            summary = summary,
+            genre = genre.name,
+            pages = pages,
+            publicationDate = publicationDate,
+            coverImageUrl = coverUrl,
+            authorId = authorId
+        )
+    }
+}
