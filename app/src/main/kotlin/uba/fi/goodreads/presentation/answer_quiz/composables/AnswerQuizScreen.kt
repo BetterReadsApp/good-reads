@@ -58,7 +58,7 @@ fun AnswerQuizRoute(
 fun AnswerQuizScreen(
     screenState: AnswerQuizUIState,
     onSendAnswer: () -> Unit,
-    onOptionSelected: (Int, Int) -> Unit
+    onOptionSelected: (Int, Int, Int) -> Unit
 ) {
     Column (
         modifier = Modifier
@@ -76,7 +76,7 @@ fun AnswerQuizScreen(
                     questionIndex,
                     question,
                     onOptionSelected = onOptionSelected,
-                    answer = screenState.answers[question.questionId]
+                    answer = screenState.answers[questionIndex]
                     )
             }
 
@@ -97,7 +97,7 @@ fun AnswerQuizScreen(
 fun Question (
     questionIndex: Int,
     question: QuizQuestion,
-    onOptionSelected: (Int,Int) -> Unit,
+    onOptionSelected: (Int,Int,Int) -> Unit,
     answer: QuizAnswer) {
     Text(
         text = "Question ${questionIndex + 1}",
@@ -115,8 +115,8 @@ fun Question (
     question.options.forEachIndexed { optionIndex, option ->
         Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(
-                selected = answer.selected_choice == optionIndex,
-                onClick = { onOptionSelected(question.questionId, optionIndex) }
+                selected = answer.selected_choice == optionIndex + 1,
+                onClick = { onOptionSelected(questionIndex, optionIndex +1 ,question.questionId) }
             )
             Text(
                 text = option,
@@ -144,7 +144,7 @@ fun AnswerQuizScreenPreview(
     GoodReadsTheme {
         AnswerQuizScreen(
             state,
-            onOptionSelected = { _, _ -> },
+            onOptionSelected = { _, _, _ -> },
             onSendAnswer = {}
         )
     }
