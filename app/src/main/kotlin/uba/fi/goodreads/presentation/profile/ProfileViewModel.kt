@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import uba.fi.goodreads.data.auth.repositories.SessionRepository
 import uba.fi.goodreads.data.users.repositories.UsersRepository
 import uba.fi.goodreads.domain.usecase.GetProfileUseCase
 import uba.fi.goodreads.presentation.edit_profile.navigation.EditProfileDestination
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getUserProfile: GetProfileUseCase,
     private val savedStateHandle: SavedStateHandle,
-    private val usersRepository: UsersRepository
+    private val usersRepository: UsersRepository,
+    private val sessionRepository: SessionRepository
 ): ViewModel() {
 
     private val userId: String? = savedStateHandle["userId"]
@@ -73,6 +75,12 @@ class ProfileViewModel @Inject constructor(
 
     fun onEditProfileClick() {
         _screenState.update { it.copy(destination = ProfileDestination.EditProfile) }
+    }
+
+    fun onLogoutClick() {
+        viewModelScope.launch {
+            sessionRepository.clearUserId()
+        }
     }
 
     fun onFollowClick() {

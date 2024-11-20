@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import uba.fi.goodreads.presentation.answer_quiz.navigation.AnswerQuizDestination
 import uba.fi.goodreads.presentation.create_quiz.composables.CreateQuizRoute
 
 
@@ -28,7 +29,7 @@ fun NavGraphBuilder.createQuizScreen(
         val quizId = navBackResult.arguments?.getString("quizId") ?: ""
         CreateQuizRoute(
             navigate = { destination ->
-                navigate(
+                uba.fi.goodreads.presentation.answer_quiz.navigation.navigate(
                     destination = destination,
                     onBack = onBack,
                 )
@@ -38,10 +39,10 @@ fun NavGraphBuilder.createQuizScreen(
 }
 
 internal fun navigate(
-    destination: CreateQuizDestination,
+    destination: AnswerQuizDestination,
     onBack: () -> Unit
 ) {
     when (destination) {
-        CreateQuizDestination.Back -> onBack()
+        AnswerQuizDestination.Back -> onBack()
     }
 }
