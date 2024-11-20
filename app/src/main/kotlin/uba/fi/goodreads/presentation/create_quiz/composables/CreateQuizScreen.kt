@@ -30,11 +30,11 @@ import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.presentation.create_quiz.CreateQuizScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.create_quiz.CreateQuizUIState
 import uba.fi.goodreads.presentation.create_quiz.CreateQuizViewModel
-import uba.fi.goodreads.presentation.create_quiz.navigation.CreateQuizDestination
+import uba.fi.goodreads.presentation.answer_quiz.navigation.AnswerQuizDestination
 
 @Composable
 fun CreateQuizRoute(
-    navigate: (CreateQuizDestination) -> Unit,
+    navigate: (AnswerQuizDestination) -> Unit,
     viewModel: CreateQuizViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsState()

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -34,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
+import uba.fi.goodreads.presentation.book_info.composables.RatingStars
 import uba.fi.goodreads.presentation.shelves.shelf_books.ShelfBooksPreviewParameterProvider
 import uba.fi.goodreads.presentation.shelves.shelf_books.navigation.ShelfBooksDestination
 
@@ -99,23 +102,33 @@ fun BookSummary(book: Book, onBookClick: (String) -> Unit ) {
                     .crossfade(true)
                     .build(),
                 modifier = Modifier
-                    .size(120.dp, 180.dp)
+                    .size(100.dp, 160.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 contentDescription = "Cover of one of the books present inside the shelf",
                 contentScale = ContentScale.Crop,
             )
+
+            Spacer(Modifier.width(16.dp))
             Column {
                 Text(
                     text = book.title,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "from " + book.author
                 )
                 Text(
+                    text = "you rated it " + book.yourRating + "/5"
+                )
+
+                Text(
                     text = "average rating: " + book.avgRating
                 )
                 Text(
                     text = "original publication date " + book.publicationDate
+                )
+                Text(
+                    text = "" + book.pages + "pages"
                 )
             }
 

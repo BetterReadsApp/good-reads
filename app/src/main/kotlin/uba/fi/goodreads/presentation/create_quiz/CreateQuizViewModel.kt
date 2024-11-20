@@ -11,11 +11,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.model.QuizQuestion
 import uba.fi.goodreads.domain.usecase.CreateQuizUseCase
-import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.GetQuizUseCase
-import uba.fi.goodreads.domain.usecase.RateBookUseCase
-import uba.fi.goodreads.presentation.book_info.navigation.BookInfoDestination
-import uba.fi.goodreads.presentation.create_quiz.navigation.CreateQuizDestination
+import uba.fi.goodreads.presentation.answer_quiz.navigation.AnswerQuizDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -93,7 +90,7 @@ class CreateQuizViewModel @Inject constructor(
                     is CreateQuizUseCase.Result.Error,
                     is CreateQuizUseCase.Result.UnexpectedError -> Unit
                     is CreateQuizUseCase.Result.Success -> _screenState.update {
-                        it.copy(destination = CreateQuizDestination.Back)
+                        it.copy(destination = AnswerQuizDestination.Back)
                     }
                 }
             }

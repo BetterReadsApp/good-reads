@@ -12,7 +12,7 @@ object BookMock {
         publicationDate = "21/10/2003",
         pages = 420,
         genres = listOf(BookGenre.SciFi, BookGenre.Biography),
-        hasQuizzes = false,
+        hasQuizzes = true,
         photoUrl = ""
     )
 
