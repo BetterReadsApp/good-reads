@@ -32,6 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import uba.fi.goodreads.presentation.add_book.AddBookViewModel
@@ -51,6 +52,11 @@ fun AddBookRoute(
             viewModel.onClearDestination()
         }
     }
+    AddBookScreen(
+        onBack = { viewModel.onBack() },
+        onSaveBookClick = { viewModel.onSaveBookClick() },
+        viewModel = viewModel
+    )
 
 }
 
@@ -58,7 +64,8 @@ fun AddBookRoute(
 @Composable
 fun AddBookScreen(
     onBack: () -> Unit,
-    viewModel: AddBookViewModel,
+    onSaveBookClick: () -> Unit,
+    viewModel: AddBookViewModel
 ) {
     var url by remember { mutableStateOf("") }
     var title by remember { mutableStateOf("") }
@@ -114,7 +121,7 @@ fun AddBookScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = {},
+            onClick = onSaveBookClick,
             modifier = Modifier.fillMaxWidth()
             ) {
             Text("Guardar libro")
@@ -149,6 +156,7 @@ fun TopBar(
 fun ReviewsScreenPreview() {
     AddBookScreen(
         {},
-        viewModel = hiltViewModel()
+        viewModel = hiltViewModel(),
+        {}
     )
 }

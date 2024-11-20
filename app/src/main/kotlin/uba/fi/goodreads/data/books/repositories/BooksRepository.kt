@@ -1,6 +1,7 @@
 package uba.fi.goodreads.data.books.repositories
 
 import uba.fi.goodreads.core.network.NetworkResult
+import uba.fi.goodreads.domain.model.AddedBook
 import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.domain.model.QuizQuestion
 
@@ -30,5 +31,7 @@ interface BooksRepository {
     suspend fun getQuiz(quizId: String): NetworkResult<List<QuizQuestion>>
 
     suspend fun getRecommendedBooks(userId: String): NetworkResult<List<Book>>
+
+    suspend fun addBook(book: AddedBook)
 
 }

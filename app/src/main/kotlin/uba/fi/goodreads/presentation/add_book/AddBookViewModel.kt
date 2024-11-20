@@ -13,11 +13,11 @@ import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
 import uba.fi.goodreads.presentation.add_book.navigation.AddBookDestination
+import uba.fi.goodreads.presentation.review.BookReviewUIState
 import javax.inject.Inject
 
 @HiltViewModel
 class AddBookViewModel @Inject constructor(
-    private val reviewBookUseCase: ReviewBookUseCase,
     private val getBookInfoUseCase: GetBookInfoUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -58,6 +58,21 @@ class AddBookViewModel @Inject constructor(
             it.copy(destination = null)
         }
     }
+
+    fun onSaveBookClick() {
+        viewModelScope.launch {
+            saveBookUseCase(title.value, description.value, coverUrl.value).also { result ->
+                when (result) {
+                    is SaveBookUseCase.Result.Error,
+                    is SaveBookUseCase.Result.UnexpectedError -> Unit
+                    is SaveBookUseCase.Result.Success -> _screenState.update {
+                        it.copy(destination = AddBookDestination.Back)
+                    }
+                }
+            }
+        }
+    }
+
 
 }
 
