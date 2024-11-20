@@ -60,7 +60,7 @@ fun AnswerQuizScreen(
     onSendAnswer: () -> Unit,
     onOptionSelected: (Int, Int, Int) -> Unit
 ) {
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
@@ -77,7 +77,7 @@ fun AnswerQuizScreen(
                     question,
                     onOptionSelected = onOptionSelected,
                     answer = screenState.answers[questionIndex]
-                    )
+                )
             }
 
             Button(
@@ -94,11 +94,12 @@ fun AnswerQuizScreen(
 }
 
 @Composable
-fun Question (
+fun Question(
     questionIndex: Int,
     question: QuizQuestion,
-    onOptionSelected: (Int,Int,Int) -> Unit,
-    answer: QuizAnswer) {
+    onOptionSelected: (questionIndex: Int, optionIndex: Int, questionId: Int) -> Unit,
+    answer: QuizAnswer
+) {
     Text(
         text = "Question ${questionIndex + 1}",
         style = MaterialTheme.typography.headlineMedium
@@ -115,8 +116,8 @@ fun Question (
     question.options.forEachIndexed { optionIndex, option ->
         Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(
-                selected = answer.selected_choice == optionIndex + 1,
-                onClick = { onOptionSelected(questionIndex, optionIndex +1 ,question.questionId) }
+                selected = answer.selectedChoice == optionIndex,
+                onClick = { onOptionSelected(questionIndex, optionIndex, question.questionId) }
             )
             Text(
                 text = option,
@@ -132,8 +133,6 @@ fun Question (
     HorizontalDivider()
     Spacer(modifier = Modifier.height(16.dp))
 }
-
-
 
 
 @Composable

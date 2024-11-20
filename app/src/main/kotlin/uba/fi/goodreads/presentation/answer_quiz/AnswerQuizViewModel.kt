@@ -26,26 +26,23 @@ class AnswerQuizViewModel @Inject constructor(
         MutableStateFlow(AnswerQuizUIState())
     val screenState: StateFlow<AnswerQuizUIState> = _screenState.asStateFlow()
 
-    private val bookId: String = savedStateHandle["bookId"] ?: ""
     private val quizId: String = savedStateHandle["quizId"] ?: ""
-
-    private var edit: Boolean = false
-    private var answers: MutableList<QuizAnswer> = mutableListOf()
 
     init {
         viewModelScope.launch {
             getQuizUseCase(quizId = quizId).let { result ->
                 when (result) {
                     is GetQuizUseCase.Result.Success -> {
-                        edit = true
-
-                        result.quiz.forEachIndexed{ index, quizQuestion,  ->
-                            answers.add(index,
-                                QuizAnswer(quizQuestion.questionId,0)
+                        _screenState.update {
+                            it.copy(
+                                questions = result.quiz,
+                                answers = result.quiz.map { question ->
+                                    QuizAnswer(question.questionId, 0)
+                                }
                             )
                         }
-                        _screenState.update { it.copy(questions = result.quiz) }
                     }
+
                     else -> {}
                 }
             }
@@ -59,9 +56,10 @@ class AnswerQuizViewModel @Inject constructor(
                 quizId = quizId,
                 answers = screenState.value.answers
             ).also { result ->
-                when(result) {
+                when (result) {
                     is AnswerQuizUseCase.Result.Error,
                     is AnswerQuizUseCase.Result.UnexpectedError -> Unit
+
                     is AnswerQuizUseCase.Result.Success -> _screenState.update {
                         it.copy(destination = AnswerQuizDestination.Back)
                     }
@@ -77,7 +75,8 @@ class AnswerQuizViewModel @Inject constructor(
     fun onOptionSelected(questionIndex: Int, optionIndex: Int, questionId: Int) {
         _screenState.update {
             val updatedAnswers = it.answers.toMutableList()
-            updatedAnswers[questionIndex] = QuizAnswer (question_id = questionId, selected_choice = optionIndex+1)
+            updatedAnswers[questionIndex] =
+                QuizAnswer(questionId = questionId, selectedChoice = optionIndex)
             it.copy(answers = updatedAnswers)
         }
     }

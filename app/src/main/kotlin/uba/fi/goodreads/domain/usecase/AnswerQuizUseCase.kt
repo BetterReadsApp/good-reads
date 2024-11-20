@@ -21,7 +21,7 @@ class AnswerQuizUseCase @Inject constructor(
         answers: List<QuizAnswer>
     ): Result {
         return when (
-            booksRepository.answerQuiz(quizId, sessionRepository.getUserId(),answers)
+            booksRepository.answerQuiz(quizId, sessionRepository.getUserId(), answers)
         ) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,
