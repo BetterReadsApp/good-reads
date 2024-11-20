@@ -57,7 +57,6 @@ class ProfileViewModel @Inject constructor(
                             followedByMe = result.user.followedByMe,
                             ownProfile = result.user.isMyUser,
                             isAuthor = result.user.isAuthor,
-                            ownProfile = result.user.isMyUser,
                             avatarUrl = result.user.avatarUrl,
                             loading = false
                         )

@@ -1,7 +1,6 @@
 package uba.fi.goodreads.domain.model
 
 data class User (
-    val isAuthor: Boolean = false,
     val isMyUser: Boolean = false,
     val name: String,
     val lastName: String,

@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import uba.fi.goodreads.presentation.add_book.AddBookUIState
 import uba.fi.goodreads.presentation.add_book.AddBookViewModel
 import uba.fi.goodreads.presentation.add_book.navigation.AddBookDestination
 
@@ -52,17 +53,25 @@ fun AddBookRoute(
         }
     }
 
+    AddBookScreen(
+        screenState = screenState,
+        onCoverUrlChange = viewModel::onCoverUrlChange,
+        onTitleChange = viewModel::onTitleChange,
+        onDescriptionChange = viewModel::onDescriptionChange,
+        onSave = viewModel::onSave,
+        onBack = viewModel::onBack
+    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBookScreen(
+    screenState: AddBookUIState,
+    onCoverUrlChange: (String) -> Unit,
+    onTitleChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
-    viewModel: AddBookViewModel,
 ) {
-    var url by remember { mutableStateOf("") }
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,9 +86,9 @@ fun AddBookScreen(
                 .height(200.dp)
                 .fillMaxWidth()
         ) {
-            // Mostrar la imagen de portada o la imagen por defecto
+
             val painter = rememberAsyncImagePainter(
-                model = if (viewModel.coverUrl.value.isNotBlank()) viewModel.coverUrl.value else "https://via.placeholder.com/200x200.png?text=Sin+portada"
+                model = if (screenState.coverUrl.isNotBlank()) screenState.coverUrl else "https://via.placeholder.com/200x200.png?text=Sin+portada"
             )
             Image(
                 painter = painter,
@@ -90,31 +99,31 @@ fun AddBookScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = viewModel.coverUrl.value,
-            onValueChange = { viewModel.coverUrl.value = it },
+            value = screenState.coverUrl,
+            onValueChange = onCoverUrlChange,
             label = { Text("URL de portada") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         // Input para el título
         OutlinedTextField(
-            value = viewModel.title.value,
-            onValueChange = { viewModel.title.value = it },
+            value = screenState.title,
+            onValueChange = onTitleChange,
             label = { Text("Título") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         // Input para la descripción
         OutlinedTextField(
-            value = viewModel.description.value,
-            onValueChange = { viewModel.description.value = it },
+            value = screenState.description,
+            onValueChange = onDescriptionChange,
             label = { Text("Descripción") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = {},
+            onClick = onSave,
             modifier = Modifier.fillMaxWidth()
             ) {
             Text("Guardar libro")
@@ -148,7 +157,11 @@ fun TopBar(
 @Preview(showBackground = true)
 fun ReviewsScreenPreview() {
     AddBookScreen(
-        {},
-        viewModel = hiltViewModel()
+        screenState = AddBookUIState(),
+        onBack = {},
+        onTitleChange = {},
+        onCoverUrlChange = {},
+        onDescriptionChange = {},
+        onSave = {},
     )
 }

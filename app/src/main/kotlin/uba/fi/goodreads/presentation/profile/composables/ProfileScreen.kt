@@ -144,6 +144,7 @@ fun ProfileScreen(
 
                 if (screenState.isAuthor) {
                     Button(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
                         onClick = onAddBookClick
                     ) {
                         Text("Add book")
