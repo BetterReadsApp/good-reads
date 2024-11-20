@@ -1,12 +1,14 @@
 package uba.fi.goodreads.domain.usecase
 
 import uba.fi.goodreads.core.network.NetworkResult
+import uba.fi.goodreads.data.auth.repositories.SessionRepository
 import uba.fi.goodreads.data.books.repositories.BooksRepository
-import uba.fi.goodreads.domain.model.QuizQuestion
+import uba.fi.goodreads.domain.model.QuizAnswer
 import javax.inject.Inject
 
 class AnswerQuizUseCase @Inject constructor(
-    private val booksRepository: BooksRepository
+    private val booksRepository: BooksRepository,
+    private val sessionRepository: SessionRepository
 ) {
     sealed class Result {
         data object Success : Result()
@@ -15,21 +17,11 @@ class AnswerQuizUseCase @Inject constructor(
     }
 
     suspend operator fun invoke(
-        edit: Boolean,
-        quizId: String?,
-        bookId: String,
-        questions: List<QuizQuestion>
+        quizId: String,
+        answers: List<QuizAnswer>
     ): Result {
         return when (
-            if (edit) booksRepository.editQuiz(
-                quizId = quizId ?: "",
-                bookId = bookId,
-                questions = questions
-            )
-            else booksRepository.createQuiz(
-                bookId = bookId,
-                questions = questions
-            )
+            booksRepository.answerQuiz(quizId, sessionRepository.getUserId(),answers)
         ) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,

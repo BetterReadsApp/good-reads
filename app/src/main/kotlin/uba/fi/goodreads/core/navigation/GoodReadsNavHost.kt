@@ -53,7 +53,8 @@ fun GoodReadsNavHost(
         bookInfoScreen(
             navigateToReview = navController::navigateToReviewScreen,
             navigateToAddBookToShelf = navController::navigateToAddBookToShelves,
-            navigateToCreateQuiz = navController::navigateToCreateQuiz
+            navigateToCreateQuiz = navController::navigateToCreateQuiz,
+            navigateToAnswerQuiz = navController::navigateToAnswerQuiz
         )
 
         profileScreen(

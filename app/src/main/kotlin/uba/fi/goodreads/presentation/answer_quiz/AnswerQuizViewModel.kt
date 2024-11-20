@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import uba.fi.goodreads.domain.model.QuizQuestion
-import uba.fi.goodreads.domain.usecase.CreateQuizUseCase
+import uba.fi.goodreads.domain.model.QuizAnswer
+import uba.fi.goodreads.domain.usecase.AnswerQuizUseCase
 import uba.fi.goodreads.domain.usecase.GetQuizUseCase
 import uba.fi.goodreads.presentation.answer_quiz.navigation.AnswerQuizDestination
 import javax.inject.Inject
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class AnswerQuizViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getQuizUseCase: GetQuizUseCase,
-    private val createQuizUseCase: CreateQuizUseCase,
+    private val answerQuizUseCase: AnswerQuizUseCase,
 ) : ViewModel() {
 
     private val _screenState: MutableStateFlow<AnswerQuizUIState> =
@@ -46,18 +46,16 @@ class AnswerQuizViewModel @Inject constructor(
     }
 
 
-    fun onSendQuiz() {
+    fun onSendAnswer() {
         viewModelScope.launch {
             answerQuizUseCase(
-                edit = edit,
-                bookId = bookId,
                 quizId = quizId,
-                questions = screenState.value.questions
+                answers = screenState.value.answers
             ).also { result ->
                 when(result) {
-                    is CreateQuizUseCase.Result.Error,
-                    is CreateQuizUseCase.Result.UnexpectedError -> Unit
-                    is CreateQuizUseCase.Result.Success -> _screenState.update {
+                    is AnswerQuizUseCase.Result.Error,
+                    is AnswerQuizUseCase.Result.UnexpectedError -> Unit
+                    is AnswerQuizUseCase.Result.Success -> _screenState.update {
                         it.copy(destination = AnswerQuizDestination.Back)
                     }
                 }
@@ -69,4 +67,11 @@ class AnswerQuizViewModel @Inject constructor(
         _screenState.update { it.copy(destination = null) }
     }
 
+    fun onOptionSelected(questionId: Int, optionIndex: Int) {
+        _screenState.update {
+            val updatedAnswers = it.answers.toMutableList()
+            updatedAnswers[questionId] = QuizAnswer (question_id = questionId, selected_choice = optionIndex)
+            it.copy(answers = updatedAnswers)
+        }
+    }
 }
