@@ -14,17 +14,20 @@ class CreateQuizScreenPreviewParameterProvider : PreviewParameterProvider<Create
             QuizQuestion(
                 questionText = "What is the capital of France?",
                 options = listOf("Berlin", "Madrid", "Paris", "Rome"),
-                correctOptionIndex = 2
+                correctOptionIndex = 2,
+                questionId = 0
             ),
             QuizQuestion(
                 questionText = "What is 2 + 2?",
                 options = listOf("3", "4", "5", "6"),
-                correctOptionIndex = 1
+                correctOptionIndex = 1,
+                questionId = 1
             ),
             QuizQuestion(
                 questionText = "Which planet is known as the Red Planet?",
                 options = listOf("Earth", "Mars", "Jupiter", "Saturn"),
-                correctOptionIndex = 1
+                correctOptionIndex = 1,
+                questionId = 2
             )
         )
     )

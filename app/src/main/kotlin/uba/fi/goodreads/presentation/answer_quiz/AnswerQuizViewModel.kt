@@ -30,6 +30,7 @@ class AnswerQuizViewModel @Inject constructor(
     private val quizId: String = savedStateHandle["quizId"] ?: ""
 
     private var edit: Boolean = false
+    private var answers: MutableList<QuizAnswer> = mutableListOf()
 
     init {
         viewModelScope.launch {
@@ -37,6 +38,13 @@ class AnswerQuizViewModel @Inject constructor(
                 when (result) {
                     is GetQuizUseCase.Result.Success -> {
                         edit = true
+
+                        result.quiz.forEach{ quizQuestion ->
+                            answers.add(quizQuestion.questionId,
+                                QuizAnswer(quizQuestion.questionId,0)
+                            )
+                        }
+                        _screenState.update { it.copy(answers = answers) }
                         _screenState.update { it.copy(questions = result.quiz) }
                     }
                     else -> {}

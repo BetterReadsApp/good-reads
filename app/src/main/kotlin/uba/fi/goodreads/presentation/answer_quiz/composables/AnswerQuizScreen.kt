@@ -76,7 +76,7 @@ fun AnswerQuizScreen(
                     questionIndex,
                     question,
                     onOptionSelected = onOptionSelected,
-                    answer = screenState.answers[questionIndex]
+                    answer = screenState.answers[question.questionId]
                     )
             }
 
@@ -116,7 +116,7 @@ fun Question (
         Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(
                 selected = answer.selected_choice == optionIndex,
-                onClick = { onOptionSelected(questionIndex, optionIndex) }
+                onClick = { onOptionSelected(question.questionId, optionIndex) }
             )
             Text(
                 text = option,
