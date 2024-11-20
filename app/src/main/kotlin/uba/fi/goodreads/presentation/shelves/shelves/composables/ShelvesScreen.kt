@@ -185,9 +185,6 @@ private fun ShelfPreview(
                 Text(
                     text = shelf.numberOfBooks.toString() + " books"
                 )
-                Text(
-                    text = "created at: " + shelf.dateAdded.toString()
-                )
             }
 
 
