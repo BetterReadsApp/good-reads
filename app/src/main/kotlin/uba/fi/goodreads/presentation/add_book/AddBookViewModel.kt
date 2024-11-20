@@ -1,5 +1,6 @@
 package uba.fi.goodreads.presentation.add_book
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +12,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
-import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,8 +24,10 @@ class AddBookViewModel @Inject constructor(
     private val _screenState: MutableStateFlow<AddBookUIState> =
         MutableStateFlow(AddBookUIState())
     val screenState: StateFlow<AddBookUIState> = _screenState.asStateFlow()
-
     private val bookId: String = savedStateHandle["bookId"] ?: ""
+    var coverUrl = mutableStateOf("")
+    var title = mutableStateOf("")
+    var description = mutableStateOf("")
 
     init {
         viewModelScope.launch {

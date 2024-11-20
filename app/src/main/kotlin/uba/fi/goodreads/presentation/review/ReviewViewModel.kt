@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.ReviewBookUseCase
+import uba.fi.goodreads.presentation.review.BookReviewUIState
 import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
 import javax.inject.Inject
 
@@ -21,9 +22,9 @@ class ReviewViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _screenState: MutableStateFlow<AddBookUIState> =
-        MutableStateFlow(AddBookUIState())
-    val screenState: StateFlow<AddBookUIState> = _screenState.asStateFlow()
+    private val _screenState: MutableStateFlow<BookReviewUIState> =
+        MutableStateFlow(BookReviewUIState())
+    val screenState: StateFlow<BookReviewUIState> = _screenState.asStateFlow()
 
     private val bookId: String = savedStateHandle["bookId"] ?: ""
 
@@ -35,7 +36,7 @@ class ReviewViewModel @Inject constructor(
                     is GetBookInfoUseCase.Result.UnexpectedError -> Unit
 
                     is GetBookInfoUseCase.Result.Success -> _screenState.update {
-                        AddBookUIState(
+                        BookReviewUIState(
                             book = result.book
                         )
                     }
@@ -51,9 +52,9 @@ class ReviewViewModel @Inject constructor(
                     is ReviewBookUseCase.Result.Error,
                     is ReviewBookUseCase.Result.UnexpectedError -> Unit
                     is ReviewBookUseCase.Result.Success -> _screenState.update {
-                        AddBookUIState(
+                        BookReviewUIState(
                             book = it.book.copy(yourReview = result.newReview
-                        ))
+                            ))
                     }
                 }
         }
