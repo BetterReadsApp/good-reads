@@ -1,5 +1,6 @@
 package uba.fi.goodreads.presentation.profile.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -13,11 +14,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -77,6 +80,7 @@ fun ProfileRoute(
         screenState = screenState,
         onFollowClick = viewModel::onFollowClick,
         onEditProfile = viewModel::onEditProfileClick,
+        onLogoutClick = viewModel::onLogoutClick,
         onBack = viewModel::onBack
     )
 }
@@ -87,6 +91,7 @@ fun ProfileScreen(
     screenState: ProfileUiState,
     onFollowClick: () -> Unit,
     onEditProfile: () -> Unit,
+    onLogoutClick: () -> Unit,
     onBack: () -> Unit
 ) {
 
@@ -137,7 +142,8 @@ fun ProfileScreen(
                     followersAmount = screenState.followersAmount.toString(),
                     followingAmount = screenState.followingAmount.toString(),
                     onFollowClick = onFollowClick,
-                    onEditProfile = onEditProfile
+                    onEditProfile = onEditProfile,
+                    onLogoutClick = onLogoutClick,
                 )
 
                 Shelves(screenState.shelves)
@@ -159,7 +165,8 @@ private fun ColumnScope.Header(
     followersAmount: String,
     followingAmount: String,
     onFollowClick: () -> Unit,
-    onEditProfile: () -> Unit
+    onEditProfile: () -> Unit,
+    onLogoutClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
@@ -181,12 +188,36 @@ private fun ColumnScope.Header(
                 )
             }
         } else {
-            Button(
-                onClick = onEditProfile
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Edit profile"
-                )
+
+
+                Button(
+                    onClick = onEditProfile
+                ) {
+                    Text(
+                        text = "Edit profile"
+                    )dd
+                }
+
+                Spacer(Modifier.width(8.dp))
+
+                IconButton(
+                    colors = IconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        disabledContentColor = MaterialTheme.colorScheme.primary,
+                        disabledContainerColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    onClick = onLogoutClick
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.align_arrow_left_line),
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
             }
         }
     }
@@ -348,6 +379,7 @@ fun ProfileScreenPreview(
             screenState = state,
             onFollowClick = {},
             onEditProfile = {},
+            onLogoutClick = {},
             onBack = {}
         )
     }
