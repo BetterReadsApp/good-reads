@@ -136,7 +136,7 @@ fun BookInfoScreen(
 
 
 @Composable
-private fun BookCoverImage(imageUrl: String) {
+fun BookCoverImage(imageUrl: String) {
     Box(modifier = Modifier.fillMaxWidth().height(250.dp)) {
 
         AsyncImage(
@@ -144,7 +144,7 @@ private fun BookCoverImage(imageUrl: String) {
                 .data(imageUrl)
                 .crossfade(true)
                 .build(),
-            placeholder = painterResource(R.drawable.ficciones),
+            placeholder = painterResource(R.drawable.no_cover),
             modifier = Modifier
                 .fillMaxSize()
                 .graphicsLayer {
@@ -167,7 +167,7 @@ private fun BookCoverImage(imageUrl: String) {
                     .data(imageUrl)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.ficciones),
+                placeholder = painterResource(R.drawable.no_cover),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxHeight()

@@ -40,10 +40,6 @@ class AddBookViewModel @Inject constructor(
         }
     }
 
-    fun onSave() {
-        _screenState.update { it.copy(AddBookDestination.Back) }
-    }
-
     fun onBack() {
         _screenState.update {
             it.copy(destination = AddBookDestination.Back)

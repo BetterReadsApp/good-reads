@@ -38,6 +38,7 @@ import coil.compose.rememberAsyncImagePainter
 import uba.fi.goodreads.presentation.add_book.AddBookUIState
 import uba.fi.goodreads.presentation.add_book.AddBookViewModel
 import uba.fi.goodreads.presentation.add_book.navigation.AddBookDestination
+import uba.fi.goodreads.presentation.book_info.composables.BookCoverImage
 
 
 @Composable
@@ -53,7 +54,6 @@ fun AddBookRoute(
             viewModel.onClearDestination()
         }
     }
-
     AddBookScreen(
         screenState = screenState,
         onCoverUrlChange = viewModel::onCoverUrlChange,
@@ -82,46 +82,18 @@ fun AddBookScreen(
         TopBar(
             onBack = onBack,
         )
-        Box(
-            modifier = Modifier
-                .height(200.dp)
-                .fillMaxWidth()
-        ) {
 
-            val painter = rememberAsyncImagePainter(
-                model = if (screenState.coverUrl.isNotBlank()) screenState.coverUrl else "https://via.placeholder.com/200x200.png?text=Sin+portada"
-            )
-            Image(
-                painter = painter,
-                contentDescription = "Imagen de portada",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        }
+
+        BookCoverImage(if (screenState.coverUrl.isNotBlank()) screenState.coverUrl else "https://via.placeholder.com/200x200.png?text=Sin+portada")
+
         Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = screenState.coverUrl,
-            onValueChange = onCoverUrlChange,
-            label = { Text("URL de portada") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        InputBox(screenState.coverUrl,"URL de la portada", onCoverUrlChange)
+
         Spacer(modifier = Modifier.height(8.dp))
-        // Input para el título
-        OutlinedTextField(
-            value = screenState.title,
-            onValueChange = onTitleChange,
-            label = { Text("Título") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        InputBox(screenState.title, "Título", onTitleChange)
+
         Spacer(modifier = Modifier.height(8.dp))
-        // Input para la descripción
-        OutlinedTextField(
-            value = screenState.description,
-            onValueChange = onDescriptionChange,
-            label = { Text("Descripción") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+        InputBox(screenState.description, "Descripción", onDescriptionChange)
 
         Button(
             onClick = onSaveBookClick,
@@ -131,6 +103,20 @@ fun AddBookScreen(
         }
     }
 
+}
+
+@Composable
+private fun InputBox(
+    value: String,
+    label: String,
+    onChange: (String) -> Unit
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onChange,
+        label = { Text(label) },
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 
