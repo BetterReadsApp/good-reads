@@ -4,6 +4,7 @@ import uba.fi.goodreads.core.network.NetworkResult
 import uba.fi.goodreads.data.books.request.QuizDto
 import uba.fi.goodreads.data.core.BetterReadsClient
 import uba.fi.goodreads.data.core.ResponseHandler
+import uba.fi.goodreads.domain.model.AddedBook
 import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.domain.model.QuizQuestion
 import javax.inject.Inject
@@ -90,6 +91,12 @@ internal class BooksRepositoriesImpl @Inject constructor(
     override suspend fun getRecommendedBooks(userId: String): NetworkResult<List<Book>> {
         return responseHandler {
             client.getRecommendedBooks().map { it.toDomain() }
+        }
+    }
+
+    override suspend fun createBook(book: AddedBook, authorId: String): NetworkResult<Unit> {
+        return responseHandler {
+            client.createBook(book.toDomain(authorId))
         }
     }
 }
