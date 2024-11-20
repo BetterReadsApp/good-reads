@@ -103,7 +103,6 @@ private fun AddToShelvesScreen(
             ShelfButton(
                 shelf,
                 isSelected = selectedShelves.contains(shelf.id.toString())
-                        or shelf.books.contains(screenState.book)
             )
             { isSelected ->
                 onShelfClick(shelf.id.toString(), isSelected)
