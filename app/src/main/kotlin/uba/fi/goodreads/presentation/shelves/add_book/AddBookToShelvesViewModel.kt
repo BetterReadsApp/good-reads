@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.usecase.AddBookToShelvesUseCase
 import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
+import uba.fi.goodreads.presentation.shelves.add_book.navigation.AddBookToShelfDestination
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,9 +51,11 @@ class AddBookToShelvesViewModel @Inject constructor(
         viewModelScope.launch {
             addBookToShelvesUseCase(bookId, _screenState.value.selectedShelves).also { result ->
                 when (result) {
-                    is AddBookToShelvesUseCase.Result.Success,
                     is AddBookToShelvesUseCase.Result.Error,
                     is AddBookToShelvesUseCase.Result.UnexpectedError -> Unit
+                    is AddBookToShelvesUseCase.Result.Success -> _screenState.update {
+                        it.copy(destination = AddBookToShelfDestination.Back)
+                    }
                 }
             }
         }

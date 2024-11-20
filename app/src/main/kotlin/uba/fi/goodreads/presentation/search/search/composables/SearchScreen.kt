@@ -1,6 +1,7 @@
 package uba.fi.goodreads.presentation.search.search.composables
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -85,71 +87,85 @@ fun SearchScreen(
             placeholder = { Text("Search") }
         )
 
-        if (screenState.search.isNotBlank()) {
-            if (screenState.users.isNotEmpty()) {
-                Text(
-                    text = "Users",
-                    modifier = Modifier.padding(
-                        start = 16.dp,
-                        bottom = 16.dp,
-                    ),
-                    style = MaterialTheme.typography.titleMedium
-                )
+        if (screenState.loading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
 
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp)
-                ) {
-                    items(screenState.users) { user ->
-                        UserCard(
-                            pictureUrl = "", // TODO
-                            firstName = user.name,
-                            lastName = user.lastName,
-                            onCardClick = { onUserClick(user.id) }
-                        )
-                        Spacer(Modifier.width(16.dp))
+
+            if (screenState.search.isNotBlank()) {
+                if (screenState.users.isNotEmpty()) {
+                    Text(
+                        text = "Users",
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            bottom = 16.dp,
+                        ),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp)
+                    ) {
+                        items(screenState.users) { user ->
+                            UserCard(
+                                pictureUrl = user.avatarUrl,
+                                firstName = user.name,
+                                lastName = user.lastName,
+                                onCardClick = { onUserClick(user.id) }
+                            )
+                            Spacer(Modifier.width(16.dp))
+                        }
                     }
                 }
-            }
 
-            if (screenState.books.isNotEmpty()) {
+                if (screenState.books.isNotEmpty()) {
+                    Text(
+                        text = "Books",
+                        modifier = Modifier.padding(
+                            top = 16.dp,
+                            start = 16.dp,
+                        ),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        items(screenState.books) { book ->
+                            BookRow(
+                                book = book,
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { onBookClick(book.id) }
+                            )
+                            HorizontalDivider()
+                        }
+                    }
+                }
+            } else {
                 Text(
-                    text = "Books",
-                    modifier = Modifier.padding(
-                        top = 16.dp,
-                        start = 16.dp,
-                    ),
-                    style = MaterialTheme.typography.titleMedium
+                    text = "Explore by Genre",
+                    style = MaterialTheme.typography.headlineMedium,
+                    textAlign = TextAlign.Center,
+                    modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 12.dp)
                 )
-
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(screenState.books) { book ->
-                        BookRow(
-                            book = book,
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { onBookClick(book.id) }
-                        )
+                    items(BookGenre.entries) { genre ->
+                        GenreItem(genre.toString(), onClick = { onGenreClick(genre.toString()) })
                         HorizontalDivider()
                     }
-                }
-            }
-        } else {
-            Text(
-                text = "Explore by Genre",
-                style = MaterialTheme.typography.headlineMedium,
-                textAlign = TextAlign.Center,
-                modifier =
-                Modifier.fillMaxWidth().padding(vertical = 12.dp)
-            )
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items(BookGenre.entries) { genre ->
-                    GenreItem(genre.toString(), onClick = { onGenreClick(genre.toString()) })
-                    HorizontalDivider()
                 }
             }
         }

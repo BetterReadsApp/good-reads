@@ -37,15 +37,23 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchChange(text: String) {
-        _screenState.update { it.copy(search = text) }
+        _screenState.update { it.copy(
+            loading = true,
+            search = text
+        ) }
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             searchUseCase(text).also { result ->
                 when(result){
                     is SearchUseCase.Result.Error,
-                    SearchUseCase.Result.UnexpectedError -> Unit // TODO
+                    SearchUseCase.Result.UnexpectedError -> _screenState.update {
+                        it.copy(loading = false)
+                    }
                     is SearchUseCase.Result.Success -> _screenState.update {
-                        it.copy(books = result.books, users = result.users)
+                        it.copy(
+                            books = result.books, users = result.users,
+                            loading = false
+                        )
                     }
                 }
             }

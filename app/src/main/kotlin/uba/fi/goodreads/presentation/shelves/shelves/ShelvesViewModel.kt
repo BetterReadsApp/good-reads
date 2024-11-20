@@ -3,8 +3,10 @@ package uba.fi.goodreads.presentation.shelves.shelves
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -25,7 +27,20 @@ class ShelvesViewModel @Inject constructor(
         MutableStateFlow(ShelvesUiState.Loading)
     val screenState: StateFlow<ShelvesUiState> = _screenState.asStateFlow()
 
+    private val _refreshTrigger = MutableSharedFlow<Unit>(replay = 0)
+    val refreshTrigger = _refreshTrigger.asSharedFlow()
+
+    fun triggerRefresh() {
+        viewModelScope.launch {
+            _refreshTrigger.emit(Unit)
+        }
+    }
+
     init {
+        loadData()
+    }
+
+    fun loadData() {
         viewModelScope.launch {
             _screenState.update {
                 when (val result = getShelves()) {
@@ -38,6 +53,8 @@ class ShelvesViewModel @Inject constructor(
             }
         }
     }
+
+
 
     fun onCreateShelfClick() {
         _screenState.update { state ->
@@ -71,7 +88,7 @@ class ShelvesViewModel @Inject constructor(
                 when (result) {
                     is CreateShelfUseCase.Result.Error,
                     is CreateShelfUseCase.Result.UnexpectedError -> Unit // TODO
-                    is CreateShelfUseCase.Result.Success -> Unit
+                    is CreateShelfUseCase.Result.Success -> triggerRefresh()
                 }
                 _screenState.update { state ->
                     (state as? ShelvesUiState.Success)?.copy(
