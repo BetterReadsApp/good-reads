@@ -41,6 +41,7 @@ import uba.fi.goodreads.presentation.shelves.add_book.AddBookToShelvesParameterP
 import uba.fi.goodreads.presentation.shelves.add_book.AddBookToShelvesUiState
 import uba.fi.goodreads.presentation.shelves.add_book.AddBookToShelvesViewModel
 import uba.fi.goodreads.presentation.shelves.add_book.navigation.AddBookToShelfDestination
+import uba.fi.goodreads.presentation.shelves.shelf_books.composables.BookSummary
 import uba.fi.goodreads.presentation.shelves.shelves.ShelvesViewModel
 
 @Composable
@@ -88,7 +89,7 @@ private fun AddToShelvesScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.padding(16.dp))
-        BookSummary(screenState.book)
+        BookSummary(screenState.book, {})
         Spacer(Modifier.padding(16.dp))
 
         Text(
@@ -99,7 +100,10 @@ private fun AddToShelvesScreen(
         )
         Spacer(modifier = Modifier.height(5.dp))
         screenState.shelves.forEach { shelf ->
-            ShelfButton(shelf, isSelected = selectedShelves.contains(shelf.id.toString())  )
+            ShelfButton(
+                shelf,
+                isSelected = selectedShelves.contains(shelf.id.toString())
+            )
             { isSelected ->
                 onShelfClick(shelf.id.toString(), isSelected)
             }
@@ -149,41 +153,6 @@ fun ShelfButton(
 
 }
 
-@Composable
-fun BookSummary(book: Book) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Row {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(book.photoUrl) // TODO AL MODEL
-                    .crossfade(true)
-                    .build(),
-                // placeholder = painterResource(R.drawable.placeholder),
-                contentDescription = "Cover of one of the books present inside the shelf",
-                contentScale = ContentScale.Crop,
-            )
-            Column {
-                Text(
-                    text = book.title,
-                )
-                Text(
-                    text = "from " + book.author
-                )
-                Text(
-                    text = "average rating: " + book.avgRating
-                )
-                Text(
-                    text = "original publication date " + book.publicationDate
-                )
-            }
-
-
-        }
-    }
-}
 
 @Composable
 fun ConfirmButton(onClick: () -> Unit) {
