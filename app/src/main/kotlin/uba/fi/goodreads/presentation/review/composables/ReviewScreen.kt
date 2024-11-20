@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import uba.fi.goodreads.presentation.book_info.BookInfoViewModel
 import uba.fi.goodreads.presentation.review.ReviewViewModel
 import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
 
@@ -29,6 +30,7 @@ import uba.fi.goodreads.presentation.review.navigation.ReviewDestination
 fun ReviewRoute(
     navigate: (ReviewDestination) -> Unit,
     viewModel: ReviewViewModel = hiltViewModel(),
+    bookInfoViewModel: BookInfoViewModel = hiltViewModel()
 ) {
     val screenState by viewModel.screenState.collectAsState()
 
@@ -42,6 +44,7 @@ fun ReviewRoute(
     ReviewScreen(
         previousReview = screenState.book.yourReview ?: "",
         onBack = viewModel::onBack,
+        triggerBookInfoRefresh = bookInfoViewModel::triggerRefresh,
         onReviewChange = viewModel::onReviewChange
     )
 }
@@ -51,6 +54,7 @@ fun ReviewRoute(
 fun ReviewScreen(
     previousReview: String,
     onBack: () -> Unit,
+    triggerBookInfoRefresh: () -> Unit,
     onReviewChange: (String) -> Unit,
 ) {
     var text by remember { mutableStateOf(previousReview) }
@@ -64,6 +68,7 @@ fun ReviewScreen(
             onSave = {
                 onReviewChange(text)
                 onBack()
+                triggerBookInfoRefresh()
             }
         )
         ReviewTextField(
@@ -117,15 +122,3 @@ fun ReviewTextField(
         modifier = Modifier.fillMaxSize()
     )
 }
-
-
-
-
-
-
-
-//@Composable
-//@Preview(showBackground = true)
-//fun ReviewsScreenPreview() {
-//    ReviewScreen({})
-//}

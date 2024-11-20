@@ -10,5 +10,7 @@ data class User (
     val ratedBooks: List<Book>,
     val following: Int,
     val followers: Int,
-    val followedByMe: Boolean = false
+    val followedByMe: Boolean = false,
+    val avatarUrl: String = "",
+    val isAuthor: Boolean = false
 )

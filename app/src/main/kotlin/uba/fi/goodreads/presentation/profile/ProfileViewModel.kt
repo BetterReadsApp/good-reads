@@ -4,14 +4,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.data.users.repositories.UsersRepository
 import uba.fi.goodreads.domain.usecase.GetProfileUseCase
-import uba.fi.goodreads.domain.usecase.LoginUseCase
+import uba.fi.goodreads.presentation.edit_profile.navigation.EditProfileDestination
 import uba.fi.goodreads.presentation.profile.navigation.ProfileDestination
 import javax.inject.Inject
 
@@ -28,7 +30,16 @@ class ProfileViewModel @Inject constructor(
         MutableStateFlow(ProfileUiState())
     val screenState: StateFlow<ProfileUiState> = _screenState.asStateFlow()
 
-    init {
+    private val _refreshTrigger = MutableSharedFlow<Unit>(replay = 0)
+    val refreshTrigger = _refreshTrigger.asSharedFlow()
+
+    fun triggerRefresh() {
+        viewModelScope.launch {
+            _refreshTrigger.emit(Unit)
+        }
+    }
+
+    fun loadData() {
         viewModelScope.launch {
             getUserProfile(userId).also { result ->
                 when (result) {
@@ -44,7 +55,9 @@ class ProfileViewModel @Inject constructor(
                             shelves = result.user.shelves,
                             ratedBooks = result.user.ratedBooks,
                             followedByMe = result.user.followedByMe,
-                            ownProfile = result.user.isMyUser
+                            ownProfile = result.user.isMyUser,
+                            avatarUrl = result.user.avatarUrl,
+                            loading = false
                         )
                     }
                 }
@@ -57,6 +70,10 @@ class ProfileViewModel @Inject constructor(
         _screenState.update { it.copy(destination = ProfileDestination.Back) }
     }
 
+    fun onEditProfileClick() {
+        _screenState.update { it.copy(destination = ProfileDestination.EditProfile) }
+    }
+
     fun onFollowClick() {
         viewModelScope.launch {
             if (screenState.value.followedByMe)
@@ -65,7 +82,6 @@ class ProfileViewModel @Inject constructor(
                 usersRepository.followUser(userId.toString())
             _screenState.update { it.copy(followedByMe = !it.followedByMe) }
         }
-
     }
 
     fun onClearDestination() {

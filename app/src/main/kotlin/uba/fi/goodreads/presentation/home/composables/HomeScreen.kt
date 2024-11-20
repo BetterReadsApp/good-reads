@@ -95,18 +95,9 @@ fun HomeScreenSuccessContent(
             .verticalScroll(scrollState)
     ) {
         Spacer(Modifier.height(32.dp))
-        Text(
-            text = stringResource(id = R.string.home_feed_section_title)
-        )
-        screenState.feed.forEach { post ->
-            Post(
-                title = post.userName,
-                content = post.content
-            )
-            Spacer(Modifier.height(16.dp))
-        }
 
         Text(
+            modifier = Modifier.padding(bottom = 16.dp),
             text = stringResource(id = R.string.home_for_you_section_title)
         )
 
@@ -180,7 +171,6 @@ private fun BookRecommendation(
                     .crossfade(true)
                     .listener(
                         onError = { _, throwable ->
-                            println("ACAAA: ${book.photoUrl}")
                             throwable.throwable.printStackTrace()
                         }
                     )

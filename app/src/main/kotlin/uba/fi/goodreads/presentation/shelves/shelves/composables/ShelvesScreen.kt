@@ -59,6 +59,16 @@ fun ShelvesRoute(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.loadData()
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.refreshTrigger.collect {
+            viewModel.loadData()
+        }
+    }
+
     ShelvesScreen(
         screenState = screenState,
         onCreateShelfClick = viewModel::onCreateShelfClick,
@@ -150,10 +160,10 @@ private fun ShelfPreview(
 ) {
     Card(modifier = Modifier
         .fillMaxWidth()
-        .clickable{ onShelfClick(shelf.id.toString()) }
+        .clickable { onShelfClick(shelf.id.toString()) }
     ) {
         Row {
-            if (shelf.books.isEmpty()){
+            if (shelf.books.isEmpty()) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data("https://cdn-icons-png.flaticon.com/512/29/29809.png")
@@ -166,7 +176,7 @@ private fun ShelfPreview(
                     contentScale = ContentScale.Crop,
                 )
 
-            }else{
+            } else {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(shelf.books.first().photoUrl)

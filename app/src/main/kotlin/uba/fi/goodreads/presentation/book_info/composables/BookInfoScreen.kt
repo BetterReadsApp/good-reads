@@ -64,6 +64,16 @@ fun BookInfoRoute(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.loadData()
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.refreshTrigger.collect {
+            viewModel.loadData()
+        }
+    }
+
     BookInfoScreen(
         screenState = screenState,
         onUserRatingChange = viewModel::onUserRatingChange,
