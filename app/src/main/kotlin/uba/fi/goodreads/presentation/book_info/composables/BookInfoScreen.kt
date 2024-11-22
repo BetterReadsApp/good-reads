@@ -117,20 +117,46 @@ fun BookInfoScreen(
         Spacer(modifier = Modifier.height(16.dp))
         AddToShelfButton(onAddShelfClick)
         Spacer(modifier = Modifier.height(16.dp))
-        RatingBox(
-           userRating = screenState.book.yourRating?: 0,
-            onUserRatingChange = onUserRatingChange
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        if (!screenState.book.yourReview.isNullOrEmpty()) {
-            PreviousReview(prevReview = screenState.book.yourReview, onClick = onReviewClick)
+        if (screenState.book.iAmTheAuthor) {
+            AuthorsButton(
+                {}
+            )
         } else {
-            WriteReviewButton(onClick = onReviewClick)
+            RatingBox(
+                userRating = screenState.book.yourRating?: 0,
+                onUserRatingChange = onUserRatingChange
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            if (!screenState.book.yourReview.isNullOrEmpty()) {
+                PreviousReview(prevReview = screenState.book.yourReview, onClick = onReviewClick)
+            } else {
+                WriteReviewButton(onClick = onReviewClick)
+            }
         }
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
         UsersReviewList(screenState.book.reviews)
+    }
+}
+
+@Composable
+fun AuthorsButton(
+    onClick: () -> Unit = {}
+) {
+    Box (
+        modifier = Modifier
+            .width(200.dp)
+            .height(50.dp)
+            .background(Color.LightGray)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Edit Book Details",
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Black
+        )
     }
 }
 
@@ -251,6 +277,24 @@ fun BookInfoScreenPreview(
     @PreviewParameter(BookInfoScreenPreviewParameterProvider::class) state: BookInfoUIState
 ) {
     val state = state.copy(book = state.book.copy(yourReview = "Me gusto mucho este libro"))
+    GoodReadsTheme {
+        BookInfoScreen(
+            state,
+            onReviewClick = {},
+            onUserRatingChange = {},
+            onCreateQuizClick = {},
+            onAddShelfClick = {},
+            onAnswerQuizClick = {}
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun BookInfoAuthorScreenPreview(
+    @PreviewParameter(BookInfoScreenPreviewParameterProvider::class) state: BookInfoUIState
+) {
+    val state = state.copy(book = state.book.copy(iAmTheAuthor = true))
     GoodReadsTheme {
         BookInfoScreen(
             state,
