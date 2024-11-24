@@ -6,7 +6,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import uba.fi.goodreads.presentation.add_book.composables.AddBookRoute
-import uba.fi.goodreads.presentation.review.composables.ReviewRoute
 
 const val ADDBOOKSCREEN_ROUTE = "profile/add_book"
 private const val DEEP_LINK_URI_PATTERN =
@@ -40,7 +39,8 @@ internal fun navigate(
     destination: AddBookDestination,
     onBack: () -> Unit,
 ) {
-    when (destination) {
-        is AddBookDestination.Back -> onBack()
-    }
+    onBack()
+//    when (destination) {
+//        is AddBookDestination.Back -> onBack()
+//    }
 }
