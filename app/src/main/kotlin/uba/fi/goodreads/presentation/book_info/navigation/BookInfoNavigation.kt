@@ -19,6 +19,7 @@ fun NavController.navigateToBookInfo(bookId: String, navOptions: NavOptions? = n
 fun NavGraphBuilder.bookInfoScreen(
     navigateToReview: (String) -> Unit,
     navigateToAddBookToShelf: (String) -> Unit,
+    navigateToEditBook: (String) -> Unit,
     navigateToCreateQuiz: (String, String?) -> Unit,
     navigateToAnswerQuiz: (String, String?) -> Unit
 ) {
@@ -35,7 +36,8 @@ fun NavGraphBuilder.bookInfoScreen(
                     navigateToReview = navigateToReview,
                     navigateToAddBookToShelf = navigateToAddBookToShelf,
                     navigateToCreateQuiz = navigateToCreateQuiz,
-                    navigateToAnswerQuiz = navigateToAnswerQuiz
+                    navigateToAnswerQuiz = navigateToAnswerQuiz,
+                    navigateToEditBook = navigateToEditBook
                 )
             }
         )
@@ -47,12 +49,14 @@ internal fun navigate(
     navigateToReview: (String) -> Unit,
     navigateToAddBookToShelf: (String) -> Unit,
     navigateToCreateQuiz: (String, String?) -> Unit,
-    navigateToAnswerQuiz: (String, String?) -> Unit
+    navigateToAnswerQuiz: (String, String?) -> Unit,
+    navigateToEditBook: (String) -> Unit,
 ) {
     when (destination) {
         is BookInfoDestination.Review -> navigateToReview(destination.bookId)
         is BookInfoDestination.AddBookToShelf -> navigateToAddBookToShelf(destination.bookId)
         is BookInfoDestination.CreateQuiz -> navigateToCreateQuiz(destination.bookId, destination.quizId)
         is BookInfoDestination.AnswerQuiz-> navigateToAnswerQuiz(destination.bookId, destination.quizId)
+        is BookInfoDestination.EditBook -> navigateToEditBook(destination.bookId)
     }
 }

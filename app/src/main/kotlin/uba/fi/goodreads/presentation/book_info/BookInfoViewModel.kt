@@ -111,4 +111,8 @@ class BookInfoViewModel @Inject constructor(
     fun onAddShelfClick() {
         _screenState.update { it.copy(destination = BookInfoDestination.AddBookToShelf(bookId)) }
     }
+
+    fun onEditBookClick() {
+        _screenState.update { it.copy(destination = BookInfoDestination.EditBook(bookId)) }
+    }
 }
