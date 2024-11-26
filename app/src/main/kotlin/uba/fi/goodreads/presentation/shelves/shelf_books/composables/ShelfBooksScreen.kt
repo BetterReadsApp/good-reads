@@ -52,6 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
+import uba.fi.goodreads.domain.model.EssentialShelves
 import uba.fi.goodreads.presentation.shelves.shelf_books.ShelfBooksPreviewParameterProvider
 import uba.fi.goodreads.presentation.shelves.shelf_books.navigation.ShelfBooksDestination
 
@@ -108,32 +109,35 @@ private fun ShelfBooksScreen(
                 fontSize = 32.sp,
                 modifier = Modifier.weight(1f)
             )
-            Box{
-                IconButton(onClick = { showMenu = true }) {
-                    Icon(imageVector = Icons.Default.MoreVert, contentDescription = "Menu")
-                }
-                DropdownMenu(
-                    expanded = showMenu,
-                    onDismissRequest = { showMenu = false },
-                    modifier = Modifier
-                        .wrapContentWidth(Alignment.End)
+            if (!EssentialShelves.isEssentialShelf(screenState.name)){
+                Box{
+                    IconButton(onClick = { showMenu = true }) {
+                        Icon(imageVector = Icons.Default.MoreVert, contentDescription = "Menu")
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false },
+                        modifier = Modifier
+                            .wrapContentWidth(Alignment.End)
 
-                ){
-                    DropdownMenuItem(
-                        onClick = {
+                    ){
+                        DropdownMenuItem(
+                            onClick = {
+                                showMenu = false
+                                showRenameDialog = true
+                            },
+                            text = { Text("Rename") }
+                        )
+                        DropdownMenuItem(onClick = {
                             showMenu = false
-                            showRenameDialog = true
+                            showDeleteDialog = true
                         },
-                        text = { Text("Rename") }
-                    )
-                    DropdownMenuItem(onClick = {
-                        showMenu = false
-                        showDeleteDialog = true
-                    },
-                        text = { Text("Delete") }
-                    )
+                            text = { Text("Delete") }
+                        )
+                    }
                 }
             }
+
 
         }
         screenState.books.forEach { book ->
