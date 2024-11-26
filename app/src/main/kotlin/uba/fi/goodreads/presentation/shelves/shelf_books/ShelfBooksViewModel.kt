@@ -64,11 +64,7 @@ class ShelfBooksViewModel @Inject constructor(
                     is RenameShelfUseCase.Result.UnexpectedError -> Unit
 
                     is RenameShelfUseCase.Result.Success -> _screenState.update {
-                        ShelfBooksUiState(
-                            name = result.shelf.name,
-                            id = result.shelf.id,
-                            books = result.shelf.books
-                        )
+                        it.copy(name = newName)
                     }
                 }
             }
