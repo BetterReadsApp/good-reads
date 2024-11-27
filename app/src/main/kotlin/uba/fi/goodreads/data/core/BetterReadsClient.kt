@@ -15,15 +15,15 @@ import uba.fi.goodreads.data.auth.request.RegisterBody
 import uba.fi.goodreads.data.books.repositories.ReviewBody
 import uba.fi.goodreads.data.auth.response.LoginResponse
 import uba.fi.goodreads.data.auth.response.RegisterResponse
-import uba.fi.goodreads.data.books.repositories.CreateBookBody
+import uba.fi.goodreads.data.books.repositories.SerializedBookBody
 import uba.fi.goodreads.data.books.request.AnswerDto
 import uba.fi.goodreads.data.books.request.QuizDto
 import uba.fi.goodreads.data.books.response.BookNetworkDto
-import uba.fi.goodreads.data.books.response.QuizQuestionDto
 import uba.fi.goodreads.data.books.response.RatingResponse
 import uba.fi.goodreads.data.books.response.RecommendedBookDto
 import uba.fi.goodreads.data.shelf.request.AddBookToShelfBody
 import uba.fi.goodreads.data.books.response.ReviewResponse
+import uba.fi.goodreads.data.shelf.request.RenameShelfBody
 import uba.fi.goodreads.data.shelf.response.ShelfNetworkDto
 import uba.fi.goodreads.data.users.request.EditUserBody
 import uba.fi.goodreads.data.users.response.UserNetworkDto
@@ -45,11 +45,20 @@ internal interface BetterReadsClient {
     @GET("/shelves/{shelfId}")
     suspend fun getShelf(@Path("shelfId") shelfId: Int): ShelfNetworkDto
 
+    @PUT("/shelves/{shelfId}")
+    suspend fun renameShelf(@Path("shelfId") shelfId: Int, @Body body: RenameShelfBody): ShelfNetworkDto
+
+    @DELETE("/shelves/{shelfId}")
+    suspend fun deleteShelf(@Path("shelfId") shelfId: Int)
+
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
 
     @POST("books")
-    suspend fun createBook(@Body body: CreateBookBody)
+    suspend fun createBook(@Body body: SerializedBookBody)
+
+    @PUT("/books/{book_id}")
+    suspend fun editBook(@Path("book_id") book_id: String,@Body body: SerializedBookBody)
 
     @POST("/books/{book_id}/ratings")
     suspend fun rateBook(@Path("book_id") book_id: String, @Header("auth") auth: String, @Body body: RateBody): RatingResponse //aca no falta el user id?
@@ -95,6 +104,7 @@ internal interface BetterReadsClient {
 
     @GET("/recommended")
     suspend fun getRecommendedBooks(): List<RecommendedBookDto>
+
 
 
 }

@@ -1,30 +1,30 @@
-package uba.fi.goodreads.presentation.add_book.navigation
+package uba.fi.goodreads.presentation.edit_book.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import uba.fi.goodreads.presentation.add_book.composables.AddBookRoute
+import uba.fi.goodreads.presentation.edit_book.composables.EditBookRoute
 
-const val ADDBOOKSCREEN_ROUTE = "profile/add_book"
+const val EDIT_BOOK_ROUTE = "profile/edit_book/{bookId}"
 private const val DEEP_LINK_URI_PATTERN =
-    "goodReads://profile/add_book"
+    "goodReads:profile/edit_book"
 
-fun NavController.navigateToAddBook(navOptions: NavOptions? = null) = navigate(
-    "profile/add_book", navOptions
+fun NavController.navigateToEditBook(bookId: String, navOptions: NavOptions? = null) = navigate(
+    "profile/edit_book/$bookId", navOptions
 )
 
-fun NavGraphBuilder.addBookScreen(
+fun NavGraphBuilder.editBookScreen(
     onBack: () -> Unit,
 ) {
     composable(
-        route = ADDBOOKSCREEN_ROUTE,
+        route = EDIT_BOOK_ROUTE,
         deepLinks = listOf(
             navDeepLink { uriPattern = DEEP_LINK_URI_PATTERN })
     ) { navBackResult ->
-        //val bookId = navBackResult.arguments?.getString("bookId") ?: ""
-        AddBookRoute(
+        val bookId = navBackResult.arguments?.getString("bookId") ?: ""
+        EditBookRoute(
             navigate = { destination ->
                 navigate(
                     destination = destination,
@@ -36,11 +36,10 @@ fun NavGraphBuilder.addBookScreen(
 }
 
 internal fun navigate(
-    destination: AddBookDestination,
+    destination: EditBookDestination,
     onBack: () -> Unit,
 ) {
-    onBack()
-//    when (destination) {
-//        is AddBookDestination.Back -> onBack()
-//    }
+    when (destination) {
+        is EditBookDestination.Back -> onBack()
+    }
 }

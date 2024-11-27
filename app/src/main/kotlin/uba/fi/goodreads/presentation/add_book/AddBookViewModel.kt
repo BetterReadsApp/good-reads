@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import uba.fi.goodreads.domain.model.AddedBook
+import uba.fi.goodreads.domain.model.BookToSerialize
 import uba.fi.goodreads.domain.usecase.SaveBookUseCase
 import uba.fi.goodreads.presentation.add_book.navigation.AddBookDestination
 import javax.inject.Inject
@@ -61,7 +61,7 @@ class AddBookViewModel @Inject constructor(
     fun onSaveBookClick() {
         viewModelScope.launch {
 
-            val addedBook = AddedBook(
+            val bookToSerialize = BookToSerialize(
                 title = _screenState.value.title,
                 summary = _screenState.value.description,
                 genre = _screenState.value.genre,
@@ -69,7 +69,7 @@ class AddBookViewModel @Inject constructor(
                 publicationDate = _screenState.value.publicationDate,
                 coverUrl = _screenState.value.coverUrl,
             )
-            saveBookUseCase(addedBook).also {
+            saveBookUseCase(bookToSerialize).also {
             result ->
                 when (result) {
                     is SaveBookUseCase.Result.Error,
