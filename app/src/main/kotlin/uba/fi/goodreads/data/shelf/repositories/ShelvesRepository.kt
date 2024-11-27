@@ -11,5 +11,9 @@ interface ShelvesRepository {
 
     suspend fun getShelf(shelfId: String): NetworkResult<Shelf>
 
+    suspend fun renameShelf(shelfId: String, name: String): NetworkResult<Shelf>
+
+    suspend fun deleteShelf(shelfId: String): NetworkResult<Unit>
+
     suspend fun addBook(shelfId: String, bookId: String): NetworkResult<Unit>
 }
