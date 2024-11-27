@@ -1,4 +1,4 @@
-package uba.fi.goodreads.presentation.add_book.composables
+package uba.fi.goodreads.presentation.edit_book.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,12 +27,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import uba.fi.goodreads.presentation.add_book.AddBookUIState
-import uba.fi.goodreads.presentation.add_book.AddBookViewModel
-import uba.fi.goodreads.presentation.add_book.EditBookUIState
-import uba.fi.goodreads.presentation.add_book.EditBookViewModel
-import uba.fi.goodreads.presentation.add_book.navigation.AddBookDestination
-import uba.fi.goodreads.presentation.add_book.navigation.EditBookDestination
+import uba.fi.goodreads.presentation.edit_book.EditBookUIState
+import uba.fi.goodreads.presentation.edit_book.EditBookViewModel
+import uba.fi.goodreads.presentation.edit_book.navigation.EditBookDestination
 import uba.fi.goodreads.presentation.book_info.composables.BookCoverImage
 
 

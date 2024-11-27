@@ -41,9 +41,6 @@ import coil.request.ImageRequest
 import uba.fi.goodreads.R
 import uba.fi.goodreads.core.design_system.theme.GoodReadsTheme
 import uba.fi.goodreads.domain.model.Book
-import uba.fi.goodreads.presentation.bookInfo.composables.PreviousReview
-import uba.fi.goodreads.presentation.bookInfo.composables.UsersReviewList
-import uba.fi.goodreads.presentation.bookInfo.composables.WriteReviewButton
 import uba.fi.goodreads.presentation.book_info.BookInfoScreenPreviewParameterProvider
 import uba.fi.goodreads.presentation.book_info.BookInfoUIState
 import uba.fi.goodreads.presentation.book_info.BookInfoViewModel
@@ -81,6 +78,7 @@ fun BookInfoRoute(
         onReviewClick = viewModel::onReviewClick,
         onCreateQuizClick = viewModel::onCreateQuizClick,
         onAnswerQuizClick = viewModel::onAnswerQuizClick,
+        onEditBookClick = viewModel::onEditBookClick,
     )
 }
 
@@ -92,6 +90,7 @@ fun BookInfoScreen(
     onAddShelfClick: () -> Unit,
     onCreateQuizClick: () -> Unit,
     onAnswerQuizClick: () -> Unit,
+    onEditBookClick: () -> Unit
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -101,8 +100,8 @@ fun BookInfoScreen(
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
-        
-    ) {
+
+        ) {
         BookCoverImage(screenState.book.photoUrl)
         TitleAndAuthor(
             book = screenState.book,
@@ -117,13 +116,12 @@ fun BookInfoScreen(
         Spacer(modifier = Modifier.height(16.dp))
         AddToShelfButton(onAddShelfClick)
         Spacer(modifier = Modifier.height(16.dp))
+
         if (screenState.book.iAmTheAuthor) {
-            AuthorsButton(
-                {}
-            )
+            AuthorsButton(onClick = onEditBookClick)
         } else {
             RatingBox(
-                userRating = screenState.book.yourRating?: 0,
+                userRating = screenState.book.yourRating ?: 0,
                 onUserRatingChange = onUserRatingChange
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -133,6 +131,7 @@ fun BookInfoScreen(
                 WriteReviewButton(onClick = onReviewClick)
             }
         }
+
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
@@ -144,7 +143,7 @@ fun BookInfoScreen(
 fun AuthorsButton(
     onClick: () -> Unit = {}
 ) {
-    Box (
+    Box(
         modifier = Modifier
             .width(200.dp)
             .height(50.dp)
@@ -163,7 +162,9 @@ fun AuthorsButton(
 
 @Composable
 fun BookCoverImage(imageUrl: String) {
-    Box(modifier = Modifier.fillMaxWidth().height(250.dp)) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(250.dp)) {
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -187,7 +188,7 @@ fun BookCoverImage(imageUrl: String) {
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(imageUrl)
@@ -234,7 +235,7 @@ private fun TitleAndAuthor(
 
         if (book.iAmTheAuthor) {
             Button(onClick = onCreateQuizClick) {
-                Text(if (book.hasQuizzes) "Edit quiz"  else "Create quiz")
+                Text(if (book.hasQuizzes) "Edit quiz" else "Create quiz")
             }
         } else if (book.hasQuizzes) {
             Button(onClick = onAnswerQuizClick) {
@@ -255,7 +256,7 @@ private fun TitleAndAuthor(
 
 @Composable
 fun AddToShelfButton(onClick: () -> Unit) {
-    Box (
+    Box(
         modifier = Modifier
             .width(200.dp)
             .height(50.dp)
@@ -284,7 +285,8 @@ fun BookInfoScreenPreview(
             onUserRatingChange = {},
             onCreateQuizClick = {},
             onAddShelfClick = {},
-            onAnswerQuizClick = {}
+            onAnswerQuizClick = {},
+            onEditBookClick = {}
         )
     }
 }
@@ -302,7 +304,8 @@ fun BookInfoAuthorScreenPreview(
             onUserRatingChange = {},
             onCreateQuizClick = {},
             onAddShelfClick = {},
-            onAnswerQuizClick = {}
+            onAnswerQuizClick = {},
+            onEditBookClick = {}
         )
     }
 }
