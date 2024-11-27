@@ -1,5 +1,7 @@
 package uba.fi.goodreads.presentation.edit_book.composables
 
+
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -94,16 +97,28 @@ fun EditBookScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = onSaveBookClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-        ) {
-            Text("Guardar cambios")
-        }
+        EditScreenButton(onSaveBookClick, Color.Unspecified)
+        EditScreenButton(onSaveBookClick, Color.Red)
+
+
     }
 
+}
+
+@Composable
+private fun EditScreenButton(
+    onSaveBookClick: () -> Unit,
+    color: Color,
+    ) {
+    Button(
+        onClick = onSaveBookClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .background(color = color)
+    ) {
+        Text("Guardar cambios")
+    }
 }
 
 @Composable
