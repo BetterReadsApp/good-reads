@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateBookBody(
+data class SerializedBookBody(
     @SerialName("title") val title: String,
     @SerialName("summary") val summary: String,
     @SerialName("genre") val genre: String,

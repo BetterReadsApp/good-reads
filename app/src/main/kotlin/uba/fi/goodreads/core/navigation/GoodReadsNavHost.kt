@@ -12,6 +12,8 @@ import uba.fi.goodreads.presentation.book_info.navigation.bookInfoScreen
 import uba.fi.goodreads.presentation.book_info.navigation.navigateToBookInfo
 import uba.fi.goodreads.presentation.create_quiz.navigation.createQuizScreen
 import uba.fi.goodreads.presentation.create_quiz.navigation.navigateToCreateQuiz
+import uba.fi.goodreads.presentation.edit_book.navigation.editBookScreen
+import uba.fi.goodreads.presentation.edit_book.navigation.navigateToEditBook
 import uba.fi.goodreads.presentation.edit_profile.navigation.editProfileScreen
 import uba.fi.goodreads.presentation.edit_profile.navigation.navigateToEditProfile
 import uba.fi.goodreads.presentation.review.navigation.navigateToReviewScreen
@@ -58,7 +60,8 @@ fun GoodReadsNavHost(
             navigateToReview = navController::navigateToReviewScreen,
             navigateToAddBookToShelf = navController::navigateToAddBookToShelves,
             navigateToCreateQuiz = navController::navigateToCreateQuiz,
-            navigateToAnswerQuiz = navController::navigateToAnswerQuiz
+            navigateToAnswerQuiz = navController::navigateToAnswerQuiz,
+            navigateToEditBook = navController::navigateToEditBook,
         )
 
         profileScreen(
@@ -99,6 +102,10 @@ fun GoodReadsNavHost(
 
 
         addBookScreen(
+            onBack = navController::popBackStack
+        )
+
+        editBookScreen(
             onBack = navController::popBackStack
         )
     }
