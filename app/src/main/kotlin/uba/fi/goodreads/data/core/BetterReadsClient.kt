@@ -15,11 +15,10 @@ import uba.fi.goodreads.data.auth.request.RegisterBody
 import uba.fi.goodreads.data.books.repositories.ReviewBody
 import uba.fi.goodreads.data.auth.response.LoginResponse
 import uba.fi.goodreads.data.auth.response.RegisterResponse
-import uba.fi.goodreads.data.books.repositories.CreateBookBody
+import uba.fi.goodreads.data.books.repositories.SerializedBookBody
 import uba.fi.goodreads.data.books.request.AnswerDto
 import uba.fi.goodreads.data.books.request.QuizDto
 import uba.fi.goodreads.data.books.response.BookNetworkDto
-import uba.fi.goodreads.data.books.response.QuizQuestionDto
 import uba.fi.goodreads.data.books.response.RatingResponse
 import uba.fi.goodreads.data.books.response.RecommendedBookDto
 import uba.fi.goodreads.data.shelf.request.AddBookToShelfBody
@@ -56,7 +55,10 @@ internal interface BetterReadsClient {
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
 
     @POST("books")
-    suspend fun createBook(@Body body: CreateBookBody)
+    suspend fun createBook(@Body body: SerializedBookBody)
+
+    @PUT("/books/{book_id}")
+    suspend fun editBook(@Path("book_id") book_id: String,@Body body: SerializedBookBody)
 
     @POST("/books/{book_id}/ratings")
     suspend fun rateBook(@Path("book_id") book_id: String, @Header("auth") auth: String, @Body body: RateBody): RatingResponse //aca no falta el user id?

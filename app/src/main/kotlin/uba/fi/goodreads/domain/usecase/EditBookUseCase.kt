@@ -7,7 +7,7 @@ import uba.fi.goodreads.domain.model.BookToSerialize
 import javax.inject.Inject
 
 
-class SaveBookUseCase @Inject constructor(
+class EditBookUseCase @Inject constructor(
     private val bookRepository: BooksRepository,
     private val sessionRepository: SessionRepository
 ) {
@@ -16,14 +16,12 @@ class SaveBookUseCase @Inject constructor(
         data class Error(val title: String? = null, val description: String? = null) : Result()
         data object UnexpectedError : Result()
     }
-    suspend operator fun invoke(book: BookToSerialize): Result {
-        return when(val result = bookRepository.createBook(
-            book, sessionRepository.getUserId()
-        )) {
+    suspend operator fun invoke(bookId: String, book: BookToSerialize): Result {
+        return when(val result = bookRepository.editBook(bookId, book, sessionRepository.getUserId())) {
             is NetworkResult.ErrorBase,
             is NetworkResult.LocalError,
-            is NetworkResult.NetworkError -> SaveBookUseCase.Result.UnexpectedError
-            is NetworkResult.Success -> SaveBookUseCase.Result.Success
+            is NetworkResult.NetworkError -> EditBookUseCase.Result.UnexpectedError
+            is NetworkResult.Success -> EditBookUseCase.Result.Success
         }
     }
 }

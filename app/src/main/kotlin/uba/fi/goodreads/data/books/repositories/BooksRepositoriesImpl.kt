@@ -5,7 +5,7 @@ import uba.fi.goodreads.data.books.request.AnswerDto
 import uba.fi.goodreads.data.books.request.QuizDto
 import uba.fi.goodreads.data.core.BetterReadsClient
 import uba.fi.goodreads.data.core.ResponseHandler
-import uba.fi.goodreads.domain.model.AddedBook
+import uba.fi.goodreads.domain.model.BookToSerialize
 import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.domain.model.QuizAnswer
 import uba.fi.goodreads.domain.model.QuizQuestion
@@ -110,9 +110,15 @@ internal class BooksRepositoriesImpl @Inject constructor(
         }
     }
 
-    override suspend fun createBook(book: AddedBook, authorId: String): NetworkResult<Unit> {
+    override suspend fun createBook(book: BookToSerialize, authorId: String): NetworkResult<Unit> {
         return responseHandler {
             client.createBook(book.toDomain(authorId))
+        }
+    }
+
+    override suspend fun editBook(book_id: String, book: BookToSerialize, authorId: String): NetworkResult<Unit> {
+        return responseHandler {
+            client.editBook(book_id, book.toDomain(authorId))
         }
     }
 }
