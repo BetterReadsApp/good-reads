@@ -9,10 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import uba.fi.goodreads.domain.model.AddedBook
+import uba.fi.goodreads.domain.model.BookToSerialize
+import uba.fi.goodreads.domain.usecase.EditBookUseCase
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
-import uba.fi.goodreads.domain.usecase.SaveBookUseCase
-import uba.fi.goodreads.presentation.add_book.navigation.AddBookDestination
 import uba.fi.goodreads.presentation.add_book.navigation.EditBookDestination
 import javax.inject.Inject
 
@@ -20,7 +19,7 @@ import javax.inject.Inject
 class EditBookViewModel @Inject constructor(
     private val getBookInfoUseCase: GetBookInfoUseCase,
     private val savedStateHandle: SavedStateHandle,
-    private val saveBookUseCase: SaveBookUseCase
+    private val editBookUseCase: EditBookUseCase
 ) : ViewModel() {
 
     private val _screenState: MutableStateFlow<EditBookUIState> =
@@ -92,10 +91,10 @@ class EditBookViewModel @Inject constructor(
         }
     }
 
-    fun onSaveBookClick() {
+    fun onSaveChangesClick() {
         viewModelScope.launch {
 
-            val addedBook = AddedBook(
+            val bookToSerialize = BookToSerialize(
                 title = _screenState.value.title,
                 summary = _screenState.value.description,
                 genre = _screenState.value.genre,
@@ -103,12 +102,12 @@ class EditBookViewModel @Inject constructor(
                 publicationDate = _screenState.value.publicationDate,
                 coverUrl = _screenState.value.coverUrl,
             )
-            saveBookUseCase(addedBook).also {
+            editBookUseCase(bookId, bookToSerialize).also {
             result ->
                 when (result) {
-                    is SaveBookUseCase.Result.Error,
-                    is SaveBookUseCase.Result.UnexpectedError -> Unit
-                    is SaveBookUseCase.Result.Success -> _screenState.update {
+                    is EditBookUseCase.Result.Error,
+                    is EditBookUseCase.Result.UnexpectedError -> Unit
+                    is EditBookUseCase.Result.Success -> _screenState.update {
                         it.copy(destination = EditBookDestination.Back)
                     }
                 }

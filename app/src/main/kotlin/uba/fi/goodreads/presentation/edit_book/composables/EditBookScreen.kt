@@ -54,7 +54,7 @@ fun EditBookRoute(
         onCoverUrlChange = viewModel::onCoverUrlChange,
         onTitleChange = viewModel::onTitleChange,
         onDescriptionChange = viewModel::onDescriptionChange,
-        onSaveBookClick = viewModel::onSaveBookClick,
+        onSaveBookClick = viewModel::onSaveChangesClick,
         onBack = viewModel::onBack,
         onPagesChange = viewModel::onPagesChange
     )

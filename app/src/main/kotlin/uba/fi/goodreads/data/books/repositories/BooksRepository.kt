@@ -1,7 +1,7 @@
 package uba.fi.goodreads.data.books.repositories
 
 import uba.fi.goodreads.core.network.NetworkResult
-import uba.fi.goodreads.domain.model.AddedBook
+import uba.fi.goodreads.domain.model.BookToSerialize
 import uba.fi.goodreads.domain.model.Book
 import uba.fi.goodreads.domain.model.QuizAnswer
 import uba.fi.goodreads.domain.model.QuizQuestion
@@ -38,6 +38,8 @@ interface BooksRepository {
 
     suspend fun getRecommendedBooks(userId: String): NetworkResult<List<Book>>
 
-    suspend fun createBook(book: AddedBook, authorId: String): NetworkResult<Unit>
+    suspend fun createBook(book: BookToSerialize, authorId: String): NetworkResult<Unit>
+
+    suspend fun editBook(book_id: String, book: BookToSerialize, authorId: String): NetworkResult<Unit>
 
 }
