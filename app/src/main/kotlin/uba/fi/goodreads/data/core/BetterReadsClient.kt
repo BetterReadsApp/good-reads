@@ -53,6 +53,9 @@ internal interface BetterReadsClient {
     @PUT("/books/{book_id}")
     suspend fun editBook(@Path("book_id") book_id: String,@Body body: SerializedBookBody)
 
+    @DELETE("/books/{book_id}")
+    suspend fun deleteBook(@Path("book_id") book_id: String)
+
     @POST("/books/{book_id}/ratings")
     suspend fun rateBook(@Path("book_id") book_id: String, @Header("auth") auth: String, @Body body: RateBody): RatingResponse //aca no falta el user id?
 
@@ -97,6 +100,5 @@ internal interface BetterReadsClient {
 
     @GET("/recommended")
     suspend fun getRecommendedBooks(): List<RecommendedBookDto>
-
 
 }

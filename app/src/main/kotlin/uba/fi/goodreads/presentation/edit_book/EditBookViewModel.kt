@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.model.BookToSerialize
+import uba.fi.goodreads.domain.usecase.DeleteBookUseCase
 import uba.fi.goodreads.domain.usecase.EditBookUseCase
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.SaveBookUseCase
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class EditBookViewModel @Inject constructor(
     private val getBookInfoUseCase: GetBookInfoUseCase,
     private val savedStateHandle: SavedStateHandle,
-    private val editBookUseCase: EditBookUseCase
+    private val editBookUseCase: EditBookUseCase,
+    private val deleteBookUseCase: DeleteBookUseCase
 ) : ViewModel() {
 
     private val _screenState: MutableStateFlow<EditBookUIState> =
@@ -94,7 +96,6 @@ class EditBookViewModel @Inject constructor(
 
     fun onSaveChangesClick() {
         viewModelScope.launch {
-
             val bookToSerialize = BookToSerialize(
                 title = _screenState.value.title,
                 summary = _screenState.value.description,
@@ -109,6 +110,21 @@ class EditBookViewModel @Inject constructor(
                     is EditBookUseCase.Result.Error,
                     is EditBookUseCase.Result.UnexpectedError -> Unit
                     is EditBookUseCase.Result.Success -> _screenState.update {
+                        it.copy(destination = EditBookDestination.Back)
+                    }
+                }
+            }
+        }
+    }
+
+    fun onDeleteBookClick() {
+        viewModelScope.launch {
+            deleteBookUseCase(bookId).also {
+                    result ->
+                when (result) {
+                    is DeleteBookUseCase.Result.Error,
+                    is DeleteBookUseCase.Result.UnexpectedError -> Unit
+                    is DeleteBookUseCase.Result.Success -> _screenState.update {
                         it.copy(destination = EditBookDestination.Back)
                     }
                 }

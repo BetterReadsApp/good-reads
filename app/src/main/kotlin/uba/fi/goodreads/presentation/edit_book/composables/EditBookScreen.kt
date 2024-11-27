@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,7 +57,8 @@ fun EditBookRoute(
         onDescriptionChange = viewModel::onDescriptionChange,
         onSaveBookClick = viewModel::onSaveChangesClick,
         onBack = viewModel::onBack,
-        onPagesChange = viewModel::onPagesChange
+        onPagesChange = viewModel::onPagesChange,
+        onDeleteBookClick = viewModel::onDeleteBookClick
     )
 }
 
@@ -69,6 +71,7 @@ fun EditBookScreen(
     onPagesChange: (String) -> Unit,
     onBack: () -> Unit,
     onSaveBookClick: () -> Unit,
+    onDeleteBookClick: () -> Unit,
 ) {
 
     Column(
@@ -97,10 +100,8 @@ fun EditBookScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        EditScreenButton(onSaveBookClick, Color.Unspecified)
-        EditScreenButton(onSaveBookClick, Color.Red)
-
-
+        EditScreenButton(onSaveBookClick, Color.Unspecified, "Guardar cambios")
+        EditScreenButton(onDeleteBookClick, Color.Red, "Eliminar")
     }
 
 }
@@ -109,15 +110,18 @@ fun EditBookScreen(
 private fun EditScreenButton(
     onSaveBookClick: () -> Unit,
     color: Color,
+    text: String,
     ) {
     Button(
         onClick = onSaveBookClick,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .background(color = color)
+            .padding(horizontal = 16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = color
+        )
     ) {
-        Text("Guardar cambios")
+        Text(text)
     }
 }
 
@@ -193,6 +197,7 @@ fun EditBookScreenPreview() {
         onCoverUrlChange = {},
         onDescriptionChange = {},
         onSaveBookClick = {},
-        onPagesChange = {}
+        onPagesChange = {},
+        onDeleteBookClick = {}
     )
 }

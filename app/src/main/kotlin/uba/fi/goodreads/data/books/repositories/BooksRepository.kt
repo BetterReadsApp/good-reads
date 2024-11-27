@@ -42,4 +42,6 @@ interface BooksRepository {
 
     suspend fun editBook(book_id: String, book: BookToSerialize, authorId: String): NetworkResult<Unit>
 
+    suspend fun deleteBook(book_id: String): NetworkResult<Unit>
+
 }
