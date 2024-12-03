@@ -23,6 +23,7 @@ import uba.fi.goodreads.data.books.response.RatingResponse
 import uba.fi.goodreads.data.books.response.RecommendedBookDto
 import uba.fi.goodreads.data.shelf.request.AddBookToShelfBody
 import uba.fi.goodreads.data.books.response.ReviewResponse
+import uba.fi.goodreads.data.shelf.request.RenameShelfBody
 import uba.fi.goodreads.data.shelf.response.ShelfNetworkDto
 import uba.fi.goodreads.data.users.request.EditUserBody
 import uba.fi.goodreads.data.users.response.UserNetworkDto
@@ -43,6 +44,12 @@ internal interface BetterReadsClient {
 
     @GET("/shelves/{shelfId}")
     suspend fun getShelf(@Path("shelfId") shelfId: Int): ShelfNetworkDto
+
+    @PUT("/shelves/{shelfId}")
+    suspend fun renameShelf(@Path("shelfId") shelfId: Int, @Body body: RenameShelfBody): ShelfNetworkDto
+
+    @DELETE("/shelves/{shelfId}")
+    suspend fun deleteShelf(@Path("shelfId") shelfId: Int)
 
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
@@ -86,6 +93,9 @@ internal interface BetterReadsClient {
     @POST("/shelves/{shelfId}/books")
     suspend fun addBookToShelf(@Path("shelfId") shelfId: String, @Body body: AddBookToShelfBody)
 
+    @DELETE("/shelves/{shelfId}/books/{bookId}")
+    suspend fun deleteBookFromShelf(@Path("shelfId") shelfId: String, @Path("bookId") bookId: String)
+
     @POST("/quizzes")
     suspend fun createQuiz(@Body body: QuizDto)
 
@@ -100,5 +110,3 @@ internal interface BetterReadsClient {
 
     @GET("/recommended")
     suspend fun getRecommendedBooks(): List<RecommendedBookDto>
-
-}

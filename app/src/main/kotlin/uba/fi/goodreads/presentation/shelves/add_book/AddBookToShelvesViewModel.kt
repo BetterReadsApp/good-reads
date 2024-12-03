@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uba.fi.goodreads.domain.model.Shelf
-import uba.fi.goodreads.domain.usecase.AddBookToShelvesUseCase
+import uba.fi.goodreads.domain.usecase.UpdateBookOnShelvesUseCase
 import uba.fi.goodreads.domain.usecase.GetBookInfoUseCase
 import uba.fi.goodreads.domain.usecase.GetShelvesUseCase
 import uba.fi.goodreads.presentation.shelves.add_book.navigation.AddBookToShelfDestination
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddBookToShelvesViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val addBookToShelvesUseCase: AddBookToShelvesUseCase,
+    private val updateBookOnShelvesUseCase: UpdateBookOnShelvesUseCase,
     private val getShelvesUseCase: GetShelvesUseCase,
     private val getBookInfoUseCase: GetBookInfoUseCase
 ) : ViewModel() {
@@ -29,6 +29,8 @@ class AddBookToShelvesViewModel @Inject constructor(
     val screenState: StateFlow<AddBookToShelvesUiState> = _screenState.asStateFlow()
 
     private val bookId: String = savedStateHandle["bookId"] ?: "0"
+
+    private val shelvesContainingBook: MutableList<String> = emptyList<String>().toMutableList()
 
     init {
         viewModelScope.launch {
@@ -48,17 +50,16 @@ class AddBookToShelvesViewModel @Inject constructor(
                     is GetBookInfoUseCase.Result.Success -> _screenState.update {
                         it.copy(book = result.book)
                     }
-
                 }
             }
-            val shelvesContainingBook: MutableSet<String> = mutableSetOf()
-            _screenState.value.shelves.forEach{ shelf ->
+
+            _screenState.value.shelves.forEach { shelf ->
                 if (shelf.containsBook(_screenState.value.book.title)){
                     shelvesContainingBook.add(shelf.id.toString())
                 }
             }
             _screenState.update {
-                it.copy(selectedShelves = shelvesContainingBook)
+                it.copy(selectedShelves = shelvesContainingBook.toSet())
             }
         }
     }
@@ -71,11 +72,21 @@ class AddBookToShelvesViewModel @Inject constructor(
 
     fun onConfirm() {
         viewModelScope.launch {
-            addBookToShelvesUseCase(bookId, _screenState.value.selectedShelves).also { result ->
+            updateBookOnShelvesUseCase(
+                bookId,
+                _screenState.value.selectedShelves,
+                _screenState.value.shelves.filter { shelf ->
+                    !_screenState.value.selectedShelves.contains(shelf.id.toString())
+                }.filter { notSelectedShelf ->
+                    shelvesContainingBook.contains(notSelectedShelf.id.toString())
+                }.map {
+                    it.id.toString()
+                }.toSet()
+            ).also { result ->
                 when (result) {
-                    is AddBookToShelvesUseCase.Result.Error,
-                    is AddBookToShelvesUseCase.Result.UnexpectedError -> Unit
-                    is AddBookToShelvesUseCase.Result.Success -> _screenState.update {
+                    is UpdateBookOnShelvesUseCase.Result.Error,
+                    is UpdateBookOnShelvesUseCase.Result.UnexpectedError -> Unit
+                    is UpdateBookOnShelvesUseCase.Result.Success -> _screenState.update {
                         it.copy(destination = AddBookToShelfDestination.Back)
                     }
                 }
