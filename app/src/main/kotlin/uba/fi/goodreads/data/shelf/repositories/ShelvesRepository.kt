@@ -16,4 +16,6 @@ interface ShelvesRepository {
     suspend fun deleteShelf(shelfId: String): NetworkResult<Unit>
 
     suspend fun addBook(shelfId: String, bookId: String): NetworkResult<Unit>
+
+    suspend fun deleteBook(shelfId: String, bookId: String): NetworkResult<Unit>
 }

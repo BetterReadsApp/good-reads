@@ -90,6 +90,9 @@ internal interface BetterReadsClient {
     @POST("/shelves/{shelfId}/books")
     suspend fun addBookToShelf(@Path("shelfId") shelfId: String, @Body body: AddBookToShelfBody)
 
+    @DELETE("/shelves/{shelfId}/books/{bookId}")
+    suspend fun deleteBookFromShelf(@Path("shelfId") shelfId: String, @Path("bookId") bookId: String)
+
     @POST("/quizzes")
     suspend fun createQuiz(@Body body: QuizDto)
 

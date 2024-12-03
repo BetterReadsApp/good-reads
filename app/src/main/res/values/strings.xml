@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GoodReads</string>
+    <string name="app_name">BetterReads</string>
 
     <!-- Design system -->
     <string name="feedback_screen_error_generic_title">Error</string>

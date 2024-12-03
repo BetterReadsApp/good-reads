@@ -51,4 +51,10 @@ internal class ShelvesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteBook(shelfId: String, bookId: String): NetworkResult<Unit> {
+        return responseHandler{
+            client.deleteBookFromShelf(shelfId, bookId)
+        }
+    }
+
 }
