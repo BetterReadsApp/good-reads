@@ -23,6 +23,7 @@ import uba.fi.goodreads.data.books.response.RatingResponse
 import uba.fi.goodreads.data.books.response.RecommendedBookDto
 import uba.fi.goodreads.data.shelf.request.AddBookToShelfBody
 import uba.fi.goodreads.data.books.response.ReviewResponse
+import uba.fi.goodreads.data.shelf.request.RenameShelfBody
 import uba.fi.goodreads.data.shelf.response.ShelfNetworkDto
 import uba.fi.goodreads.data.users.request.EditUserBody
 import uba.fi.goodreads.data.users.response.UserNetworkDto
@@ -44,6 +45,15 @@ internal interface BetterReadsClient {
     @GET("/shelves/{shelfId}")
     suspend fun getShelf(@Path("shelfId") shelfId: Int): ShelfNetworkDto
 
+    @PUT("/shelves/{shelfId}")
+    suspend fun renameShelf(
+        @Path("shelfId") shelfId: Int,
+        @Body body: RenameShelfBody
+    ): ShelfNetworkDto
+
+    @DELETE("/shelves/{shelfId}")
+    suspend fun deleteShelf(@Path("shelfId") shelfId: Int)
+
     @GET("/books/{bookId}")
     suspend fun getBook(@Path("bookId") bookId: String): BookNetworkDto
 
@@ -51,13 +61,17 @@ internal interface BetterReadsClient {
     suspend fun createBook(@Body body: SerializedBookBody)
 
     @PUT("/books/{book_id}")
-    suspend fun editBook(@Path("book_id") book_id: String,@Body body: SerializedBookBody)
+    suspend fun editBook(@Path("book_id") book_id: String, @Body body: SerializedBookBody)
 
     @DELETE("/books/{book_id}")
     suspend fun deleteBook(@Path("book_id") book_id: String)
 
     @POST("/books/{book_id}/ratings")
-    suspend fun rateBook(@Path("book_id") book_id: String, @Header("auth") auth: String, @Body body: RateBody): RatingResponse //aca no falta el user id?
+    suspend fun rateBook(
+        @Path("book_id") book_id: String,
+        @Header("auth") auth: String,
+        @Body body: RateBody
+    ): RatingResponse //aca no falta el user id?
 
     @GET("/books")
     suspend fun getBooksByKeyword(@Query("keywords") text: String): List<BookNetworkDto>
@@ -66,7 +80,11 @@ internal interface BetterReadsClient {
     suspend fun getBooksByGenre(@Query("genre") text: String): List<BookNetworkDto>
 
     @POST("/books/{book_id}/reviews")
-    suspend fun reviewBook(@Path("book_id") bookId: String, @Header("auth") auth: String, @Body body: ReviewBody): ReviewResponse //aca no falta el user id?
+    suspend fun reviewBook(
+        @Path("book_id") bookId: String,
+        @Header("auth") auth: String,
+        @Body body: ReviewBody
+    ): ReviewResponse //aca no falta el user id?
 
     @GET("/users/{userId}")
     suspend fun getUser(@Path("userId") userId: String): UserNetworkDto
@@ -86,6 +104,12 @@ internal interface BetterReadsClient {
     @POST("/shelves/{shelfId}/books")
     suspend fun addBookToShelf(@Path("shelfId") shelfId: String, @Body body: AddBookToShelfBody)
 
+    @DELETE("/shelves/{shelfId}/books/{bookId}")
+    suspend fun deleteBookFromShelf(
+        @Path("shelfId") shelfId: String,
+        @Path("bookId") bookId: String
+    )
+
     @POST("/quizzes")
     suspend fun createQuiz(@Body body: QuizDto)
 
@@ -100,5 +124,4 @@ internal interface BetterReadsClient {
 
     @GET("/recommended")
     suspend fun getRecommendedBooks(): List<RecommendedBookDto>
-
 }

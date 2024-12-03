@@ -5,6 +5,7 @@ import uba.fi.goodreads.data.shelf.request.CreateShelfBody
 import uba.fi.goodreads.data.core.BetterReadsClient
 import uba.fi.goodreads.data.core.ResponseHandler
 import uba.fi.goodreads.data.shelf.request.AddBookToShelfBody
+import uba.fi.goodreads.data.shelf.request.RenameShelfBody
 import uba.fi.goodreads.domain.model.Shelf
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ internal class ShelvesRepositoryImpl @Inject constructor(
         }
     }
 
+
     override suspend fun getShelves(userId: String): NetworkResult<List<Shelf>> {
         return responseHandler {
             client.getShelves(userId).map { it.toDomain() }
@@ -31,9 +33,27 @@ internal class ShelvesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun renameShelf(shelfId: String, name: String): NetworkResult<Shelf> {
+        return responseHandler {
+            client.renameShelf(shelfId.toInt(),RenameShelfBody(name = name)).toDomain()
+        }
+    }
+
+    override suspend fun deleteShelf(shelfId: String): NetworkResult<Unit> {
+        return responseHandler {
+            client.deleteShelf(shelfId.toInt())
+        }
+    }
+
     override suspend fun addBook(shelfId: String, bookId: String): NetworkResult<Unit> {
         return responseHandler{
             client.addBookToShelf(shelfId, AddBookToShelfBody(bookId))
+        }
+    }
+
+    override suspend fun deleteBook(shelfId: String, bookId: String): NetworkResult<Unit> {
+        return responseHandler{
+            client.deleteBookFromShelf(shelfId, bookId)
         }
     }
 
