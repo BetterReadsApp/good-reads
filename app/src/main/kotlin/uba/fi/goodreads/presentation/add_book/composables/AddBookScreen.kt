@@ -94,16 +94,16 @@ fun AddBookScreen(
         BookCoverImage(if (screenState.coverUrl.isNotBlank()) screenState.coverUrl else "https://via.placeholder.com/200x200.png?text=Sin+portada")
 
         Spacer(modifier = Modifier.height(16.dp))
-        InputBox(screenState.coverUrl, "URL de la portada", onCoverUrlChange)
+        InputBox(screenState.coverUrl, "cover URL", onCoverUrlChange)
 
         Spacer(modifier = Modifier.height(8.dp))
-        InputBox(screenState.title, "Título", onTitleChange)
+        InputBox(screenState.title, "Title", onTitleChange)
 
         Spacer(modifier = Modifier.height(8.dp))
-        InputBox(screenState.description, "Descripción", onDescriptionChange)
+        InputBox(screenState.description, "Summary", onDescriptionChange)
 
         Spacer(modifier = Modifier.height(8.dp))
-        NumericInput(screenState.pages.toString(), "Páginas", onPagesChange)
+        NumericInput(screenState.pages.toString(), "Pages", onPagesChange)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -113,7 +113,7 @@ fun AddBookScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
         ) {
-            Text("Guardar libro")
+            Text("Add book")
         }
     }
 
@@ -165,7 +165,7 @@ fun TopBar(
     onBack: () -> Unit,
 ) {
     TopAppBar(
-        title = { Text("Agregar Libro") },
+        title = { Text("Add book") },
         navigationIcon = {
             IconButton(
                 onClick = onBack
