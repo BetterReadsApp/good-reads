@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,13 +64,14 @@ fun AnswerQuizScreen(
     onSendAnswer: () -> Unit,
     onOptionSelected: (Int, Int, Int) -> Unit
 ) {
+    val showResults = remember { mutableStateOf(false) }
+
     if (screenState.error != null) {
         FeedbackScreen(
             FeedbackType.ERROR,
             title = screenState.error
         )
     } else {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -82,21 +85,28 @@ fun AnswerQuizScreen(
             ) {
                 screenState.questions.forEachIndexed { questionIndex, question ->
                     Question(
-                        questionIndex,
-                        question,
+                        questionIndex = questionIndex,
+                        question = question,
                         onOptionSelected = onOptionSelected,
-                        answer = screenState.answers[questionIndex]
+                        answer = screenState.answers[questionIndex],
+                        showResults = showResults.value
                     )
                 }
 
                 Button(
-                    onClick = onSendAnswer,
+                    onClick = {
+                        if (!showResults.value) {
+                            showResults.value = true
+                        } else {
+                            onSendAnswer()
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
                     enabled = screenState.sendEnabled
                 ) {
-                    Text(text = "Send Answers")
+                    Text(text = if (showResults.value) "Confirm and Send" else "Show Results")
                 }
             }
         }
@@ -108,7 +118,8 @@ fun Question(
     questionIndex: Int,
     question: QuizQuestion,
     onOptionSelected: (questionIndex: Int, optionIndex: Int, questionId: Int) -> Unit,
-    answer: QuizAnswer
+    answer: QuizAnswer,
+    showResults: Boolean
 ) {
     Text(
         text = "Question ${questionIndex + 1}",
@@ -124,16 +135,26 @@ fun Question(
     Spacer(modifier = Modifier.height(8.dp))
 
     question.options.forEachIndexed { optionIndex, option ->
+        val isCorrect = question.correctOptionIndex == optionIndex
+        val isSelected = answer.selectedChoice == optionIndex
+        val color = when {
+            showResults && isCorrect -> MaterialTheme.colorScheme.primary // Verde para correctas
+            showResults && isSelected && !isCorrect -> MaterialTheme.colorScheme.error // Rojo para incorrectas
+            else -> MaterialTheme.colorScheme.onSurface // Color normal
+        }
+
         Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(
-                selected = answer.selectedChoice == optionIndex,
-                onClick = { onOptionSelected(questionIndex, optionIndex, question.questionId) }
+                selected = isSelected,
+                onClick = { onOptionSelected(questionIndex, optionIndex, question.questionId) },
+                enabled = !showResults // Deshabilitar selección al mostrar resultados
             )
             Text(
                 text = option,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
+                    .weight(1f),
+                color = color // Cambiar color según estado
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -143,6 +164,7 @@ fun Question(
     HorizontalDivider()
     Spacer(modifier = Modifier.height(16.dp))
 }
+
 
 
 @Composable
