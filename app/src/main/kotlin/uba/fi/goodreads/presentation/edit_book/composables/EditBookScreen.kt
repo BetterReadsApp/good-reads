@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,11 +20,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -73,7 +78,7 @@ fun EditBookScreen(
     onSaveBookClick: () -> Unit,
     onDeleteBookClick: () -> Unit,
 ) {
-
+    var showDeleteDialog by remember { mutableStateOf(false) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
@@ -87,33 +92,68 @@ fun EditBookScreen(
         BookCoverImage(if (screenState.coverUrl.isNotBlank()) screenState.coverUrl else "https://via.placeholder.com/200x200.png?text=Sin+portada")
 
         Spacer(modifier = Modifier.height(16.dp))
-        InputBox(screenState.coverUrl, "URL de la portada", onCoverUrlChange)
+        InputBox(screenState.coverUrl, "cover URL", onCoverUrlChange)
 
         Spacer(modifier = Modifier.height(8.dp))
-        InputBox(screenState.title, "Título", onTitleChange)
+        InputBox(screenState.title, "Title", onTitleChange)
 
         Spacer(modifier = Modifier.height(8.dp))
-        InputBox(screenState.description, "Descripción", onDescriptionChange)
+        InputBox(screenState.description, "Summary", onDescriptionChange)
 
         Spacer(modifier = Modifier.height(8.dp))
-        NumericInput(screenState.pages.toString(), "Páginas", onPagesChange)
+        NumericInput(screenState.pages.toString(), "Pages", onPagesChange)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        EditScreenButton(onSaveBookClick, Color.Unspecified, "Guardar cambios")
-        EditScreenButton(onDeleteBookClick, Color.Red, "Eliminar")
+        EditScreenButton(onSaveBookClick, Color.Unspecified, "Save changes")
+        EditScreenButton(
+            onClick = {showDeleteDialog = true},
+            Color.Red,
+            "Delete book")
+    }
+    if (showDeleteDialog) {
+        DeleteDialog(
+            onDismiss = { showDeleteDialog = false },
+            onConfirm = {
+                showDeleteDialog = false
+                onDeleteBookClick()
+            }
+        )
     }
 
 }
 
 @Composable
+private fun DeleteDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Delete Book") },
+        text = { Text("Are you sure you want to delete this book? This is irreversible.") },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text("Confirm")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
+}
+
+
+@Composable
 private fun EditScreenButton(
-    onSaveBookClick: () -> Unit,
+    onClick: () -> Unit,
     color: Color,
     text: String,
     ) {
     Button(
-        onClick = onSaveBookClick,
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
@@ -148,7 +188,7 @@ private fun NumericInput(
     onValueChange: (String) -> Unit,
 ) {
     OutlinedTextField(
-        value = if (value.isBlank()) "" else value,
+        value = value.ifBlank { "" },
         onValueChange = { input ->
             if (input.isBlank()) {
                 onValueChange("0")
@@ -171,7 +211,7 @@ fun EditBookTopBar(
     onBack: () -> Unit,
 ) {
     TopAppBar(
-        title = { Text("Editar Libro") },
+        title = { Text("Edit book") },
         navigationIcon = {
             IconButton(
                 onClick = onBack
