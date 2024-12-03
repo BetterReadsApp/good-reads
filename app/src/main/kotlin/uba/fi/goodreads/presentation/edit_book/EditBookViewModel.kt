@@ -125,7 +125,7 @@ class EditBookViewModel @Inject constructor(
                     is DeleteBookUseCase.Result.Error,
                     is DeleteBookUseCase.Result.UnexpectedError -> Unit
                     is DeleteBookUseCase.Result.Success -> _screenState.update {
-                        it.copy(destination = EditBookDestination.Back)
+                        it.copy(destination = EditBookDestination.Home)
                     }
                 }
             }
