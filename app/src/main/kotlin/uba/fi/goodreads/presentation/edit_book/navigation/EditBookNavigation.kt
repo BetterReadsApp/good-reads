@@ -16,6 +16,7 @@ fun NavController.navigateToEditBook(bookId: String, navOptions: NavOptions? = n
 )
 
 fun NavGraphBuilder.editBookScreen(
+    navigateHomeAndClearStack: () -> Unit,
     onBack: () -> Unit,
 ) {
     composable(
@@ -28,7 +29,8 @@ fun NavGraphBuilder.editBookScreen(
             navigate = { destination ->
                 navigate(
                     destination = destination,
-                    onBack = onBack
+                    navigateHomeAndClearStack = navigateHomeAndClearStack,
+                    onBack = onBack,
                 )
             }
         )
@@ -37,9 +39,11 @@ fun NavGraphBuilder.editBookScreen(
 
 internal fun navigate(
     destination: EditBookDestination,
+    navigateHomeAndClearStack: () -> Unit,
     onBack: () -> Unit,
 ) {
     when (destination) {
         is EditBookDestination.Back -> onBack()
+        is EditBookDestination.Home -> navigateHomeAndClearStack()
     }
 }
