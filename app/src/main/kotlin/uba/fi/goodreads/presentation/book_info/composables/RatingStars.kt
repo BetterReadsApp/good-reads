@@ -75,7 +75,6 @@ private fun OurRatingBar(rating: Float) {
             RatingStars(5) { }
             Text(text = rating.toString())
         }
-        Text(text = "70.677 calificaciones - 4.597 reseñas")
     }
 }
 @Composable
@@ -117,7 +116,6 @@ fun AvgRatingStars(
         }
         Text(text = rating.toString())
     }
-    Text(text = "70.677 calificaciones - 4.597 reseñas")
 }
 @Preview(showBackground = true)
 @Composable

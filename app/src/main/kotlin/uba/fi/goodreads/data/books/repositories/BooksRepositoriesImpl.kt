@@ -121,4 +121,10 @@ internal class BooksRepositoriesImpl @Inject constructor(
             client.editBook(book_id, book.toDomain(authorId))
         }
     }
+
+    override suspend fun deleteBook(book_id: String): NetworkResult<Unit> {
+        return responseHandler {
+            client.deleteBook(book_id)
+        }
+    }
 }
